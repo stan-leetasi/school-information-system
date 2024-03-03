@@ -12,35 +12,33 @@ namespace project.Common.Tests.Seeds
     public static class RatingsSeeds
     {
         // Seed data for ratings
-        public static readonly List<RatingEntity> ICSRatings = new()
+        public static readonly RatingEntity ICSRating = new()
         {
-            new RatingEntity
-            {
-                Id = Guid.Parse("5d85804a-7ab0-4d38-b449-cc3f68887c38"),
-                ActivityId = ActivitiesSeeds.ICSCviko.Id,
-                Activity = ActivitiesSeeds.ICSCviko,
-                Notes = "Skvělé",
-                Points = 91,
-                StudentId = StudentSeeds.John.Id,
-                Student = StudentSeeds.John
-            }
+            Id = Guid.Parse("5d85804a-7ab0-4d38-b449-cc3f68887c38"),
+            ActivityId = ActivitiesSeeds.ICSCviko.Id,
+            Activity = ActivitiesSeeds.ICSCviko,
+            Notes = "Skvělé",
+            Points = 91,
+            StudentId = StudentSeeds.John.Id,
+            Student = StudentSeeds.John
+
         };
-        public static readonly List<RatingEntity> IOSRatings = new()
+        public static readonly RatingEntity IOSRating = new()
         {
-            new RatingEntity
-            {
-                Id = Guid.Parse("f3f2cb0b-9d2e-473b-a82c-7e4dd6a56a6a"),
-                ActivityId = ActivitiesSeeds.IOSPolsemka.Id,
-                Activity = ActivitiesSeeds.IOSPolsemka,
-                Notes = "Vypadá to že tomu fakt rozumíte",
-                Points = 98,
-                StudentId = StudentSeeds.Terry.Id,
-                Student = StudentSeeds.Terry
-            }
+
+            Id = Guid.Parse("f3f2cb0b-9d2e-473b-a82c-7e4dd6a56a6a"),
+            ActivityId = ActivitiesSeeds.IOSPolsemka.Id,
+            Activity = ActivitiesSeeds.IOSPolsemka,
+            Notes = "Vypadá to že tomu fakt rozumíte",
+            Points = 98,
+            StudentId = StudentSeeds.Terry.Id,
+            Student = StudentSeeds.Terry
+
         };
+
 
         // Seed rating data into the model builder
         public static void Seed(this ModelBuilder modelBuilder) =>
-            modelBuilder.Entity<RatingEntity>().HasData(ICSRatings, IOSRatings);
+            modelBuilder.Entity<RatingEntity>().HasData(ICSRating, IOSRating);
     }
 }

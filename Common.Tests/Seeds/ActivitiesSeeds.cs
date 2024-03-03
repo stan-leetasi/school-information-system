@@ -23,7 +23,7 @@ namespace project.Common.Tests.Seeds
             Subject = SubjectSeeds.ICS,
             SubjectId = SubjectSeeds.ICS.Id,
             Type = Enums.ActivityType.Exercise,
-            Ratings = RatingsSeeds.ICSRatings
+            Ratings = new List<RatingEntity>()
         };
         public static readonly ActivityEntity IOSPolsemka = new()
         {
@@ -35,13 +35,13 @@ namespace project.Common.Tests.Seeds
             Subject = SubjectSeeds.IOS,
             SubjectId = SubjectSeeds.IOS.Id,
             Type = Enums.ActivityType.MidtermExam,
-            Ratings = RatingsSeeds.IOSRatings
+            Ratings = new List<RatingEntity>()
         };
 
         static ActivitiesSeeds() // Initialize seed data for the subjects
         {
-            ActivitiesSeeds.ICSCviko.Ratings.Add(RatingsSeeds.ICSRatings[0]);
-            ActivitiesSeeds.IOSPolsemka.Ratings.Add(RatingsSeeds.IOSRatings[0]);
+            ActivitiesSeeds.ICSCviko.Ratings.Add(RatingsSeeds.ICSRating);
+            ActivitiesSeeds.IOSPolsemka.Ratings.Add(RatingsSeeds.IOSRating);
         }
 
         // Seed activity data into the model builder

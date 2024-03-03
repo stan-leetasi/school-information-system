@@ -30,7 +30,8 @@ public static class StudentSeeds // Class containing seed data for StudentEntity
     {
         // Adding a subject seed data for John and Terry
         StudentSeeds.John.Subjects.Add(StudentSubjectSeeds.JohnICS);
-        StudentSeeds.John.Subjects.Add(StudentSubjectSeeds.TerryIOS);
+        StudentSeeds.Terry.Subjects.Add(StudentSubjectSeeds.TerryIOS);
+        StudentSeeds.Terry.Subjects.Add(StudentSubjectSeeds.TerryICS);
     }
 
     // Seed the StudentEntity data into the model builder

@@ -35,7 +35,7 @@ public class DbContextSubjectTests(ITestOutputHelper output) : DbContextTestsBas
         DeepAssert.Equal(entity, actualEntities);
     }
 
-    // Test that all students retrieved from the database contain ICS
+    // Test that all subjects retrieved from the database contain ICS
     [Fact]
     public async Task GetAll_Subjects_ContainsICS()
     {
@@ -43,7 +43,7 @@ public class DbContextSubjectTests(ITestOutputHelper output) : DbContextTestsBas
         var entities = await ProjectDbContextSUT.Subjects.ToListAsync();
 
         //Assert
-        DeepAssert.Contains(SubjectSeeds.ICS, entities, nameof(SubjectEntity.Students));
+        DeepAssert.Contains(SubjectSeeds.ICS, entities, nameof(SubjectEntity.Students), nameof(SubjectEntity.Activities));
     }
 
     // Test that a specific subject (ICS) can be retrieved by ID

@@ -17,9 +17,9 @@ namespace project.Common.Tests.Seeds
 
             Id = Guid.Parse("c7435c8b-30a1-4fc9-8e0b-36b3ff2ee8c5"),
             Area = Enums.SchoolArea.ComputerLab,
-            BeginTime = DateTime.Now,
+            BeginTime = new DateTime(2024, 3, 4, 9, 0, 0),
+            EndTime = new DateTime(2024, 4, 4, 12, 0, 0),
             Description = "ICS Cvičenie",
-            EndTime = DateTime.Now.AddHours(2),
             Subject = SubjectSeeds.ICS,
             SubjectId = SubjectSeeds.ICS.Id,
             Type = Enums.ActivityType.Exercise
@@ -28,12 +28,24 @@ namespace project.Common.Tests.Seeds
         {
             Id = Guid.Parse("d0de8b41-9028-4f5f-82d8-7a3ae1bf8b18"),
             Area = Enums.SchoolArea.MainLectureHall,
-            BeginTime = DateTime.Now,
+            BeginTime = new DateTime(2024, 7, 1, 5, 0, 0),
+            EndTime = new DateTime(2024, 7, 1, 8, 0, 0),
             Description = "IOS Polsemestralka",
-            EndTime = DateTime.Now.AddHours(2),
             Subject = SubjectSeeds.IOS,
             SubjectId = SubjectSeeds.IOS.Id,
             Type = Enums.ActivityType.MidtermExam
+        };
+
+        public static readonly ActivityEntity EmptyActivityEntity = new()
+        {
+            Id = default,
+            Area = default,
+            BeginTime = default,
+            Description = default,
+            EndTime = default,
+            Subject = default,
+            SubjectId = default,
+            Type = default
         };
 
         static ActivitiesSeeds() // Initialize seed data for the subjects

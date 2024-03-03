@@ -33,6 +33,12 @@ namespace project.DAL
                 .HasMany<StudentSubjectEntity>()
                 .WithOne(x => x.Student)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<RatingEntity>()
+                .HasOne(r => r.Activity)
+                .WithMany(a => a.Ratings)
+                .HasForeignKey(r => r.ActivityId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

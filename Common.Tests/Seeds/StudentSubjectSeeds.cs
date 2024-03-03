@@ -33,10 +33,22 @@ public static class StudentSubjectSeeds
         Subject = SubjectSeeds.IOS
     };
 
+    // Seed data for the relationship between Terry and the ICS subject
+    public static readonly StudentSubjectEntity TerryICS = new()
+    {
+        Id = Guid.Parse("2f7a3c91-9c7e-47f4-b729-6d9dcf8e3a20"),
+        StudentId = StudentSeeds.Terry.Id,
+        SubjectId = SubjectSeeds.ICS.Id,
+
+        Student = StudentSeeds.Terry,
+        Subject = SubjectSeeds.ICS
+    };
+
     // Seed the relationship data into the model builder
     public static void Seed(this ModelBuilder modelBuilder) =>
         modelBuilder.Entity<StudentSubjectEntity>().HasData(
             JohnICS with {Student = null!, Subject = null!},
-            TerryIOS with { Student = null!, Subject = null! }
+            TerryIOS with { Student = null!, Subject = null!},
+            TerryICS with { Student = null!, Subject = null! }
         ); 
 }

@@ -27,7 +27,8 @@ public static class SubjectSeeds // Class containing seed data for subjects
     static SubjectSeeds() // Initialize seed data for the subjects
     {
         ICS.Students.Add(StudentSubjectSeeds.JohnICS);
-        ICS.Students.Add(StudentSubjectSeeds.TerryIOS);
+        ICS.Students.Add(StudentSubjectSeeds.TerryICS);
+        IOS.Students.Add(StudentSubjectSeeds.TerryIOS);
     }
 
     // Seed subject data into the model builder

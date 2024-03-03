@@ -32,26 +32,21 @@ namespace project.DAL
                 .HasMany(x => x.Ratings)
                 .WithOne(x => x.Student)
                 .OnDelete(DeleteBehavior.Cascade);
+            
+            modelBuilder.Entity<StudentEntity>()
+                .HasMany(x => x.Subjects)
+                .WithOne(x => x.Student)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<SubjectEntity>()
                 .HasMany(x => x.Activities)
                 .WithOne(x => x.Subject)
                 .OnDelete(DeleteBehavior.Cascade);
             
-            modelBuilder.Entity<StudentEntity>()
-                .HasMany<StudentSubjectEntity>()
-                .WithOne(x => x.Student)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            // modelBuilder.Entity<RatingEntity>()
-            //     .HasOne(x => x.Activity)
-            //     .WithMany(x => x.Ratings)
-            //     .OnDelete(DeleteBehavior.Restrict);
-
-            // modelBuilder.Entity<SubjectEntity>()
-            //     .HasMany<StudentSubjectEntity>()
-            //     .WithOne(x => x.Subject)
-            //     .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<SubjectEntity>()
+                .HasMany(x => x.Students)
+                .WithOne(x => x.Subject)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

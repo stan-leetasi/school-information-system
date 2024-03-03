@@ -13,6 +13,6 @@ public record RatingEntity : IEntity
     public required string Notes { get; set; }
     public required Guid ActivityId { get; set; }
     public required Guid StudentId { get; set; }
-    public required ActivityEntity Activity { get; set; }
-    public required StudentEntity Student { get; set; }
+    public required ActivityEntity Activity { get; init; }
+    public required StudentEntity Student { get; init; }
 }

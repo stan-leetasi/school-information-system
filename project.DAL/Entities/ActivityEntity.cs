@@ -16,6 +16,6 @@ public record ActivityEntity : IEntity
     public required ActivityType Type { get; set; }
     public required string Description { get; set; }
     public required Guid SubjectId { get; set; }
-    public required SubjectEntity Subject { get; init; }
-    public ICollection<RatingEntity> Ratings { get; init; } = new List<RatingEntity>();
+    public required SubjectEntity Subject { get; set; }
+    public ICollection<RatingEntity> Ratings { get; set; } = new List<RatingEntity>();
 }

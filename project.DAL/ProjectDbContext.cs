@@ -1,19 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using project.DAL.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace project.DAL
 {
-    public class ProjectDbContext : DbContext
+    public class ProjectDbContext(DbContextOptions contextOptions, bool seedDemoData = false) : DbContext(contextOptions)
     {
-        public ProjectDbContext(DbContextOptions contextOptions, bool seedDemoData = false) : base(contextOptions)
-        {
-        }
 
         public DbSet<ActivityEntity> Activities => Set<ActivityEntity>();
         public DbSet<RatingEntity> Ratings => Set<RatingEntity>();
@@ -42,16 +33,6 @@ namespace project.DAL
                 .HasMany<StudentSubjectEntity>()
                 .WithOne(x => x.Student)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            // modelBuilder.Entity<RatingEntity>()
-            //     .HasOne(x => x.Activity)
-            //     .WithMany(x => x.Ratings)
-            //     .OnDelete(DeleteBehavior.Restrict);
-
-            // modelBuilder.Entity<SubjectEntity>()
-            //     .HasMany<StudentSubjectEntity>()
-            //     .WithOne(x => x.Subject)
-            //     .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

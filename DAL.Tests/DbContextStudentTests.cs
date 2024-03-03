@@ -8,8 +8,10 @@ using project.Common.Tests.Seeds;
 
 namespace project.DAL.Tests;
 
-public class DbContextStudentTests(ITestOutputHelper output) : DbContextTestsBase(output)
+// Test class for testing operations related to students in the DbContext
+public class DbContextStudentTests(ITestOutputHelper output) : DbContextTestsBase(output) 
 {
+    // Test that a new student can be added and will persist in the database
     [Fact]
     public async Task AddNew_Student_Persisted()
     {
@@ -32,7 +34,8 @@ public class DbContextStudentTests(ITestOutputHelper output) : DbContextTestsBas
 
         DeepAssert.Equal(entity, actualEntities);
     }
-    
+
+    // Test that all students retrieved from the database contain John
     [Fact]
     public async Task GetAll_Students_ContainsJohn()
     {
@@ -43,6 +46,7 @@ public class DbContextStudentTests(ITestOutputHelper output) : DbContextTestsBas
         DeepAssert.Contains(StudentSeeds.John, entities, nameof(StudentEntity.Subjects), nameof(StudentEntity.Ratings));
     }
 
+    // Test that a specific student (John) can be retrieved by ID
     [Fact]
     public async Task GetById_Student_JohnRetrieved()
     {

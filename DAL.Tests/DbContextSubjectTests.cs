@@ -8,14 +8,17 @@ using project.Common.Tests.Seeds;
 
 namespace project.DAL.Tests;
 
+// Test class for testing operations related to students in the DbContext
 public class DbContextSubjectTests(ITestOutputHelper output) : DbContextTestsBase(output)
 {
+    // Test that a new subject can be added and will persist in the database
     [Fact]
     public async Task AddNew_Subject_Persisted()
     {
         //Arrange
         SubjectEntity entity = new()
         {
+            // Generate new GUID for the subject
             Id = Guid.NewGuid() /*Parse("38871102 - c06f - 4f68 - 99eb - c0f6c0b2d33b")*/ ,
             Name = "C++",
             Acronym = "ICP"
@@ -31,7 +34,8 @@ public class DbContextSubjectTests(ITestOutputHelper output) : DbContextTestsBas
 
         DeepAssert.Equal(entity, actualEntities);
     }
-    
+
+    // Test that all students retrieved from the database contain ICS
     [Fact]
     public async Task GetAll_Subjects_ContainsICS()
     {
@@ -42,7 +46,7 @@ public class DbContextSubjectTests(ITestOutputHelper output) : DbContextTestsBas
         DeepAssert.Contains(SubjectSeeds.ICS, entities, nameof(SubjectEntity.Students));
     }
 
-
+    // Test that a specific subject (ICS) can be retrieved by ID
     [Fact]
     public async Task GetById_Subject_JohnRetrieved()
     {
@@ -53,6 +57,7 @@ public class DbContextSubjectTests(ITestOutputHelper output) : DbContextTestsBas
         DeepAssert.Equal(SubjectSeeds.ICS, entity, nameof(SubjectEntity.Students));
     }
 
+    // Test that a specific subject (ICS) can be retrieved by ID and includes its students
     [Fact]
     public async Task GetById_IncludingStudents_Subject()
     {

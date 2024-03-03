@@ -59,7 +59,7 @@ namespace project.Common.Tests.Seeds
             }
         };
 
-        // Method to seed rating data into the model builder
+        // Seed rating data into the model builder
         public static void Seed(this ModelBuilder modelBuilder) =>
             modelBuilder.Entity<RatingEntity>().HasData(ICSRatings, IOSRatings);
     }

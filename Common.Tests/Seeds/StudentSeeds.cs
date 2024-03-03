@@ -33,10 +33,10 @@ public static class StudentSeeds // Class containing seed data for StudentEntity
         StudentSeeds.John.Subjects.Add(StudentSubjectSeeds.TerryIOS);
     }
 
-    // Method to seed the StudentEntity data into the model builder
+    // Seed the StudentEntity data into the model builder
     public static void Seed(this ModelBuilder modelBuilder) =>
         modelBuilder.Entity<StudentEntity>().HasData(
             John with{ Subjects = [], Ratings = [] },
             Terry with { Subjects = [], Ratings = [] }
-        ); // Seed data for John and Terry with empty lists for subjects and ratings
+        );
 }

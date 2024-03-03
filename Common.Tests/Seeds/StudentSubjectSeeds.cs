@@ -33,11 +33,10 @@ public static class StudentSubjectSeeds
         Subject = SubjectSeeds.IOS
     };
 
-    // Method to seed the relationship data into the model builder
+    // Seed the relationship data into the model builder
     public static void Seed(this ModelBuilder modelBuilder) =>
         modelBuilder.Entity<StudentSubjectEntity>().HasData(
             JohnICS with {Student = null!, Subject = null!},
             TerryIOS with { Student = null!, Subject = null! }
-        ); // Seed data for the relationship between John and the ICS subject
-           // and Terry and the IOS subject with null references
+        ); 
 }

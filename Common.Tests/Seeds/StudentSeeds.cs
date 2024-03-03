@@ -26,7 +26,7 @@ public static class StudentSeeds // Class containing seed data for StudentEntity
         ImageUrl = "https://images.findagrave.com/photos/2018/1/192900656_66373e86-549d-4b3c-94c9-914ea3210ab0.jpeg"
     };
 
-    static StudentSeeds() // Static constructor to initialize seed data for John
+    static StudentSeeds() // Static constructor to initialize seed data for John and Terry
     {
         // Adding a subject seed data for John and Terry
         StudentSeeds.John.Subjects.Add(StudentSubjectSeeds.JohnICS);

@@ -16,6 +16,8 @@ public class ProjectTestingDbContext(DbContextOptions contextOptions, bool seedT
             StudentSeeds.Seed(modelBuilder);
             SubjectSeeds.Seed(modelBuilder);
             StudentSubjectSeeds.Seed(modelBuilder);
+            ActivitiesSeeds.Seed(modelBuilder);
+            RatingsSeeds.Seed(modelBuilder);
         }
     }
 }

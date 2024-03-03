@@ -35,6 +35,16 @@ namespace project.Common.Tests.Seeds
             Student = StudentSeeds.Terry
         };
 
+        public static readonly RatingEntity EmptyRatingEntity = new()
+        {
+            Id = default,
+            Points = default,
+            Notes = default,
+            ActivityId = default,
+            StudentId = default,
+            Activity = default,
+            Student = default,
+        };
 
         // Seed rating data into the model builder
         public static void Seed(this ModelBuilder modelBuilder) =>

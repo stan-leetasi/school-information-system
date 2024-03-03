@@ -33,12 +33,13 @@ namespace project.Common.Tests.Seeds
             Points = 98,
             StudentId = StudentSeeds.Terry.Id,
             Student = StudentSeeds.Terry
-
         };
 
 
         // Seed rating data into the model builder
         public static void Seed(this ModelBuilder modelBuilder) =>
-            modelBuilder.Entity<RatingEntity>().HasData(ICSRating, IOSRating);
+            modelBuilder.Entity<RatingEntity>().HasData(
+                ICSRating with { Activity = null!, Student = null! },
+                IOSRating with { Activity = null!, Student = null! });
     }
 }

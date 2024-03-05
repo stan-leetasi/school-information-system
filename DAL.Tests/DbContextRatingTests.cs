@@ -7,8 +7,11 @@ using Xunit.Abstractions;
 using project.Common.Tests.Seeds;
 
 namespace project.DAL.Tests;
+
+// Testing operations related to ratings in the DbContext
 public class DbContextRatingTests(ITestOutputHelper output) : DbContextTestsBase(output)
 {
+    // Test that the properties of an activity rating are set correctly
     [Fact]
     public void RatingEntity_PropertiesAreSetCorrectly()
     {
@@ -29,6 +32,7 @@ public class DbContextRatingTests(ITestOutputHelper output) : DbContextTestsBase
         
     }
 
+    // Test that a rating can be deleted from the database
     [Fact]
     public async Task DeleteById_Rating_IOSRatingDeleted()
     {
@@ -44,6 +48,7 @@ public class DbContextRatingTests(ITestOutputHelper output) : DbContextTestsBase
         Assert.False(await ProjectDbContextSUT.Ratings.AnyAsync(i => i.Id == entityBase.Id));
     }
 
+    // Test that a rating can be updated and the changes will persist in the database
     [Fact]
     public async Task Update_Rating_Persisted()
     {
@@ -68,6 +73,7 @@ public class DbContextRatingTests(ITestOutputHelper output) : DbContextTestsBase
         DeepAssert.Equal(entity, actualEntity,nameof(RatingEntity.Student),nameof(RatingEntity.Activity));
     }
 
+    // Test that a new rating can be added and will persist in the database
     [Fact]
     public async Task AddNew_Rating_Persisted()
     {

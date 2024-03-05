@@ -8,10 +8,8 @@ using System.Threading.Tasks;
 
 namespace project.Common.Tests.Seeds
 {
-    // Class containing seed data for activities
     public static class ActivitiesSeeds
     {
-        // Seed data for activities
         public static readonly ActivityEntity ICSCviko = new()
         {
 
@@ -48,13 +46,12 @@ namespace project.Common.Tests.Seeds
             Type = default
         };
 
-        static ActivitiesSeeds() // Initialize seed data for the subjects
+        static ActivitiesSeeds()
         {
             ActivitiesSeeds.ICSCviko.Ratings.Add(RatingsSeeds.ICSRating);
             ActivitiesSeeds.IOSPolsemka.Ratings.Add(RatingsSeeds.IOSRating);
         }
 
-        // Seed activity data into the model builder
         public static void Seed(this ModelBuilder modelBuilder) =>
             modelBuilder.Entity<ActivityEntity>().HasData(
                 ICSCviko with { Subject = null!, Ratings = [] },

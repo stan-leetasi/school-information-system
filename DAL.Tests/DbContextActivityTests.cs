@@ -9,7 +9,7 @@ using System;
 
 namespace project.DAL.Tests;
 
-// Test class for testing operations related to activities in the DbContext
+// Testing operations related to activities in the DbContext
 public class DbContextActivityTests(ITestOutputHelper output) : DbContextTestsBase(output)
 {
     // Test that a new activity can be added and will persist in the database

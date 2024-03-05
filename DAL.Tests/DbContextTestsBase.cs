@@ -23,8 +23,8 @@ public class DbContextTestsBase : IAsyncLifetime // Base class for setting up Db
         ProjectDbContextSUT = DbContextFactory.CreateDbContext(); 
     }
 
-    protected IDbContextFactory<ProjectDbContext> DbContextFactory { get; } // Property for accessing the DbContext factory
-    protected ProjectDbContext ProjectDbContextSUT { get; } // Property for accessing the instance of the DbContext under test
+    protected IDbContextFactory<ProjectDbContext> DbContextFactory { get; }
+    protected ProjectDbContext ProjectDbContextSUT { get; }
 
     // Initialize the database before each test
     public async Task InitializeAsync()

@@ -8,7 +8,7 @@ using project.Common.Tests.Seeds;
 
 namespace project.DAL.Tests;
 
-// Test class for testing operations related to students in the DbContext
+// Testing operations related to students in the DbContext
 public class DbContextStudentTests(ITestOutputHelper output) : DbContextTestsBase(output) 
 {
     // Test that a new student can be added and will persist in the database

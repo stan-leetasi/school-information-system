@@ -8,10 +8,8 @@ using System.Threading.Tasks;
 
 namespace project.Common.Tests.Seeds
 {
-    // Class containing seed data for ratings
     public static class RatingsSeeds
     {
-        // Seed data for ratings
         public static readonly RatingEntity ICSRating = new()
         {
             Id = Guid.Parse("5d85804a-7ab0-4d38-b449-cc3f68887c38"),
@@ -46,7 +44,6 @@ namespace project.Common.Tests.Seeds
             Student = default,
         };
 
-        // Seed rating data into the model builder
         public static void Seed(this ModelBuilder modelBuilder) =>
             modelBuilder.Entity<RatingEntity>().HasData(
                 ICSRating with { Activity = null!, Student = null! },

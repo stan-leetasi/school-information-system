@@ -18,12 +18,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "project.Common", "project.C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{6B9906BE-1B69-450A-975E-591D104FD9B7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "project.Common.Tests", "Common.Tests\project.Common.Tests.csproj", "{857D9EF3-74E7-462D-91A4-3AFAE243242D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "project.Common.Tests", "project.Common.Tests\project.Common.Tests.csproj", "{857D9EF3-74E7-462D-91A4-3AFAE243242D}"
 	ProjectSection(ProjectDependencies) = postProject
 		{35A60C0B-B168-44F2-9B09-A1FBB40A1DA5} = {35A60C0B-B168-44F2-9B09-A1FBB40A1DA5}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "project.DAL.Tests", "DAL.Tests\project.DAL.Tests.csproj", "{26DF1FA9-B96C-4A5F-A783-9A6067EE7F3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "project.DAL.Tests", "project.DAL.Tests\project.DAL.Tests.csproj", "{26DF1FA9-B96C-4A5F-A783-9A6067EE7F3A}"
 	ProjectSection(ProjectDependencies) = postProject
 		{857D9EF3-74E7-462D-91A4-3AFAE243242D} = {857D9EF3-74E7-462D-91A4-3AFAE243242D}
 	EndProjectSection

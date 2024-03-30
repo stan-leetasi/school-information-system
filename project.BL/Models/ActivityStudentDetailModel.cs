@@ -8,7 +8,6 @@ public record ActivityStudentDetailModel : ModelBase
     public required DateTime EndTime { get; set; }
     public required SchoolArea Area { get; set; }
     public required ActivityType Type { get; set; }
-    public required string Name { get; set; }
     public required string Description { get; set; }
     public required Guid SubjectId { get; set; }
     public required string SubjectName { get; init; }
@@ -26,7 +25,6 @@ public record ActivityStudentDetailModel : ModelBase
         EndTime = DateTime.MinValue,
         Area = SchoolArea.None,
         Type = ActivityType.None,
-        Name = string.Empty,
         Description = string.Empty,
         SubjectId = Guid.Empty,
         SubjectName = string.Empty,

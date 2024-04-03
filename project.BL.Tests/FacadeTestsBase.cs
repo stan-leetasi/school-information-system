@@ -20,7 +20,7 @@ public class FacadeTestsBase : IAsyncLifetime
 
         // TODO initialize ModelMappers
         StudentModelMapper = new StudentModelMapper();
-        SubjectModelMapper = new SubjectModelMapper();
+        SubjectModelMapper = new SubjectModelMapper(ActivityModelMapper);
         RatingModelMapper = new RatingModelMapper();
         ActivityModelMapper = new ActivityModelMapper(RatingModelMapper);
 

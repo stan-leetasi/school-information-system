@@ -3,7 +3,8 @@ using project.DAL.Entities;
 
 namespace project.BL.Mappers
 {
-    public class SubjectModelMapper : ModelMapperBase<SubjectEntity, SubjectListModel, SubjectListModel>
+    public class SubjectModelMapper(ActivityModelMapper activityModelMapper)
+        : ModelMapperBase<SubjectEntity, SubjectListModel, SubjectListModel>
     {
         public override SubjectListModel MapToListModel(SubjectEntity? entity)
         {
@@ -16,6 +17,26 @@ namespace project.BL.Mappers
             {
                 Id = entity.Id, Name = entity.Name, Acronym = entity.Acronym, IsRegistered = false
             };
+        }
+
+        public SubjectStudentDetailModel MapToStudentDetailModel(SubjectEntity? entity)
+        {
+            return entity is null
+                ? SubjectStudentDetailModel.Empty
+                : new SubjectStudentDetailModel
+                {
+                    Id = entity.Id,
+                    Name = entity.Name,
+                    Acronym = entity.Acronym,
+                    Activities = activityModelMapper.MapToListModel(entity.Activities).ToObservableCollection()
+                };
+        }
+
+        public SubjectAdminDetailModel MapToAdminDetailModel(SubjectEntity? entity)
+        {
+            return entity is null
+                ? SubjectAdminDetailModel.Empty
+                : new SubjectAdminDetailModel() { Id = entity.Id, Name = entity.Name, Acronym = entity.Acronym };
         }
 
         public override SubjectListModel MapToDetailModel(SubjectEntity entity)

@@ -12,6 +12,6 @@ public interface IFacadeAdvanced<TEntity, TListModel, TStudentDetailModel, TAdmi
 {
     Task<TStudentDetailModel?> GetAsyncStudentDetail(Guid entityId, Guid? studentId);
     Task<TAdminDetailModel?> GetAsyncAdminDetail(Guid entityId);
-    Task RegisterStudent(TListModel listModel, Guid studentId);
-    Task UnregisterStudent(TListModel listModel, Guid studentId);
+    Task RegisterStudent(Guid targetId, Guid studentId);
+    Task UnregisterStudent(Guid targetId, Guid studentId);
 }

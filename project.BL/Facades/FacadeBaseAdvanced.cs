@@ -27,35 +27,35 @@ public abstract class
     }
     public abstract Task<TStudentDetailModel?> GetAsyncStudentDetail(Guid entityId, Guid? studentId);
     public abstract Task<TAdminDetailModel?> GetAsyncAdminDetail(Guid entityId);
-    public async Task RegisterStudent(TListModel listModel, Guid studentId)
+    public async Task RegisterStudent(Guid targetId, Guid studentId)
     {
         await using IUnitOfWork uow = UnitOfWorkFactory.Create();
 
         if (!ExistsStudent(uow, studentId)) throw new ArgumentException($"Student with {studentId} does not exist.");
 
         IRepository<TRegistrationEntity> repositoryRegistrations = uow.GetRepository<TRegistrationEntity, TRegistrationEntityMapper>();
-        if (await GetRegistrationEntity(listModel, studentId, repositoryRegistrations.Get()) is not null)
+        if (await GetRegistrationEntity(targetId, studentId, repositoryRegistrations.Get()) is not null)
             throw new InvalidOperationException("Student is already registered.");
-        TRegistrationEntity registrationEntity = CreateRegistrationEntity(listModel, studentId);
+        TRegistrationEntity registrationEntity = CreateRegistrationEntity(targetId, studentId);
 
         await repositoryRegistrations.InsertAsync(registrationEntity);
         await uow.CommitAsync();
     }
 
-    public async Task UnregisterStudent(TListModel listModel, Guid studentId)
+    public async Task UnregisterStudent(Guid targetId, Guid studentId)
     {
         await using IUnitOfWork uow = UnitOfWorkFactory.Create();
 
         if (!ExistsStudent(uow, studentId)) throw new ArgumentException($"Student with {studentId} does not exist.");
 
         IRepository<TRegistrationEntity> repositoryRegistrations = uow.GetRepository<TRegistrationEntity, TRegistrationEntityMapper>();
-        var registration = await GetRegistrationEntity(listModel, studentId, repositoryRegistrations.Get())
+        var registration = await GetRegistrationEntity(targetId, studentId, repositoryRegistrations.Get())
                            ?? throw new InvalidOperationException("Registration does not exist.");
 
         repositoryRegistrations.Delete(registration.Id);
         await uow.CommitAsync();
     }
 
-    protected abstract Task<TRegistrationEntity?> GetRegistrationEntity(TListModel listModel, Guid studentId, IQueryable<TRegistrationEntity> registrationEntities);
-    protected abstract TRegistrationEntity CreateRegistrationEntity(TListModel listModel, Guid studentId);
+    protected abstract Task<TRegistrationEntity?> GetRegistrationEntity(Guid targetId, Guid studentId, IQueryable<TRegistrationEntity> registrationEntities);
+    protected abstract TRegistrationEntity CreateRegistrationEntity(Guid targetId, Guid studentId);
 }

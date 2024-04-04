@@ -74,7 +74,7 @@ public sealed class SubjectFacadeTests : FacadeTestsBase
         var IOS = listModels.SingleOrDefault(s => s.Id == SubjectSeeds.IOS.Id);
 
         //Act
-        await _subjectFacadeSUT.RegisterStudent(IOS!, StudentSeeds.John.Id);
+        await _subjectFacadeSUT.RegisterStudent(IOS!.Id, StudentSeeds.John.Id);
 
         //Assert
         listModels = await _subjectFacadeSUT.GetAsync(StudentSeeds.John.Id);
@@ -89,7 +89,7 @@ public sealed class SubjectFacadeTests : FacadeTestsBase
         var ICS = subjectListModels.SingleOrDefault(s => s.Id == SubjectSeeds.ICS.Id);
 
         //Act
-        await _subjectFacadeSUT.UnregisterStudent(ICS!, StudentSeeds.Terry.Id);
+        await _subjectFacadeSUT.UnregisterStudent(ICS!.Id, StudentSeeds.Terry.Id);
 
         //Assert
         subjectListModels = await _subjectFacadeSUT.GetAsync(StudentSeeds.Terry.Id);

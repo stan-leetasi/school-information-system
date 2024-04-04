@@ -49,19 +49,19 @@ public class ActivityFacade(
         return listModels;
     }
 
-    protected override async Task<RatingEntity?> GetRegistrationEntity(ActivityListModel listModel, Guid studentId, IQueryable<RatingEntity> registrationEntities)
+    protected override async Task<RatingEntity?> GetRegistrationEntity(Guid targetId, Guid studentId, IQueryable<RatingEntity> registrationEntities)
     {
-        return await registrationEntities.FirstOrDefaultAsync(r => r.StudentId == studentId && r.ActivityId == listModel.Id);
+        return await registrationEntities.FirstOrDefaultAsync(r => r.StudentId == studentId && r.ActivityId == targetId);
     }
 
-    protected override RatingEntity CreateRegistrationEntity(ActivityListModel listModel, Guid studentId)
+    protected override RatingEntity CreateRegistrationEntity(Guid targetId, Guid studentId)
     {
         return new RatingEntity()
         {
             Id = Guid.NewGuid(),
             Points = 0,
             Notes = String.Empty,
-            ActivityId = listModel.Id,
+            ActivityId = targetId,
             Activity = null,
             StudentId = studentId,
             Student = null

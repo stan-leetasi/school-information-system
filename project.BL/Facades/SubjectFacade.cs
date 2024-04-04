@@ -47,18 +47,18 @@ public class SubjectFacade(
         return listModels;
     }
 
-    protected override async Task<StudentSubjectEntity?> GetRegistrationEntity(SubjectListModel listModel, Guid studentId, IQueryable<StudentSubjectEntity> registrationEntities)
+    protected override async Task<StudentSubjectEntity?> GetRegistrationEntity(Guid targetId, Guid studentId, IQueryable<StudentSubjectEntity> registrationEntities)
     {
-        return await registrationEntities.FirstOrDefaultAsync(reg => reg.StudentId == studentId && reg.SubjectId == listModel.Id);
+        return await registrationEntities.FirstOrDefaultAsync(reg => reg.StudentId == studentId && reg.SubjectId == targetId);
     }
 
-    protected override StudentSubjectEntity CreateRegistrationEntity(SubjectListModel listModel, Guid studentId)
+    protected override StudentSubjectEntity CreateRegistrationEntity(Guid targetId, Guid studentId)
     {
         return new StudentSubjectEntity()
         {
             Id = Guid.NewGuid(),
             StudentId = studentId,
-            SubjectId = listModel.Id,
+            SubjectId = targetId,
             Student = null,
             Subject = null
         };

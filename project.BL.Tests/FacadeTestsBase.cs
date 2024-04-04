@@ -18,18 +18,16 @@ public class FacadeTestsBase : IAsyncLifetime
 
         DbContextFactory = new DbContextSqLiteTestingFactory(GetType().FullName!, seedTestingData: true);
 
-        // TODO initialize ModelMappers
         StudentModelMapper = new StudentModelMapper();
-        SubjectModelMapper = new SubjectModelMapper(ActivityModelMapper, StudentModelMapper);
         RatingModelMapper = new RatingModelMapper();
         ActivityModelMapper = new ActivityModelMapper(RatingModelMapper);
+        SubjectModelMapper = new SubjectModelMapper(ActivityModelMapper, StudentModelMapper);
 
         UnitOfWorkFactory = new UnitOfWorkFactory(DbContextFactory);
     }
 
     protected IDbContextFactory<ProjectDbContext> DbContextFactory { get; }
 
-    // TODO add ModelMapper properties
     protected StudentModelMapper StudentModelMapper { get; }
     protected SubjectModelMapper SubjectModelMapper { get; }
     protected RatingModelMapper RatingModelMapper { get; }

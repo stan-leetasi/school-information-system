@@ -22,8 +22,7 @@ public class RatingFacade(
 
         GuardCollectionsAreNotSet(model);
 
-        RatingModelMapper ratingModelMapper = new();
-        RatingEntity entity = ratingModelMapper.MapToEntity(model, activityId, studentId);
+        RatingEntity entity = modelMapper.MapToEntity(model, activityId, studentId);
 
         IUnitOfWork uow = UnitOfWorkFactory.Create();
         IRepository<RatingEntity> repository = uow.GetRepository<RatingEntity, RatingEntityMapper>();

@@ -4,14 +4,13 @@ using project.DAL.Entities;
 using project.DAL.Mappers;
 using project.DAL.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
-using project.DAL.Repositories;
 
 namespace project.BL.Facades;
 
 public class ActivityFacade(
     IUnitOfWorkFactory unitOfWorkFactory,
     ActivityModelMapper modelMapper)
-    : FacadeBase<ActivityEntity, ActivityListModel, ActivityStudentDetailModel, ActivityEntityMapper>(unitOfWorkFactory, modelMapper),
+    : FacadeBaseAdvanced<ActivityEntity, ActivityListModel, ActivityStudentDetailModel, ActivityAdminDetailModel, ActivityEntityMapper, RatingEntity, RatingEntityMapper>(unitOfWorkFactory, modelMapper),
         IActivityFacade
 {
     protected override string IncludesNavigationPathDetail =>
@@ -50,50 +49,33 @@ public class ActivityFacade(
         return listModels;
     }
 
-    public async Task RegisterStudent(ActivityListModel activity, Guid studentId)
+    protected override async Task<RatingEntity?> GetRegistrationEntity(ActivityListModel listModel, Guid studentId, IQueryable<RatingEntity> registrationEntities)
     {
-        await using IUnitOfWork uow = UnitOfWorkFactory.Create();
-        var studentEntity = await uow.GetRepository<StudentEntity, StudentEntityMapper>().Get()
-            .SingleAsync(s => s.Id == studentId) ?? throw new ArgumentException($"Student with {studentId} does not exist.");
-        IRepository<RatingEntity> repository = uow.GetRepository<RatingEntity, RatingEntityMapper>();
+        return await registrationEntities.FirstOrDefaultAsync(r => r.StudentId == studentId && r.ActivityId == listModel.Id);
+    }
 
-        if (repository.Get().Any(r => r.StudentId == studentId && r.ActivityId == activity.Id))
-            throw new InvalidOperationException("Student is already registered.");
-
-        RatingEntity rating = new()
+    protected override RatingEntity CreateRegistrationEntity(ActivityListModel listModel, Guid studentId)
+    {
+        return new RatingEntity()
         {
             Id = Guid.NewGuid(),
             Points = 0,
             Notes = String.Empty,
-            ActivityId = activity.Id,
+            ActivityId = listModel.Id,
             Activity = null,
             StudentId = studentId,
             Student = null
         };
-
-        await repository.InsertAsync(rating);
-        await uow.CommitAsync();
-    }
-
-    public async Task UnregisterStudent(ActivityListModel activity, Guid studentId)
-    {
-        await using IUnitOfWork uow = UnitOfWorkFactory.Create();
-        var studentEntity = await uow.GetRepository<StudentEntity, StudentEntityMapper>().Get()
-            .SingleAsync(s => s.Id == studentId) ?? throw new ArgumentException($"Student with {studentId} does not exist.");
-        IRepository<RatingEntity> repository = uow.GetRepository<RatingEntity, RatingEntityMapper>();
-
-        var rating = await repository.Get().SingleAsync(r => r.StudentId == studentId && r.ActivityId == activity.Id)
-                     ?? throw new InvalidOperationException("Registration does not exist.");
-
-        repository.Delete(rating.Id);
-        await uow.CommitAsync();
     }
 
     public override Task<ActivityStudentDetailModel?> GetAsync(Guid id)
         => throw new NotImplementedException("This method is unsupported. Use the overload with Guid studentID.");
 
-    public async Task<ActivityStudentDetailModel?> GetAsyncStudentDetail(Guid activityId, Guid studentId)
+    public override async Task<ActivityStudentDetailModel?> GetAsyncStudentDetail(Guid entityId, Guid? studentId)
     {
+        if (studentId is null)
+            throw new ArgumentNullException(
+                $"ActivityFacade.GetAsyncStudentDetail() shouldn't be used with studentId={studentId}. Use GetAsyncAdminDetail() instead.");
         await using IUnitOfWork uow = UnitOfWorkFactory.Create();
 
         IQueryable<ActivityEntity> query = uow.GetRepository<ActivityEntity, ActivityEntityMapper>().Get();
@@ -103,11 +85,10 @@ public class ActivityFacade(
             query = query.Include(a => a.Ratings).Include(a => a.Subject);
         }
 
-        ActivityEntity? entity = await query.SingleOrDefaultAsync(e => e.Id == activityId);
+        ActivityEntity? entity = await query.SingleOrDefaultAsync(e => e.Id == entityId);
 
         if (entity is null) return null;
-        ActivityModelMapper activityModelMapper = new(new RatingModelMapper());
-        var detailModel = activityModelMapper.MapToStudentDetailModel(entity);
+        var detailModel = modelMapper.MapToStudentDetailModel(entity);
 
         var studentEntity = await uow.GetRepository<StudentEntity, StudentEntityMapper>().Get()
             .Include(i => i.Ratings)
@@ -120,7 +101,7 @@ public class ActivityFacade(
         return detailModel with { IsRegistered = isRegistered, Points = points, Notes = notes };
     }
 
-    public async Task<ActivityAdminDetailModel?> GetAsyncAdminDetail(Guid activityId)
+    public override async Task<ActivityAdminDetailModel?> GetAsyncAdminDetail(Guid entityId)
     {
         await using IUnitOfWork uow = UnitOfWorkFactory.Create();
 
@@ -133,14 +114,11 @@ public class ActivityFacade(
                 .ThenInclude(r => r.Student);
         }
 
-        ActivityEntity? entity = await query.SingleOrDefaultAsync(e => e.Id == activityId);
+        ActivityEntity? entity = await query.SingleOrDefaultAsync(e => e.Id == entityId);
 
         if (entity is null) return null;
-        ActivityModelMapper activityModelMapper = new(new RatingModelMapper());
-        var detailModel = activityModelMapper.MapToAdminDetailModel(entity);
+        var detailModel = modelMapper.MapToAdminDetailModel(entity);
 
         return detailModel;
     }
-
-
 }

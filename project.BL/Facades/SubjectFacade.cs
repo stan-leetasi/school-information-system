@@ -4,16 +4,13 @@ using project.DAL.Entities;
 using project.DAL.Mappers;
 using project.DAL.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ValueGeneration;
-using project.DAL.Repositories;
-using System.Reflection.Metadata.Ecma335;
 
 namespace project.BL.Facades;
 
 public class SubjectFacade(
     IUnitOfWorkFactory unitOfWorkFactory,
     SubjectModelMapper modelMapper)
-    : FacadeBase<SubjectEntity, SubjectListModel, SubjectListModel, SubjectEntityMapper>(unitOfWorkFactory, modelMapper),
+    : FacadeBaseAdvanced<SubjectEntity, SubjectListModel, SubjectStudentDetailModel, SubjectAdminDetailModel, SubjectEntityMapper, StudentSubjectEntity, StudentSubjectEntityMapper>(unitOfWorkFactory, modelMapper),
         ISubjectFacade
 {
     protected override string IncludesNavigationPathDetail =>
@@ -50,51 +47,24 @@ public class SubjectFacade(
         return listModels;
     }
 
-    public async Task RegisterStudent(SubjectListModel subject, Guid studentId)
+    protected override async Task<StudentSubjectEntity?> GetRegistrationEntity(SubjectListModel listModel, Guid studentId, IQueryable<StudentSubjectEntity> registrationEntities)
     {
-        await using IUnitOfWork uow = UnitOfWorkFactory.Create();
-        var studentEntity = await uow.GetRepository<StudentEntity, StudentEntityMapper>().Get()
-            .SingleAsync(s => s.Id == studentId);
-        if (studentEntity is null) throw new ArgumentException($"Student with {studentId} does not exist.");
+        return await registrationEntities.FirstOrDefaultAsync(reg => reg.StudentId == studentId && reg.SubjectId == listModel.Id);
+    }
 
-        IRepository<StudentSubjectEntity> repository =
-            uow.GetRepository<StudentSubjectEntity, StudentSubjectEntityMapper>();
-
-        if (repository.Get().Any(reg => reg.StudentId == studentId && reg.SubjectId == subject.Id))
-            throw new InvalidOperationException("Student is already registered.");
-
-        StudentSubjectEntity registration = new()
+    protected override StudentSubjectEntity CreateRegistrationEntity(SubjectListModel listModel, Guid studentId)
+    {
+        return new StudentSubjectEntity()
         {
             Id = Guid.NewGuid(),
             StudentId = studentId,
-            SubjectId = subject.Id,
+            SubjectId = listModel.Id,
             Student = null,
             Subject = null
         };
-
-        await repository.InsertAsync(registration);
-        await uow.CommitAsync();
     }
 
-    public async Task UnregisterStudent(SubjectListModel subject, Guid studentId)
-    {
-        await using IUnitOfWork uow = UnitOfWorkFactory.Create();
-        var studentEntity = await uow.GetRepository<StudentEntity, StudentEntityMapper>().Get()
-            .SingleAsync(s => s.Id == studentId);
-        if (studentEntity is null) throw new ArgumentException($"Student with {studentId} does not exist.");
-
-        IRepository<StudentSubjectEntity> repository =
-            uow.GetRepository<StudentSubjectEntity, StudentSubjectEntityMapper>();
-
-        var registration = await repository.Get().SingleAsync(reg => reg.StudentId == studentId && reg.SubjectId == subject.Id);
-
-        if (registration is null) throw new InvalidOperationException("Registration does not exist.");
-
-        repository.Delete(registration.Id);
-        await uow.CommitAsync();
-    }
-
-    public async Task<SubjectStudentDetailModel?> GetAsyncStudentDetail(Guid subjectId, Guid? studentId)
+    public override async Task<SubjectStudentDetailModel?> GetAsyncStudentDetail(Guid entityId, Guid? studentId)
     {
         await using IUnitOfWork uow = UnitOfWorkFactory.Create();
 
@@ -105,7 +75,7 @@ public class SubjectFacade(
             query = query.Include(s => s.Activities).ThenInclude(a => a.Ratings);
         }
 
-        SubjectEntity? entity = await query.SingleOrDefaultAsync(e => e.Id == subjectId);
+        SubjectEntity? entity = await query.SingleOrDefaultAsync(e => e.Id == entityId);
         if (entity is null) return null;
 
         SubjectStudentDetailModel detailModel = modelMapper.MapToStudentDetailModel(entity);
@@ -124,7 +94,7 @@ public class SubjectFacade(
         return detailModel;
     }
 
-    public async Task<SubjectAdminDetailModel?> GetAsyncAdminDetail(Guid subjectId)
+    public override async Task<SubjectAdminDetailModel?> GetAsyncAdminDetail(Guid entityId)
     {
         await using IUnitOfWork uow = UnitOfWorkFactory.Create();
 
@@ -135,12 +105,11 @@ public class SubjectFacade(
             query = query.Include(s => s.Students).ThenInclude(s => s.Student);
         }
 
-        SubjectEntity? entity = await query.SingleOrDefaultAsync(e => e.Id == subjectId);
+        SubjectEntity? entity = await query.SingleOrDefaultAsync(e => e.Id == entityId);
         if (entity is null) return null;
 
         var detailModel = modelMapper.MapToAdminDetailModel(entity);
 
         return detailModel;
     }
-
 }

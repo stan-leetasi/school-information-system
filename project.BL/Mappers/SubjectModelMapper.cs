@@ -41,7 +41,7 @@ namespace project.BL.Mappers
                     Id = entity.Id,
                     Name = entity.Name,
                     Acronym = entity.Acronym,
-                    Students = studentModelMapper.MapToListModel(entity.Students.Select(s => s.Student))
+                    Students = studentModelMapper.MapToListModel(entity.Students.Select(s => s.Student)!)
                         .ToObservableCollection()
                 };
         }

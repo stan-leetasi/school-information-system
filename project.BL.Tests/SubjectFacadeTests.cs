@@ -5,6 +5,7 @@ using project.Common.Tests.Seeds;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 using Xunit.Abstractions;
+using System.Linq;
 
 namespace project.BL.Tests;
 
@@ -32,6 +33,40 @@ public sealed class SubjectFacadeTests : FacadeTestsBase
     }
 
     [Fact]
+    public async Task Get_SubjectStudentDetailModel_Of_ICS_For_John()
+    {
+        //Act
+        var detailModel = await _subjectFacadeSUT.GetAsyncStudentDetail(SubjectSeeds.ICS.Id, StudentSeeds.John.Id);
+        var ICSCviko = detailModel!.Activities!.Single(a => a.Id == ActivitiesSeeds.ICSCviko.Id);
+
+        //Assert
+        Assert.NotNull(ICSCviko);
+        Assert.True(ICSCviko.IsRegistered);
+        Assert.Equal(RatingsSeeds.ICSRating.Points, ICSCviko.Points);
+    }
+
+    [Fact]
+    public async Task Get_SubjectStudentDetailModel_Of_ICS_For_Admin()
+    {
+        //Act
+        var detailModel = await _subjectFacadeSUT.GetAsyncStudentDetail(SubjectSeeds.ICS.Id, null);
+        var ICSCviko = detailModel!.Activities!.Single(a => a.Id == ActivitiesSeeds.ICSCviko.Id);
+
+        //Assert
+        Assert.NotNull(ICSCviko);
+    }
+
+    [Fact]
+    public async Task Get_SubjectAdminDetailModel_Of_ICS()
+    {
+        //Act
+        var detailModel = await _subjectFacadeSUT.GetAsyncAdminDetail(SubjectSeeds.ICS.Id);
+
+        //Assert
+        Assert.Single(detailModel!.Students, s => s.Id == StudentSeeds.John.Id);
+    }
+
+    [Fact]
     public async Task Register_John_IOS()
     {
         // Arrange
@@ -40,7 +75,7 @@ public sealed class SubjectFacadeTests : FacadeTestsBase
 
         //Act
         await _subjectFacadeSUT.RegisterStudent(IOS!, StudentSeeds.John.Id);
-        
+
         //Assert
         listModels = await _subjectFacadeSUT.GetAsync(StudentSeeds.John.Id);
         Assert.True(listModels.SingleOrDefault(s => s.Id == SubjectSeeds.IOS.Id)!.IsRegistered);

@@ -24,6 +24,7 @@ public abstract class
     protected readonly IUnitOfWorkFactory UnitOfWorkFactory = unitOfWorkFactory;
 
     protected virtual List<string> IncludesNavigationPathDetails => [];
+    protected virtual List<string> IncludesNavigationPathDetailsListModels => [];
 
     public async Task DeleteAsync(Guid id)
     {
@@ -60,12 +61,15 @@ public abstract class
     public virtual async Task<IEnumerable<TListModel>> GetAsync()
     {
         await using IUnitOfWork uow = UnitOfWorkFactory.Create();
-        List<TEntity> entities = await uow
-            .GetRepository<TEntity, TEntityMapper>()
-            .Get()
-            .ToListAsync();
+        
+        IQueryable<TEntity> query = uow.GetRepository<TEntity, TEntityMapper>().Get();
 
-        return ModelMapper.MapToListModel(entities);
+        foreach (var navInclude in IncludesNavigationPathDetailsListModels)
+        {
+            query = query.Include(navInclude);
+        }
+
+        return ModelMapper.MapToListModel(await query.ToListAsync());
     }
 
     public virtual async Task<TDetailModel> SaveAsync(TDetailModel model)

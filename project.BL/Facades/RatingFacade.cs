@@ -13,16 +13,13 @@ public class RatingFacade(
     : FacadeBase<RatingEntity, RatingListModel, RatingDetailModel, RatingEntityMapper>(unitOfWorkFactory, modelMapper),
         IRatingFacade
 {
-    public override Task<RatingDetailModel> SaveAsync(RatingDetailModel model)
-        => throw new NotImplementedException("This method is unsupported. Use the overload with Guid activityId and Guid studentID.");
-
-    public async Task<RatingDetailModel> SaveAsync(RatingDetailModel model, Guid activityId, Guid studentId)
+    public override async Task<RatingDetailModel> SaveAsync(RatingDetailModel model)
     {
         RatingDetailModel result;
 
         GuardCollectionsAreNotSet(model);
 
-        RatingEntity entity = modelMapper.MapToEntity(model, activityId, studentId);
+        RatingEntity entity = modelMapper.MapToEntity(model);
 
         IUnitOfWork uow = UnitOfWorkFactory.Create();
         IRepository<RatingEntity> repository = uow.GetRepository<RatingEntity, RatingEntityMapper>();

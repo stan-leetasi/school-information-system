@@ -5,5 +5,4 @@ namespace project.BL.Facades;
 
 public interface IRatingFacade : IFacade<RatingEntity, RatingListModel, RatingDetailModel>
 {
-    Task<RatingDetailModel> SaveAsync(RatingDetailModel model, Guid activityId, Guid studentId);
 }

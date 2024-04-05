@@ -21,20 +21,6 @@ public sealed class ActivityFacadeTests : FacadeTestsBase
     }
 
     [Fact]
-    public async Task Get_ActivityListModels_For_ICS_John()
-    {
-        //Act
-        IEnumerable<ActivityListModel> listModels = await _activityFacadeSUT.GetAsync(SubjectSeeds.ICS.Id, StudentSeeds.John.Id);
-
-        var ICSCviko = listModels.SingleOrDefault(s => s.Id == ActivitiesSeeds.ICSCviko.Id);
-
-        //Assert
-        Assert.Equal(1, ICSCviko!.RegisteredStudents);
-        Assert.True(ICSCviko.IsRegistered);
-        Assert.Equal(RatingsSeeds.ICSRating.Points, ICSCviko.Points);
-    }
-
-    [Fact]
     public async Task Get_ActivityStudentDetailModel_ICS_John()
     {
         //Act
@@ -47,13 +33,31 @@ public sealed class ActivityFacadeTests : FacadeTestsBase
     }
 
     [Fact]
-    public async Task Get_ActivityAdminDetailModel_ICS_John()
+    public async Task Get_ActivityAdminDetailModel_ICSCviko()
     {
         //Act
-        var ICSCviko = await _activityFacadeSUT.GetAsyncAdminDetail(ActivitiesSeeds.ICSCviko.Id);
+        var ICSCviko = await _activityFacadeSUT.GetAsync(ActivitiesSeeds.ICSCviko.Id);
 
         //Assert
         Assert.True(ICSCviko != null);
         Assert.Contains(ICSCviko.Ratings, r => r.Id == RatingsSeeds.ICSRating.Id);
+    }
+
+    [Fact]
+    public async Task Create_New_Activity()
+    {
+        // Arrange
+        ActivityAdminDetailModel activity = ActivityAdminDetailModel.Empty with
+        {
+            SubjectId = SubjectSeeds.ICS.Id,
+            Description = "Final Exam"
+        };
+
+        //Act
+        activity = await _activityFacadeSUT.SaveAsync(activity);
+
+        //Assert
+        ActivityAdminDetailModel? detailModel = await _activityFacadeSUT.GetAsync(activity.Id);
+        Assert.Equal("Final Exam", detailModel.Description);
     }
 }

@@ -10,16 +10,16 @@ namespace project.BL.Facades;
 public class SubjectFacade(
     IUnitOfWorkFactory unitOfWorkFactory,
     SubjectModelMapper modelMapper)
-    : FacadeBaseAdvanced<SubjectEntity, SubjectListModel, SubjectStudentDetailModel, SubjectAdminDetailModel, SubjectEntityMapper, StudentSubjectEntity, StudentSubjectEntityMapper>(unitOfWorkFactory, modelMapper),
+    : FacadeBaseAdvanced<SubjectEntity, SubjectListModel, SubjectAdminDetailModel, SubjectStudentDetailModel, SubjectEntityMapper, StudentSubjectEntity, StudentSubjectEntityMapper>(unitOfWorkFactory, modelMapper),
         ISubjectFacade
 {
-    protected override string IncludesNavigationPathDetail =>
-        $"{nameof(SubjectEntity.Activities)}";
+    protected override List<string> IncludesNavigationPathDetails =>
+        [$"{nameof(SubjectEntity.Students)}.{nameof(StudentSubjectEntity.Student)}"];
 
     public override Task<IEnumerable<SubjectListModel>> GetAsync()
         => throw new NotImplementedException("This method is unsupported. Use the overload with Guid studentID.");
 
-    public async Task<IEnumerable<SubjectListModel>> GetAsync(Guid? studentId)
+    public async Task<IEnumerable<SubjectListModel>> GetAsyncListModels(Guid? studentId)
     {
         await using IUnitOfWork uow = UnitOfWorkFactory.Create();
         List<SubjectEntity> entities = await uow
@@ -70,10 +70,7 @@ public class SubjectFacade(
 
         IQueryable<SubjectEntity> query = uow.GetRepository<SubjectEntity, SubjectEntityMapper>().Get();
 
-        if (string.IsNullOrWhiteSpace(IncludesNavigationPathDetail) is false)
-        {
-            query = query.Include(s => s.Activities).ThenInclude(a => a.Ratings);
-        }
+        query = query.Include(s => s.Activities).ThenInclude(a => a.Ratings);
 
         SubjectEntity? entity = await query.SingleOrDefaultAsync(e => e.Id == entityId);
         if (entity is null) return null;
@@ -90,25 +87,6 @@ public class SubjectFacade(
             return listModel with { RegisteredStudents = registeredStudents, IsRegistered = isRegistered, Points = points };
         }).ToObservableCollection();
         detailModel.Activities = updatedList;
-
-        return detailModel;
-    }
-
-    public override async Task<SubjectAdminDetailModel?> GetAsyncAdminDetail(Guid entityId)
-    {
-        await using IUnitOfWork uow = UnitOfWorkFactory.Create();
-
-        IQueryable<SubjectEntity> query = uow.GetRepository<SubjectEntity, SubjectEntityMapper>().Get();
-
-        if (string.IsNullOrWhiteSpace(IncludesNavigationPathDetail) is false)
-        {
-            query = query.Include(s => s.Students).ThenInclude(s => s.Student);
-        }
-
-        SubjectEntity? entity = await query.SingleOrDefaultAsync(e => e.Id == entityId);
-        if (entity is null) return null;
-
-        var detailModel = modelMapper.MapToAdminDetailModel(entity);
 
         return detailModel;
     }

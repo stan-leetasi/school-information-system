@@ -22,7 +22,7 @@ public sealed class SubjectFacadeTests : FacadeTestsBase
     public async Task Get_SubjectListModels_For_John()
     {
         //Act
-        var listModels = await _subjectFacadeSUT.GetAsync(StudentSeeds.John.Id);
+        var listModels = await _subjectFacadeSUT.GetAsyncListModels(StudentSeeds.John.Id);
 
         IEnumerable<SubjectListModel> subjectListModels = listModels as SubjectListModel[] ?? listModels.ToArray();
         var ICS = subjectListModels.SingleOrDefault(s => s.Id == SubjectSeeds.ICS.Id);
@@ -60,7 +60,7 @@ public sealed class SubjectFacadeTests : FacadeTestsBase
     public async Task Get_SubjectAdminDetailModel_Of_ICS()
     {
         //Act
-        var detailModel = await _subjectFacadeSUT.GetAsyncAdminDetail(SubjectSeeds.ICS.Id);
+        var detailModel = await _subjectFacadeSUT.GetAsync(SubjectSeeds.ICS.Id);
 
         //Assert
         Assert.Single(detailModel!.Students, s => s.Id == StudentSeeds.John.Id);
@@ -70,14 +70,14 @@ public sealed class SubjectFacadeTests : FacadeTestsBase
     public async Task Register_John_IOS()
     {
         // Arrange
-        var listModels = await _subjectFacadeSUT.GetAsync(StudentSeeds.John.Id);
+        var listModels = await _subjectFacadeSUT.GetAsyncListModels(StudentSeeds.John.Id);
         var IOS = listModels.SingleOrDefault(s => s.Id == SubjectSeeds.IOS.Id);
 
         //Act
         await _subjectFacadeSUT.RegisterStudent(IOS!.Id, StudentSeeds.John.Id);
 
         //Assert
-        listModels = await _subjectFacadeSUT.GetAsync(StudentSeeds.John.Id);
+        listModels = await _subjectFacadeSUT.GetAsyncListModels(StudentSeeds.John.Id);
         Assert.True(listModels.SingleOrDefault(s => s.Id == SubjectSeeds.IOS.Id)!.IsRegistered);
     }
 
@@ -85,14 +85,14 @@ public sealed class SubjectFacadeTests : FacadeTestsBase
     public async Task Unregister_Terry_ICS()
     {
         // Arrange
-        var subjectListModels = await _subjectFacadeSUT.GetAsync(StudentSeeds.Terry.Id);
+        var subjectListModels = await _subjectFacadeSUT.GetAsyncListModels(StudentSeeds.Terry.Id);
         var ICS = subjectListModels.SingleOrDefault(s => s.Id == SubjectSeeds.ICS.Id);
 
         //Act
         await _subjectFacadeSUT.UnregisterStudent(ICS!.Id, StudentSeeds.Terry.Id);
 
         //Assert
-        subjectListModels = await _subjectFacadeSUT.GetAsync(StudentSeeds.Terry.Id);
+        subjectListModels = await _subjectFacadeSUT.GetAsyncListModels(StudentSeeds.Terry.Id);
         Assert.True(!subjectListModels.SingleOrDefault(s => s.Id == SubjectSeeds.ICS.Id)!.IsRegistered);
     }
 }

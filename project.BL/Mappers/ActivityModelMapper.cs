@@ -4,7 +4,7 @@ using project.DAL.Entities;
 namespace project.BL.Mappers;
 
 public class ActivityModelMapper(RatingModelMapper ratingModelMapper)
-    : ModelMapperBase<ActivityEntity, ActivityListModel, ActivityStudentDetailModel>
+    : ModelMapperBase<ActivityEntity, ActivityListModel, ActivityAdminDetailModel>
 {
     public override ActivityListModel MapToListModel(ActivityEntity? entity)
     {
@@ -23,9 +23,9 @@ public class ActivityModelMapper(RatingModelMapper ratingModelMapper)
             };
     }
 
-    public override ActivityStudentDetailModel MapToDetailModel(ActivityEntity? entity)
+    public override ActivityAdminDetailModel MapToDetailModel(ActivityEntity? entity)
     {
-        throw new NotImplementedException("Use specific method for mapping to detail model.");
+        return MapToAdminDetailModel(entity);
     }
 
     public ActivityStudentDetailModel MapToStudentDetailModel(ActivityEntity? entity)
@@ -66,7 +66,7 @@ public class ActivityModelMapper(RatingModelMapper ratingModelMapper)
             };
     }
 
-    public override ActivityEntity MapToEntity(ActivityStudentDetailModel model)
+    public ActivityEntity MapToEntity(ActivityStudentDetailModel model)
     {
         return new ActivityEntity
         {
@@ -81,7 +81,7 @@ public class ActivityModelMapper(RatingModelMapper ratingModelMapper)
         };
     }
 
-    public ActivityEntity MapToEntity(ActivityAdminDetailModel model)
+    public override ActivityEntity MapToEntity(ActivityAdminDetailModel model)
     {
         return new ActivityEntity
         {

@@ -3,7 +3,7 @@ using project.DAL.Entities;
 
 namespace project.BL.Facades;
 
-public interface ISubjectFacade : IFacadeAdvanced<SubjectEntity, SubjectListModel, SubjectStudentDetailModel, SubjectAdminDetailModel>
+public interface ISubjectFacade : IFacadeAdvanced<SubjectEntity, SubjectListModel, SubjectAdminDetailModel, SubjectStudentDetailModel>
 {
-    Task<IEnumerable<SubjectListModel>> GetAsync(Guid? studentId);
+    Task<IEnumerable<SubjectListModel>> GetAsyncListModels(Guid? studentId);
 }

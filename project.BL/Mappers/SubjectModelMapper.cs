@@ -4,7 +4,7 @@ using project.DAL.Entities;
 namespace project.BL.Mappers
 {
     public class SubjectModelMapper(ActivityModelMapper activityModelMapper, StudentModelMapper studentModelMapper)
-        : ModelMapperBase<SubjectEntity, SubjectListModel, SubjectStudentDetailModel>
+        : ModelMapperBase<SubjectEntity, SubjectListModel, SubjectAdminDetailModel>
     {
         public override SubjectListModel MapToListModel(SubjectEntity? entity)
         {
@@ -46,12 +46,12 @@ namespace project.BL.Mappers
                 };
         }
 
-        public override SubjectStudentDetailModel MapToDetailModel(SubjectEntity entity)
+        public override SubjectAdminDetailModel MapToDetailModel(SubjectEntity entity)
         {
-            throw new NotImplementedException("This method is unsupported. Use list model instead.");
+            return MapToAdminDetailModel(entity);
         }
 
-        public override SubjectEntity MapToEntity(SubjectStudentDetailModel model)
+        public override SubjectEntity MapToEntity(SubjectAdminDetailModel model)
         {
             return new SubjectEntity { Id = model.Id, Name = model.Name, Acronym = model.Acronym };
         }

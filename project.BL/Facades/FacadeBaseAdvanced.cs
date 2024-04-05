@@ -8,11 +8,11 @@ using project.DAL.UnitOfWork;
 namespace project.BL.Facades;
 
 public abstract class
-    FacadeBaseAdvanced<TEntity, TListModel, TStudentDetailModel, TAdminDetailModel, TEntityMapper, TRegistrationEntity, TRegistrationEntityMapper>(
+    FacadeBaseAdvanced<TEntity, TListModel, TAdminDetailModel, TStudentDetailModel, TEntityMapper, TRegistrationEntity, TRegistrationEntityMapper>(
         IUnitOfWorkFactory unitOfWorkFactory,
-        IModelMapper<TEntity, TListModel, TStudentDetailModel> modelMapper)
-    : FacadeBase<TEntity, TListModel, TStudentDetailModel, TEntityMapper>(unitOfWorkFactory, modelMapper),
-    IFacadeAdvanced<TEntity, TListModel, TStudentDetailModel, TAdminDetailModel>
+        IModelMapper<TEntity, TListModel, TAdminDetailModel> modelMapper)
+    : FacadeBase<TEntity, TListModel, TAdminDetailModel, TEntityMapper>(unitOfWorkFactory, modelMapper),
+    IFacadeAdvanced<TEntity, TListModel, TAdminDetailModel, TStudentDetailModel>
     where TEntity : class, IEntity
     where TListModel : IModel
     where TStudentDetailModel : class, IModel
@@ -26,7 +26,6 @@ public abstract class
         return uow.GetRepository<StudentEntity, StudentEntityMapper>().Get().Any(s => s.Id == studentId);
     }
     public abstract Task<TStudentDetailModel?> GetAsyncStudentDetail(Guid entityId, Guid? studentId);
-    public abstract Task<TAdminDetailModel?> GetAsyncAdminDetail(Guid entityId);
     public async Task RegisterStudent(Guid targetId, Guid studentId)
     {
         await using IUnitOfWork uow = UnitOfWorkFactory.Create();

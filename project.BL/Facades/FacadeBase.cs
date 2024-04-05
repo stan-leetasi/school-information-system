@@ -23,7 +23,7 @@ public abstract class
     protected readonly IModelMapper<TEntity, TListModel, TDetailModel> ModelMapper = modelMapper;
     protected readonly IUnitOfWorkFactory UnitOfWorkFactory = unitOfWorkFactory;
 
-    protected virtual string IncludesNavigationPathDetail => string.Empty;
+    protected virtual List<string> IncludesNavigationPathDetails => [];
 
     public async Task DeleteAsync(Guid id)
     {
@@ -45,9 +45,9 @@ public abstract class
 
         IQueryable<TEntity> query = uow.GetRepository<TEntity, TEntityMapper>().Get();
 
-        if (string.IsNullOrWhiteSpace(IncludesNavigationPathDetail) is false)
+        foreach (var navInclude in IncludesNavigationPathDetails)
         {
-            query = query.Include(IncludesNavigationPathDetail);
+            query = query.Include(navInclude);
         }
 
         TEntity? entity = await query.SingleOrDefaultAsync(e => e.Id == id);

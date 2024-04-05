@@ -7,6 +7,8 @@ public record RatingDetailModel : ModelBase
     public required string StudentName { get; set; }
     public int Points { get; set; }
     public required string Notes { get; set; }
+    public Guid ActivityId { get; set; }
+    public Guid StudentId { get; set; }
 
     public static RatingDetailModel Empty => new()
     {

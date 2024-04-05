@@ -35,24 +35,21 @@ public class RatingModelMapper : ModelMapperBase<RatingEntity, RatingListModel, 
                     ? string.Empty
                     : Enum.GetName(entity.Activity.Type)!,
                 Points = entity.Points,
-                Notes = entity.Notes
+                Notes = entity.Notes,
+                ActivityId = entity.ActivityId,
+                StudentId = entity.StudentId
             };
     }
 
     public override RatingEntity MapToEntity(RatingDetailModel model)
-    {
-        throw new NotImplementedException("This method is unsupported. Use the other overload");
-    }
-
-    public RatingEntity MapToEntity(RatingDetailModel model, Guid activityId, Guid studentId)
     {
         return new RatingEntity
         {
             Id = model.Id,
             Points = Convert.ToUInt16(model.Points),
             Notes = model.Notes,
-            ActivityId = activityId,
-            StudentId = studentId,
+            ActivityId = model.ActivityId,
+            StudentId = model.StudentId,
             Activity = null,
             Student = null
         };

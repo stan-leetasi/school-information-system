@@ -13,31 +13,4 @@ public class RatingFacade(
     : FacadeBase<RatingEntity, RatingListModel, RatingDetailModel, RatingEntityMapper>(unitOfWorkFactory, modelMapper),
         IRatingFacade
 {
-    public override async Task<RatingDetailModel> SaveAsync(RatingDetailModel model)
-    {
-        RatingDetailModel result;
-
-        GuardCollectionsAreNotSet(model);
-
-        RatingEntity entity = modelMapper.MapToEntity(model);
-
-        IUnitOfWork uow = UnitOfWorkFactory.Create();
-        IRepository<RatingEntity> repository = uow.GetRepository<RatingEntity, RatingEntityMapper>();
-
-        if (await repository.ExistsAsync(entity))
-        {
-            RatingEntity updatedEntity = await repository.UpdateAsync(entity);
-            result = ModelMapper.MapToDetailModel(updatedEntity);
-        }
-        else
-        {
-            entity.Id = Guid.NewGuid();
-            RatingEntity insertedEntity = await repository.InsertAsync(entity);
-            result = ModelMapper.MapToDetailModel(insertedEntity);
-        }
-
-        await uow.CommitAsync();
-
-        return result;
-    }
 }

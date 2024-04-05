@@ -78,7 +78,7 @@ public sealed class RatingFacadeTests : FacadeTestsBase
         //Assert
         Assert.NotNull(rating);
         Assert.NotNull(remote);
-        Assert.Equal(local.Id, remote.Id);
+        Assert.Equal(rating.Id, remote.Id);
         Assert.Equal(local.Points, remote.Points);
         Assert.Equal(local.Notes, remote.Notes);
         Assert.Equal(local.ActivityId, remote.ActivityId);
@@ -91,7 +91,6 @@ public sealed class RatingFacadeTests : FacadeTestsBase
         //Arrange
         RatingDetailModel local = new RatingDetailModel
         {
-            Id = RatingsSeeds.ICSRating.Id,
             Points = 5,
             Notes = "Great job!",
             StudentName = "Terry",
@@ -109,7 +108,7 @@ public sealed class RatingFacadeTests : FacadeTestsBase
         //Assert
         Assert.NotNull(rating);
         Assert.NotNull(remote);
-        Assert.Equal(local.Id, remote.Id);
+        Assert.Equal(rating.Id, remote.Id);
         Assert.Equal(local.Points, remote.Points);
         Assert.Equal(local.Notes, remote.Notes);
         Assert.Equal(local.ActivityId, remote.ActivityId);

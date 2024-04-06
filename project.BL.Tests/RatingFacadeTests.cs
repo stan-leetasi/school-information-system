@@ -11,6 +11,21 @@ public sealed class RatingFacadeTests : FacadeTestsBase
     private readonly IRatingFacade _ratingFacadeSut;
     private readonly RatingDetailModel _local;
 
+    public RatingFacadeTests(ITestOutputHelper output) : base(output)
+    {
+        _ratingFacadeSut = new RatingFacade(UnitOfWorkFactory, RatingModelMapper);
+        _local = new RatingDetailModel
+        {
+            Points = 5,
+            Notes = "Great job!",
+            StudentId = StudentSeeds.Terry.Id,
+            StudentName = StudentSeeds.Terry.Name,
+            ActivityId = ActivitiesSeeds.ICSCviko.Id,
+            StudentSurname = StudentSeeds.Terry.Surname,
+            ActivityName = Enum.GetName(RatingsSeeds.ICSRating.Activity!.Type)!
+        };
+    }
+
     private static void AssertRatingDetailModel(RatingDetailModel expected, RatingDetailModel? actual)
     {
         Assert.NotNull(actual);
@@ -36,21 +51,6 @@ public sealed class RatingFacadeTests : FacadeTestsBase
         Assert.Equal(expected.Student!.Name, actual.StudentName);
         Assert.Equal(expected.Student!.Surname, actual.StudentSurname);
         Assert.Equal(Enum.GetName(expected.Activity!.Type), actual.ActivityName);
-    }
-
-    public RatingFacadeTests(ITestOutputHelper output) : base(output)
-    {
-        _ratingFacadeSut = new RatingFacade(UnitOfWorkFactory, RatingModelMapper);
-        _local = new RatingDetailModel
-        {
-            Points = 5,
-            Notes = "Great job!",
-            StudentId = StudentSeeds.Terry.Id,
-            StudentName = StudentSeeds.Terry.Name,
-            ActivityId = ActivitiesSeeds.ICSCviko.Id,
-            StudentSurname = StudentSeeds.Terry.Surname,
-            ActivityName = Enum.GetName(RatingsSeeds.ICSRating.Activity!.Type)!
-        };
     }
 
     // Tests
@@ -107,6 +107,7 @@ public sealed class RatingFacadeTests : FacadeTestsBase
     public async Task Create_RatingDetailModel()
     {
         //Act
+
         var rating = await _ratingFacadeSut.SaveAsync(_local);
         _local.Id = rating.Id;
 
@@ -122,6 +123,7 @@ public sealed class RatingFacadeTests : FacadeTestsBase
     public async Task Update_RatingDetailModel()
     {
         //Act
+        _local.Id = RatingsSeeds.ICSRating.Id;
         var rating = await _ratingFacadeSut.SaveAsync(_local);
         _local.Id = rating.Id;
 

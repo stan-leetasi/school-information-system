@@ -8,14 +8,12 @@ using project.Common.Tests.Seeds;
 
 namespace project.DAL.Tests;
 
-// Testing operations related to students in the DbContext
 public class DbContextStudentTests(ITestOutputHelper output) : DbContextTestsBase(output) 
 {
-    // Test that a new student can be added and will persist in the database
     [Fact]
-    public async Task AddNew_Student_Persisted()
+    public async Task Add_New_Student_Persisted()
     {
-        //Arrange
+        // Arrange
         StudentEntity entity = new()
         {
             Id = Guid.Parse("af1c534f-9e97-4c3a-a17a-f446328b460c") ,
@@ -24,36 +22,74 @@ public class DbContextStudentTests(ITestOutputHelper output) : DbContextTestsBas
             ImageUrl = "www.photots.com/micheal.jpeg"
         };
 
-        //Act
+        // Act
         ProjectDbContextSUT.Students.Add(entity);
         await ProjectDbContextSUT.SaveChangesAsync();
 
-        //Assert
+        // Assert
         await using var dbx = await DbContextFactory.CreateDbContextAsync();
         var actualEntities = await dbx.Students.SingleAsync(i => i.Id == entity.Id);
 
         DeepAssert.Equal(entity, actualEntities);
     }
 
-    // Test that all students retrieved from the database contain John
     [Fact]
-    public async Task GetAll_Students_ContainsJohn()
+    public async Task Delete_Student()
     {
-        //Act
+        // Arrange
+        var StudentToDelete = StudentSeeds.Terry;
+        
+        // Act
+        ProjectDbContextSUT.Students.Remove(StudentToDelete);
+        await ProjectDbContextSUT.SaveChangesAsync();
+
+        // Assert
+        Assert.False(await ProjectDbContextSUT.Students.AnyAsync(i => i.Id == StudentToDelete.Id));
+    }
+
+    [Fact]
+    public async Task Delete_Student_By_Id()
+    {
+        // Arrange
+        var StudentToDeleteId = StudentSeeds.Terry.Id;
+
+        // Act
+        ProjectDbContextSUT.Remove(ProjectDbContextSUT.Students.Single(i => i.Id == StudentToDeleteId));
+
+        await ProjectDbContextSUT.SaveChangesAsync();
+
+        // Assert
+        Assert.False(await ProjectDbContextSUT.Students.AnyAsync(i => i.Id == StudentToDeleteId));
+    }
+
+    [Fact]
+    public async Task Get_All_Students_Contains_John()
+    {
+        // Act
         var entities = await ProjectDbContextSUT.Students.ToArrayAsync();
 
-        //Assert
+        // Assert
         DeepAssert.Contains(StudentSeeds.John, entities, nameof(StudentEntity.Subjects), nameof(StudentEntity.Ratings));
     }
 
-    // Test that a specific student (John) can be retrieved by ID
+
     [Fact]
-    public async Task GetById_Student_JohnRetrieved()
+    public async Task Get_ById_Student_John()
     {
-        //Act
+        // Act
         var entity = await ProjectDbContextSUT.Students.SingleAsync(i => i.Id == StudentSeeds.John.Id);
 
-        //Assert
+        // Assert
         DeepAssert.Equal(StudentSeeds.John, entity, nameof(StudentEntity.Subjects), nameof(StudentEntity.Ratings));
+    }
+
+    [Fact]
+    public async Task Get_ById_Non_Existing_Student()
+    {
+        // Act & Assert
+        await Assert.ThrowsAsync<InvalidOperationException>(async () =>
+        {
+            var entity = await ProjectDbContextSUT.Students.SingleAsync(i => i.Id == new Guid());
+        });
     }
 }

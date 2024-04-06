@@ -8,10 +8,8 @@ using project.Common.Tests.Seeds;
 
 namespace project.DAL.Tests;
 
-// Testing operations related to ratings in the DbContext
 public class DbContextRatingTests(ITestOutputHelper output) : DbContextTestsBase(output)
 {
-    // Test that the properties of an activity rating are set correctly
     [Fact]
     public void RatingEntity_PropertiesAreSetCorrectly()
     {
@@ -29,30 +27,50 @@ public class DbContextRatingTests(ITestOutputHelper output) : DbContextTestsBase
         Assert.Equal("5d85804a-7ab0-4d38-b449-cc3f68887c38", id.ToString());
         Assert.Equal(91, points);
         Assert.Equal("Skvělé", notes);
-        
     }
 
-    // Test that a rating can be deleted from the database
     [Fact]
-    public async Task DeleteById_Rating_IOSRatingDeleted()
+    public async Task Delete_Rating_ById()
     {
-        //Arrange
-        var entityBase = RatingsSeeds.IOSRating;
+        // Arrange
+        var RatingToDeleteId = RatingsSeeds.IOSRating.Id;
 
-        //Act
-        ProjectDbContextSUT.Remove(
-            ProjectDbContextSUT.Ratings.Single(i => i.Id == entityBase.Id));
+        // Act
+        ProjectDbContextSUT.Remove(ProjectDbContextSUT.Ratings.Single(i => i.Id == RatingToDeleteId));
         await ProjectDbContextSUT.SaveChangesAsync();
 
-        //Assert
-        Assert.False(await ProjectDbContextSUT.Ratings.AnyAsync(i => i.Id == entityBase.Id));
+        // Assert
+        Assert.False(await ProjectDbContextSUT.Ratings.AnyAsync(i => i.Id == RatingToDeleteId));
     }
 
-    // Test that a rating can be updated and the changes will persist in the database
+    [Fact]
+    public async Task Delete_Rating()
+    {
+        // Arrange
+        var RatingToDelete = RatingsSeeds.IOSRating;
+
+        // Act
+        ProjectDbContextSUT.Remove(RatingToDelete);
+        await ProjectDbContextSUT.SaveChangesAsync();
+
+        // Assert
+        Assert.False(await ProjectDbContextSUT.Ratings.AnyAsync(i => i.Id == RatingToDelete.Id));
+    }
+
+    [Fact]
+    public void Delete_Non_Existent_Rating_ById()
+    {
+        // Act & Assert
+        Assert.Throws<InvalidOperationException>(() =>
+        {
+            ProjectDbContextSUT.Remove(ProjectDbContextSUT.Ratings.Single(i => i.Id == new Guid()));
+        });
+    }
+
     [Fact]
     public async Task Update_Rating_Persisted()
     {
-        //Arrange
+        // Arrange
         var baseEntity = RatingsSeeds.ICSRating;
         var entity =
             baseEntity with
@@ -63,37 +81,34 @@ public class DbContextRatingTests(ITestOutputHelper output) : DbContextTestsBase
                 Activity = default,
             };
 
-        //Act
+        // Act
         ProjectDbContextSUT.Ratings.Update(entity);
         await ProjectDbContextSUT.SaveChangesAsync();
 
-        //Assert
+        // Assert
         await using var dbx = await DbContextFactory.CreateDbContextAsync();
         var actualEntity = await dbx.Ratings.SingleAsync(i => i.Id == entity.Id);
         DeepAssert.Equal(entity, actualEntity,nameof(RatingEntity.Student),nameof(RatingEntity.Activity));
     }
 
-    // Test that a new rating can be added and will persist in the database
     [Fact]
-    public async Task AddNew_Rating_Persisted()
+    public async Task Add_New_Rating_Persisted()
     {
-        //Arrange
+        // Arrange
         RatingEntity entity = RatingsSeeds.EmptyRatingEntity with
         {
             Id = Guid.NewGuid(),
             ActivityId = ActivitiesSeeds.IOSPolsemka.Id,
-            //Activity = ActivitiesSeeds.IOSPolsemka,
             Notes = "Měl byste se nad sebou zamyslet",
             Points = 15,
             StudentId = StudentSeeds.John.Id,
-            //Student = StudentSeeds.John,
         };
 
-        //Act
+        // Act
         ProjectDbContextSUT.Ratings.Add(entity);
         await ProjectDbContextSUT.SaveChangesAsync();
 
-        //Assert
+        // Assert
         await using var dbx = await DbContextFactory.CreateDbContextAsync();
         var actualEntities = await dbx.Ratings.SingleAsync(i => i.Id == entity.Id);
 

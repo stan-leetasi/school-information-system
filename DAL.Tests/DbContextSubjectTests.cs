@@ -8,14 +8,12 @@ using project.Common.Tests.Seeds;
 
 namespace project.DAL.Tests;
 
-// Testing operations related to students in the DbContext
 public class DbContextSubjectTests(ITestOutputHelper output) : DbContextTestsBase(output)
 {
-    // Test that a new subject can be added and will persist in the database
     [Fact]
-    public async Task AddNew_Subject_Persisted()
+    public async Task Add_New_Subject_Persisted()
     {
-        //Arrange
+        // Arrange
         SubjectEntity entity = new()
         {
             // Generate new GUID for the subject
@@ -24,20 +22,47 @@ public class DbContextSubjectTests(ITestOutputHelper output) : DbContextTestsBas
             Acronym = "ICP"
         };
 
-        //Act
+        // Act
         ProjectDbContextSUT.Subjects.Add(entity);
         await ProjectDbContextSUT.SaveChangesAsync();
 
-        //Assert
+        // Assert
         await using var dbx = await DbContextFactory.CreateDbContextAsync();
         var actualEntities = await dbx.Subjects.SingleAsync(i => i.Id == entity.Id);
 
         DeepAssert.Equal(entity, actualEntities);
     }
 
-    // Test that all subjects retrieved from the database contain ICS
     [Fact]
-    public async Task GetAll_Subjects_ContainsICS()
+    public async Task Delete_Subject()
+    {
+        // Arrange
+        var SubjectToDelete = SubjectSeeds.ICS;
+
+        // Act
+        ProjectDbContextSUT.Subjects.Remove(SubjectToDelete);
+        await ProjectDbContextSUT.SaveChangesAsync();
+
+        // Assert
+        Assert.False(await ProjectDbContextSUT.Subjects.AnyAsync(i => i.Id == SubjectToDelete.Id));
+    }
+
+    [Fact]
+    public async Task Delete_Subject_By_Id()
+    {
+        // Arrange
+        var SubjectToDeleteId = SubjectSeeds.ICS.Id;
+
+        // Act
+        ProjectDbContextSUT.Remove(ProjectDbContextSUT.Subjects.Single(i => i.Id == SubjectToDeleteId));
+        await ProjectDbContextSUT.SaveChangesAsync();
+
+        // Assert
+        Assert.False(await ProjectDbContextSUT.Subjects.AnyAsync(i => i.Id == SubjectToDeleteId));
+    }
+
+    [Fact]
+    public async Task Get_All_Subjects_Contains_ICS()
     {
         //Act
         var entities = await ProjectDbContextSUT.Subjects.ToListAsync();
@@ -46,9 +71,8 @@ public class DbContextSubjectTests(ITestOutputHelper output) : DbContextTestsBas
         DeepAssert.Contains(SubjectSeeds.ICS, entities, nameof(SubjectEntity.Students), nameof(SubjectEntity.Activities));
     }
 
-    // Test that a specific subject (ICS) can be retrieved by ID
     [Fact]
-    public async Task GetById_Subject_JohnRetrieved()
+    public async Task Get_ById_Subject_Contains_John()
     {
         //Act
         var entity = await ProjectDbContextSUT.Subjects.SingleAsync(i => i.Id == SubjectSeeds.ICS.Id);
@@ -57,9 +81,8 @@ public class DbContextSubjectTests(ITestOutputHelper output) : DbContextTestsBas
         DeepAssert.Equal(SubjectSeeds.ICS, entity, nameof(SubjectEntity.Students));
     }
 
-    // Test that a specific subject (ICS) can be retrieved by ID and includes its students
     [Fact]
-    public async Task GetById_IncludingStudents_Subject()
+    public async Task Get_ById_Subject_Includes_Students()
     {
         //Act
         var entity = await ProjectDbContextSUT.Subjects
@@ -70,5 +93,16 @@ public class DbContextSubjectTests(ITestOutputHelper output) : DbContextTestsBas
         //Assert
         DeepAssert.Equal(SubjectSeeds.ICS, entity, nameof(SubjectEntity.Students));
         DeepAssert.Contains(StudentSubjectSeeds.JohnICS, entity.Students, nameof(StudentSubjectEntity.Student), nameof(StudentSubjectEntity.Subject));
+    }
+
+    [Fact]
+    public void Get_ById_Non_Existing_Subject()
+    {
+
+        // Act & Assert
+        var exception = Assert.ThrowsAsync<InvalidOperationException>(async () =>
+        {
+            await ProjectDbContextSUT.Subjects.SingleAsync(i => i.Id == new Guid());
+        });
     }
 }

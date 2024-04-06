@@ -33,7 +33,7 @@ public class DbContextRatingTests(ITestOutputHelper output) : DbContextTestsBase
     public async Task Delete_Rating_ById()
     {
         // Arrange
-        var RatingToDeleteId = RatingsSeeds.IOSRating.Id;
+        var RatingToDeleteId = RatingsSeeds.ICSRating.Id;
 
         // Act
         ProjectDbContextSUT.Remove(ProjectDbContextSUT.Ratings.Single(i => i.Id == RatingToDeleteId));
@@ -41,20 +41,6 @@ public class DbContextRatingTests(ITestOutputHelper output) : DbContextTestsBase
 
         // Assert
         Assert.False(await ProjectDbContextSUT.Ratings.AnyAsync(i => i.Id == RatingToDeleteId));
-    }
-
-    [Fact]
-    public async Task Delete_Rating()
-    {
-        // Arrange
-        var RatingToDelete = RatingsSeeds.IOSRating;
-
-        // Act
-        ProjectDbContextSUT.Remove(RatingToDelete);
-        await ProjectDbContextSUT.SaveChangesAsync();
-
-        // Assert
-        Assert.False(await ProjectDbContextSUT.Ratings.AnyAsync(i => i.Id == RatingToDelete.Id));
     }
 
     [Fact]

@@ -34,28 +34,42 @@ public class DbContextStudentTests(ITestOutputHelper output) : DbContextTestsBas
     }
 
     [Fact]
-    public async Task Delete_Student()
+    public async Task Update_Student_Info()
     {
         // Arrange
-        var StudentToDelete = StudentSeeds.Terry;
-        
-        // Act
-        ProjectDbContextSUT.Students.Remove(StudentToDelete);
-        await ProjectDbContextSUT.SaveChangesAsync();
+        await using var dbx = await DbContextFactory.CreateDbContextAsync();
+        var Student = await dbx.Students.SingleAsync(i => i.Id == StudentSeeds.John.Id);
+ 
+        Assert.NotNull(Student);
 
+        // Act
+        Student.Name = "Jason";
+        Student.Surname = "Bourne";
+
+        ProjectDbContextSUT.Students.Update(Student);
+        await ProjectDbContextSUT.SaveChangesAsync();
+        
         // Assert
-        Assert.False(await ProjectDbContextSUT.Students.AnyAsync(i => i.Id == StudentToDelete.Id));
+        var RetrievedStudent = await dbx.Students.SingleAsync(i => i.Id == Student.Id);
+        DeepAssert.Equal(Student, RetrievedStudent);
     }
 
     [Fact]
     public async Task Delete_Student_By_Id()
     {
         // Arrange
-        var StudentToDeleteId = StudentSeeds.Terry.Id;
+        var StudentToDeleteId = StudentSeeds.John.Id;
+        var RatingToDeleteId = RatingsSeeds.ICSRating.Id;
+        var StudentSubjectToDeleteId = StudentSubjectSeeds.JohnICS.Id;
+
+        ProjectDbContextSUT.Remove(ProjectDbContextSUT.Ratings.Single(i => i.Id == RatingToDeleteId));
+        await ProjectDbContextSUT.SaveChangesAsync();
+
+        ProjectDbContextSUT.Remove(ProjectDbContextSUT.StudentSubjects.Single(i => i.Id == StudentSubjectToDeleteId));
+        await ProjectDbContextSUT.SaveChangesAsync();
 
         // Act
         ProjectDbContextSUT.Remove(ProjectDbContextSUT.Students.Single(i => i.Id == StudentToDeleteId));
-
         await ProjectDbContextSUT.SaveChangesAsync();
 
         // Assert

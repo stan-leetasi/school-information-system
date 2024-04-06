@@ -39,31 +39,42 @@ public class DbContextActivityTests(ITestOutputHelper output) : DbContextTestsBa
     }
 
     [Fact]
-    public async Task Delete_Activity()
+    public async Task Update_Activity_Info()
     {
         // Arrange
-        var ActivityToDelete = ActivitiesSeeds.ICSCviko;
+        await using var dbx = await DbContextFactory.CreateDbContextAsync();
+        var Activity = await dbx.Activities.SingleAsync(i => i.Id == ActivitiesSeeds.ICSCviko.Id);
+
+        Assert.NotNull(Activity);
 
         // Act
-        ProjectDbContextSUT.Activities.Remove(ActivityToDelete);
+        Activity.Description = "ICS Democviko";
+        Activity.Area = Common.Enums.SchoolArea.MainLectureHall;
+
+        ProjectDbContextSUT.Activities.Update(Activity);
         await ProjectDbContextSUT.SaveChangesAsync();
 
         // Assert
-        Assert.False(await ProjectDbContextSUT.Activities.AnyAsync(i => i.Id == ActivityToDelete.Id));
+        var RetrievedActivity = await dbx.Activities.SingleAsync(i => i.Id == Activity.Id);
+        DeepAssert.Equal(Activity, RetrievedActivity);
     }
 
     [Fact]
     public async Task Delete_Activity_ById()
     {
         // Arrange
-        var ActivityToDelete = ActivitiesSeeds.ICSCviko;
+        var ActivityToDeleteId = ActivitiesSeeds.IOSPolsemka.Id;
+        var RatingId = RatingsSeeds.IOSRating.Id;
+        
+        ProjectDbContextSUT.Remove(ProjectDbContextSUT.Ratings.Single(i => i.Id == RatingId));
+        await ProjectDbContextSUT.SaveChangesAsync();
 
         // Act
-        ProjectDbContextSUT.Remove(ProjectDbContextSUT.Activities.Single(i => i.Id == ActivityToDelete.Id));
+        ProjectDbContextSUT.Remove(ProjectDbContextSUT.Activities.Single(i => i.Id == ActivityToDeleteId));
         await ProjectDbContextSUT.SaveChangesAsync();
 
         // Assert
-        Assert.False(await ProjectDbContextSUT.Activities.AnyAsync(i => i.Id == ActivityToDelete.Id));
+        Assert.False(await ProjectDbContextSUT.Activities.AnyAsync(i => i.Id == ActivityToDeleteId));
     }
 
     [Fact]

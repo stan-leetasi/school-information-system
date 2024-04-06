@@ -34,17 +34,24 @@ public class DbContextSubjectTests(ITestOutputHelper output) : DbContextTestsBas
     }
 
     [Fact]
-    public async Task Delete_Subject()
+    public async Task Update_Subject_Info()
     {
         // Arrange
-        var SubjectToDelete = SubjectSeeds.ICS;
+        await using var dbx = await DbContextFactory.CreateDbContextAsync();
+        var Subject = await dbx.Subjects.SingleAsync(i => i.Id == SubjectSeeds.IOS.Id);
+
+        Assert.NotNull(Subject);
 
         // Act
-        ProjectDbContextSUT.Subjects.Remove(SubjectToDelete);
+        Subject.Name = "Základy Programovania";
+        Subject.Acronym = "IZP";
+
+        ProjectDbContextSUT.Subjects.Update(Subject);
         await ProjectDbContextSUT.SaveChangesAsync();
 
         // Assert
-        Assert.False(await ProjectDbContextSUT.Subjects.AnyAsync(i => i.Id == SubjectToDelete.Id));
+        var RetrievedSubject = await dbx.Subjects.SingleAsync(i => i.Id == Subject.Id);
+        DeepAssert.Equal(Subject, RetrievedSubject);
     }
 
     [Fact]
@@ -52,6 +59,10 @@ public class DbContextSubjectTests(ITestOutputHelper output) : DbContextTestsBas
     {
         // Arrange
         var SubjectToDeleteId = SubjectSeeds.ICS.Id;
+        var SubjectRatingId = RatingsSeeds.ICSRating.Id;
+
+        ProjectDbContextSUT.Remove(ProjectDbContextSUT.Ratings.Single(i => i.Id == SubjectRatingId));
+        await ProjectDbContextSUT.SaveChangesAsync();
 
         // Act
         ProjectDbContextSUT.Remove(ProjectDbContextSUT.Subjects.Single(i => i.Id == SubjectToDeleteId));

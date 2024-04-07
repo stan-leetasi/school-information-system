@@ -19,13 +19,17 @@ public class SubjectFacade(
     public override Task<IEnumerable<SubjectListModel>> GetAsync()
         => throw new NotImplementedException("This method is unsupported. Use the overload with Guid studentID.");
 
+    /// <summary>
+    /// Gets list of <c>SubjectListModel</c> from the perspective of a certain student.
+    /// </summary>
+    /// <param name="studentId">ID of the student whose perspective we are looking from. NULL if we want a general perspective (admin view of activities).</param>
     public async Task<IEnumerable<SubjectListModel>> GetAsyncListModels(Guid? studentId)
     {
         await using IUnitOfWork uow = UnitOfWorkFactory.Create();
         List<SubjectEntity> entities = await uow
             .GetRepository<SubjectEntity, SubjectEntityMapper>()
             .Get()
-            .ToListAsync().ConfigureAwait(false);
+            .ToListAsync();
 
         var listModels = ModelMapper.MapToListModel(entities);
 

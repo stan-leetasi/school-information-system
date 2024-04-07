@@ -7,6 +7,12 @@ using project.DAL.UnitOfWork;
 
 namespace project.BL.Facades;
 
+/// <summary>
+/// Facade that works with two different detail models (for admin and for student).
+/// The <c>TAdminDetailModel</c> is used as a substitute for the regular <c>TDetailModel</c> in <c>FacadeBase</c>.
+/// The facade is also capable of creating/deleting relations between students and <c>TEntity</c> (student is registered to <c>TEntity</c>)
+/// using <c>TRegistrationEntity</c>.
+/// </summary>
 public abstract class
     FacadeBaseAdvanced<TEntity, TListModel, TAdminDetailModel, TStudentDetailModel, TEntityMapper, TRegistrationEntity, TRegistrationEntityMapper>(
         IUnitOfWorkFactory unitOfWorkFactory,
@@ -25,7 +31,14 @@ public abstract class
     {
         return uow.GetRepository<StudentEntity, StudentEntityMapper>().Get().Any(s => s.Id == studentId);
     }
+
+    /// <summary>
+    /// Gets <c>TStudentDetailModel</c> from the perspective of a certain student.
+    /// </summary>
+    /// <param name="entityId">ID of the entity.</param>
+    /// <param name="studentId">ID of the student whose perspective we are looking from. NULL if we want a general perspective.</param>
     public abstract Task<TStudentDetailModel?> GetAsyncStudentDetail(Guid entityId, Guid? studentId);
+
     public async Task RegisterStudent(Guid targetId, Guid studentId)
     {
         await using IUnitOfWork uow = UnitOfWorkFactory.Create();

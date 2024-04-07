@@ -1,7 +1,9 @@
 trigger:
   branches:
     include:
-      - '*'
+      - main
+      - feature/BL
+      - CI
 
 pool:
   vmImage: 'windows-latest'

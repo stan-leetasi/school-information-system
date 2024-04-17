@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using project.DAL.Entities;
+using project.DAL.Seeds;
 
 namespace project.DAL
 {
@@ -38,6 +39,15 @@ namespace project.DAL
                 .HasMany(x => x.Students)
                 .WithOne(x => x.Subject)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            if (seedDemoData)
+            {
+                StudentSeeds.Seed(modelBuilder);
+                SubjectSeeds.Seed(modelBuilder);
+                StudentSubjectSeeds.Seed(modelBuilder);
+                ActivitiesSeeds.Seed(modelBuilder);
+                RatingsSeeds.Seed(modelBuilder);
+            }
         }
     }
 }

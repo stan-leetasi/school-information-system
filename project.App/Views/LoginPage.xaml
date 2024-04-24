@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="project.App.LoginPage">
+             x:Class="project.App.Views.LoginPage">
     
     <StackLayout>
         <Grid>
@@ -16,14 +16,25 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="0" Text="[REFRESH BUTTON]" Margin="20" />
-            <Label Grid.Column="1" Text="School information system" HorizontalOptions="CenterAndExpand" 
+            <Button Grid.Column="0" 
+                    Text="[REFRESH BUTTON]" 
+                    Margin="20" />
+            <Label Grid.Row="0" 
+                   Grid.Column="1" 
+                   Text="School information system" 
+                   HorizontalOptions="CenterAndExpand" 
                    VerticalOptions="CenterAndExpand" />
-            <Button Grid.Column="2" Text="Login as admin" Clicked="OnAdminLogin" Margin="20" />
+            <Button Grid.Row="0" 
+                    Grid.Column="2" 
+                    Text="Login as admin" 
+                    Clicked="OnAdminLogin" 
+                    Margin="20" />
         </Grid>
         
-        <Picker x:Name="MyPicker" Grid.Row="1" Title="Select student" HorizontalOptions="CenterAndExpand"
-                VerticalOptions="CenterAndExpand" FontSize="Large"
+        <Picker Title="Select student" 
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="CenterAndExpand" 
+                FontSize="Large"
                 ItemsSource="{Binding Students}"
                 SelectedIndexChanged="OnPickerSelectedItemChanged">
         </Picker>

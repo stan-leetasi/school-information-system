@@ -1,6 +1,6 @@
 ﻿using CookBook.App.ViewModels;
 
-namespace project.App;
+namespace project.App.Views;
 
 public partial class LoginPage : ContentPage
 {
@@ -15,7 +15,7 @@ public partial class LoginPage : ContentPage
         var picker = (Picker)sender;
         var selectedStudent= (string?)picker.SelectedItem;
 
-        if (selectedStudent is not null)
+        if (selectedStudent != null && Application.Current != null)
         {
             Application.Current.MainPage = new AppShell();
         }
@@ -23,6 +23,7 @@ public partial class LoginPage : ContentPage
     
     void OnAdminLogin(object sender, EventArgs e)
     {
+        if (Application.Current == null) return; 
         Application.Current.MainPage = new AppShell();
     }
 }

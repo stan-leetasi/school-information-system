@@ -1,4 +1,6 @@
-﻿namespace project.App
+﻿using project.App.Views;
+
+namespace project.App
 {
     public partial class App : Application
     {

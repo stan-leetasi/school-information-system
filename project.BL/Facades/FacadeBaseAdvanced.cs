@@ -1,4 +1,5 @@
-﻿using project.BL.Mappers;
+﻿using project.BL.Filters;
+using project.BL.Mappers;
 using project.BL.Models;
 using project.DAL.Entities;
 using project.DAL.Mappers;
@@ -14,10 +15,13 @@ namespace project.BL.Facades;
 /// using <c>TRegistrationEntity</c>.
 /// </summary>
 public abstract class
-    FacadeBaseAdvanced<TEntity, TListModel, TAdminDetailModel, TStudentDetailModel, TEntityMapper, TRegistrationEntity, TRegistrationEntityMapper>(
+    FacadeBaseAdvanced<TEntity, TListModel, TAdminDetailModel, TStudentDetailModel, TEntityMapper,
+        TRegistrationEntity, TRegistrationEntityMapper, TListModelInDetail>(
         IUnitOfWorkFactory unitOfWorkFactory,
-        IModelMapper<TEntity, TListModel, TAdminDetailModel> modelMapper)
-    : FacadeBase<TEntity, TListModel, TAdminDetailModel, TEntityMapper>(unitOfWorkFactory, modelMapper),
+        IModelMapper<TEntity, TListModel, TAdminDetailModel> modelMapper,
+        IListModelFilter<TListModel> listModelFilter,
+        IListModelFilter<TListModelInDetail> detailModelFilter)
+    : FacadeBase<TEntity, TListModel, TAdminDetailModel, TEntityMapper, TListModelInDetail>(unitOfWorkFactory, modelMapper, listModelFilter, detailModelFilter),
     IFacadeAdvanced<TEntity, TListModel, TAdminDetailModel, TStudentDetailModel>
     where TEntity : class, IEntity
     where TListModel : IModel
@@ -26,6 +30,7 @@ public abstract class
     where TEntityMapper : IEntityMapper<TEntity>, new()
     where TRegistrationEntity : class, IEntity
     where TRegistrationEntityMapper : IEntityMapper<TRegistrationEntity>, new()
+    where TListModelInDetail : IModel
 {
     protected bool ExistsStudent(IUnitOfWork uow, Guid studentId)
     {
@@ -37,7 +42,8 @@ public abstract class
     /// </summary>
     /// <param name="entityId">ID of the entity.</param>
     /// <param name="studentId">ID of the student whose perspective we are looking from. NULL if we want a general perspective.</param>
-    public abstract Task<TStudentDetailModel?> GetAsyncStudentDetail(Guid entityId, Guid? studentId);
+    /// <param name="filterPreferences">Filtration of items based on the given search term and sorting style.</param>
+    public abstract Task<TStudentDetailModel?> GetAsyncStudentDetail(Guid entityId, Guid? studentId, FilterPreferences? filterPreferences = null);
 
     public async Task RegisterStudent(Guid targetId, Guid studentId)
     {

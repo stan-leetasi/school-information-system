@@ -4,26 +4,42 @@ using project.DAL.Entities;
 using project.DAL.Mappers;
 using project.DAL.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
+using project.BL.Filters;
 
 namespace project.BL.Facades;
 
 public class SubjectFacade(
     IUnitOfWorkFactory unitOfWorkFactory,
-    SubjectModelMapper modelMapper)
-    : FacadeBaseAdvanced<SubjectEntity, SubjectListModel, SubjectAdminDetailModel, SubjectStudentDetailModel, SubjectEntityMapper, StudentSubjectEntity, StudentSubjectEntityMapper>(unitOfWorkFactory, modelMapper),
+    SubjectModelMapper modelMapper,
+    SubjectModelFilter subjectModelFilter,
+    StudentModelFilter studentModelFilter,
+    ActivityModelFilter activityModelFilter)
+    : FacadeBaseAdvanced<SubjectEntity, SubjectListModel, SubjectAdminDetailModel, SubjectStudentDetailModel,
+            SubjectEntityMapper, StudentSubjectEntity, StudentSubjectEntityMapper, StudentListModel>(unitOfWorkFactory, modelMapper, subjectModelFilter, studentModelFilter),
         ISubjectFacade
 {
     protected override List<string> IncludesNavigationPathDetails =>
         [$"{nameof(SubjectEntity.Students)}.{nameof(StudentSubjectEntity.Student)}"];
 
-    public override Task<IEnumerable<SubjectListModel>> GetAsync()
+    protected override IEnumerable<StudentListModel> GetListModelsInDetailModel(SubjectAdminDetailModel detailModel)
+    {
+        return detailModel.Students;
+    }
+
+    protected override SubjectAdminDetailModel SetListModelsInDetailModel(SubjectAdminDetailModel detailModel, IEnumerable<StudentListModel> newListModels)
+    {
+        detailModel.Students = newListModels.ToObservableCollection();
+        return detailModel;
+    }
+
+    public override Task<IEnumerable<SubjectListModel>> GetAsync(FilterPreferences? filterPreferences = null)
         => throw new NotImplementedException("This method is unsupported. Use the overload with Guid studentID.");
 
     /// <summary>
     /// Gets list of <c>SubjectListModel</c> from the perspective of a certain student.
     /// </summary>
     /// <param name="studentId">ID of the student whose perspective we are looking from. NULL if we want a general perspective (admin view of activities).</param>
-    public async Task<IEnumerable<SubjectListModel>> GetAsyncListModels(Guid? studentId)
+    public async Task<IEnumerable<SubjectListModel>> GetAsyncListModels(Guid? studentId, FilterPreferences? filterPreferences = null)
     {
         await using IUnitOfWork uow = UnitOfWorkFactory.Create();
         List<SubjectEntity> entities = await uow
@@ -48,6 +64,11 @@ public class SubjectFacade(
             listModels = updatedList;
         }
 
+        if (filterPreferences is not null)
+        {
+            listModels = subjectModelFilter.ApplyFilter(listModels, filterPreferences);
+        }
+
         return listModels;
     }
 
@@ -68,7 +89,7 @@ public class SubjectFacade(
         };
     }
 
-    public override async Task<SubjectStudentDetailModel?> GetAsyncStudentDetail(Guid entityId, Guid? studentId)
+    public override async Task<SubjectStudentDetailModel?> GetAsyncStudentDetail(Guid entityId, Guid? studentId, FilterPreferences? filterPreferences = null)
     {
         await using IUnitOfWork uow = UnitOfWorkFactory.Create();
 
@@ -89,9 +110,14 @@ public class SubjectFacade(
             var isRegistered = rating != null;
             var points = rating?.Points ?? 0;
             return listModel with { RegisteredStudents = registeredStudents, IsRegistered = isRegistered, Points = points };
-        }).ToObservableCollection();
-        detailModel.Activities = updatedList;
+        });
 
+        if (filterPreferences is not null)
+        {
+            updatedList = activityModelFilter.ApplyFilter(updatedList, filterPreferences);
+        }
+
+        detailModel.Activities = updatedList.ToObservableCollection();
         return detailModel;
     }
 }

@@ -1,5 +1,7 @@
 ﻿using project.BL.Facades;
+using project.BL.Filters;
 using project.BL.Models;
+using project.Common.Tests;
 using project.Common.Tests.Seeds;
 using Xunit.Abstractions;
 
@@ -12,7 +14,7 @@ public sealed class SubjectFacadeTests : FacadeTestsBase
 
     public SubjectFacadeTests(ITestOutputHelper output) : base(output)
     {
-        _subjectFacadeSut = new SubjectFacade(UnitOfWorkFactory, SubjectModelMapper);
+        _subjectFacadeSut = new SubjectFacade(UnitOfWorkFactory, SubjectModelMapper, SubjectModelFilter, StudentModelFilter, ActivityModelFilter);
         _localAdmin =
             new SubjectAdminDetailModel { Id = SubjectSeeds.ICS.Id, Name = "NewName", Acronym = "NewAcronym", };
     }
@@ -173,5 +175,56 @@ public sealed class SubjectFacadeTests : FacadeTestsBase
         });
 
         Assert.Equal($"Sequence contains no elements", exception.Message);
+    }
+
+    [Fact]
+    public async Task Get_SubjectListModels_Sorted_By_Name()
+    {
+        //Arrange
+        FilterPreferences preferences = FilterPreferences.Default with { SortByPropertyName = nameof(SubjectListModel.Name), DescendingOrder = true };
+
+        //Act
+        var listModels = (await _subjectFacadeSut.GetAsyncListModels(null, preferences)).ToList();
+
+        //Assert
+        SortAssert.IsSorted(listModels, nameof(SubjectListModel.Name), true);
+    }
+
+    [Fact]
+    public async Task Get_SubjectAdminDetail_Filter_By_Student_Name()
+    {
+        //Arrange
+        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "terry"};
+
+        //Act
+        SubjectAdminDetailModel ICS = (await _subjectFacadeSut.GetAsync(SubjectSeeds.ICS.Id, preferences))!;
+
+        //Assert
+        Assert.Contains(ICS.Students, s => s.Name == StudentSeeds.Terry.Name);
+    }
+
+    [Fact]
+    public async Task Get_SubjectStudentDetailModel_Of_ICS_For_Admin_Filtered_By_Date()
+    {
+        //Arrange
+        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "4.3." };
+
+        //Act
+        var detailModel = await _subjectFacadeSut.GetAsyncStudentDetail(SubjectSeeds.ICS.Id, null, preferences);
+        var ICSCviko = detailModel!.Activities.Single(a => a.Id == ActivitiesSeeds.ICSCviko.Id);
+
+        //Assert
+        Assert.NotNull(detailModel);
+        Assert.Equal(SubjectSeeds.ICS.Id, detailModel.Id);
+        Assert.Equal(SubjectSeeds.ICS.Name, detailModel.Name);
+        Assert.Equal(SubjectSeeds.ICS.Acronym, detailModel.Acronym);
+        Assert.Single(detailModel.Activities);
+        Assert.Equal(ActivitiesSeeds.ICSCviko.Area, ICSCviko.Area);
+        Assert.Equal(ActivitiesSeeds.ICSCviko.Id, ICSCviko.Id);
+        Assert.Equal(ActivitiesSeeds.ICSCviko.BeginTime, ICSCviko.BeginTime);
+        Assert.Equal(ActivitiesSeeds.ICSCviko.EndTime, ICSCviko.EndTime);
+        Assert.False(ICSCviko.IsRegistered);
+        Assert.Equal(1, ICSCviko.RegisteredStudents);
+        Assert.Equal(ActivitiesSeeds.ICSCviko.Type, ICSCviko.Type);
     }
 }

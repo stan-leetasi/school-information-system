@@ -13,7 +13,7 @@ public sealed class RatingFacadeTests : FacadeTestsBase
 
     public RatingFacadeTests(ITestOutputHelper output) : base(output)
     {
-        _ratingFacadeSut = new RatingFacade(UnitOfWorkFactory, RatingModelMapper);
+        _ratingFacadeSut = new RatingFacade(UnitOfWorkFactory, RatingModelMapper, RatingModelFilter);
         _local = new RatingDetailModel
         {
             Points = 5,

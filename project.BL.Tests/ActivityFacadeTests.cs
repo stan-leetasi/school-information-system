@@ -18,7 +18,7 @@ public sealed class ActivityFacadeTests : FacadeTestsBase
 
     public ActivityFacadeTests(ITestOutputHelper output) : base(output)
     {
-        _activityFacadeSUT = new ActivityFacade(UnitOfWorkFactory, ActivityModelMapper);
+        _activityFacadeSUT = new ActivityFacade(UnitOfWorkFactory, ActivityModelMapper, ActivityModelFilter, RatingModelFilter);
     }
 
     [Fact]

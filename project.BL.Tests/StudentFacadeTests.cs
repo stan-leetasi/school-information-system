@@ -1,13 +1,8 @@
 ﻿using project.BL.Facades;
+using project.BL.Filters;
 using project.BL.Models;
-using project.Common.Tests;
 using project.Common.Tests.Seeds;
-using Microsoft.EntityFrameworkCore;
-using project.DAL.Entities;
-using Xunit;
 using Xunit.Abstractions;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace project.BL.Tests;
 
@@ -17,7 +12,7 @@ public sealed class StudentFacadeTests : FacadeTestsBase
 
     public StudentFacadeTests(ITestOutputHelper output) : base(output)
     {
-        _studentFacadeSUT = new StudentFacade(UnitOfWorkFactory,StudentModelMapper);
+        _studentFacadeSUT = new StudentFacade(UnitOfWorkFactory, StudentModelMapper, StudentModelFilter);
     }
 
     [Fact]
@@ -36,14 +31,14 @@ public sealed class StudentFacadeTests : FacadeTestsBase
     }
 
     [Fact]
-    public async Task Get_StudentDetailModel_For_Terry() 
+    public async Task Get_StudentDetailModel_For_Terry()
     {
         // Act
         var Terry = await _studentFacadeSUT.GetAsync(StudentSeeds.Terry.Id);
-        
+
         // Assert
         Assert.NotNull(Terry);
-        Assert.Equal("Terry",Terry.Name);
+        Assert.Equal("Terry", Terry.Name);
         Assert.Equal("Davis", Terry.Surname);
         Assert.Equal(StudentSeeds.Terry.Id, Terry.Id);
         Assert.Equal(StudentSeeds.Terry.ImageUrl, Terry.ImageUrl);
@@ -80,7 +75,7 @@ public sealed class StudentFacadeTests : FacadeTestsBase
         var NewStudentName = "Jen";
         var NewStudentSurname = "Barber";
         var NewStudentImageUrl = "https://static.wikia.nocookie.net/offandonagain/images/7/76/The_it_crowd_jen.jpg/revision/latest/scale-to-width-down/250?cb=20091123145816";
-        
+
         var NewStudent = new StudentDetailModel()
         {
             Name = NewStudentName,
@@ -140,6 +135,32 @@ public sealed class StudentFacadeTests : FacadeTestsBase
         });
 
         Assert.Equal($"Sequence contains no elements", exception.Message);
-        
+
+    }
+
+    [Fact]
+    public async Task Filter_Students_By_Name_Terry()
+    {
+        // Arrange
+        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "ter" };
+
+        // Act
+        IEnumerable<StudentListModel> listModels = await _studentFacadeSUT.GetAsync(preferences);
+
+        // Assert
+        Assert.Contains(listModels, s => s.Name == StudentSeeds.Terry.Name);
+    }
+
+    [Fact]
+    public async Task Filter_Students_By_Full_Name_Surname_First()
+    {
+        // Arrange
+        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "dAVIS tERRY" };
+
+        // Act
+        IEnumerable<StudentListModel> listModels = await _studentFacadeSUT.GetAsync(preferences);
+
+        // Assert
+        Assert.Contains(listModels, s => s.Name == StudentSeeds.Terry.Name);
     }
 }

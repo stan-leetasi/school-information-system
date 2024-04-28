@@ -17,8 +17,8 @@ namespace project.Common.Tests.Seeds
             Activity = ActivitiesSeeds.ICSCviko,
             Notes = "Skvělé",
             Points = 8,
-            StudentId = StudentSeeds.John.Id,
-            Student = StudentSeeds.John
+            StudentId = StudentSeeds.JohnL.Id,
+            Student = StudentSeeds.JohnL
         };
 
         public static readonly RatingEntity IOSRatingTerry = new()

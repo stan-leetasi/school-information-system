@@ -13,10 +13,10 @@ public static class StudentSubjectSeeds
     public static readonly StudentSubjectEntity JohnICS = new()
     {
         Id = Guid.Parse("f69514ff-4fea-43e8-bf91-ce62a88540a7"),
-        StudentId = StudentSeeds.John.Id,
+        StudentId = StudentSeeds.JohnL.Id,
         SubjectId = SubjectSeeds.ICS.Id,
 
-        Student = StudentSeeds.John,
+        Student = StudentSeeds.JohnL,
         Subject = SubjectSeeds.ICS
     };
 

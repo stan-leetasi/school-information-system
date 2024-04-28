@@ -87,7 +87,7 @@ public class DbContextRatingTests(ITestOutputHelper output) : DbContextTestsBase
             ActivityId = ActivitiesSeeds.IOSPolsemka.Id,
             Notes = "Měl byste se nad sebou zamyslet",
             Points = 15,
-            StudentId = StudentSeeds.John.Id,
+            StudentId = StudentSeeds.JohnL.Id,
         };
 
         // Act

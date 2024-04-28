@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace project.Common.Tests.Seeds;
 public static class StudentSeeds
 {
-    public static readonly StudentEntity John = new()
+    public static readonly StudentEntity JohnL = new()
     {
         Id = Guid.Parse("4b28c9f6-8e4a-48a2-b7df-6e26e3e9c879"),
         Name = "John",
@@ -49,9 +49,17 @@ public static class StudentSeeds
         ImageUrl = "https://static.wikia.nocookie.net/mash/images/2/21/Hawk_hd_ready.jpg/revision/latest?cb=20220118001314"
     };
 
+    public static readonly StudentEntity JohnM = new()
+    {
+        Id = Guid.Parse("4b28c9f6-8e4a-48a2-b7df-6e26e3e9c884"),
+        Name = "John",
+        Surname = "McIntyre",
+        ImageUrl = "https://static.wikia.nocookie.net/p__/images/5/5c/TrapperJohnTV.jpg/revision/latest?cb=20160101171042&path-prefix=protagonist"
+    };
+
     static StudentSeeds()
     {
-        StudentSeeds.John.Subjects.Add(StudentSubjectSeeds.JohnICS);
+        StudentSeeds.JohnL.Subjects.Add(StudentSubjectSeeds.JohnICS);
         StudentSeeds.Terry.Subjects.Add(StudentSubjectSeeds.TerryIOS);
         StudentSeeds.Terry.Subjects.Add(StudentSubjectSeeds.TerryICS);
         StudentSeeds.Elliot.Subjects.Add(StudentSubjectSeeds.ElliotIBS);
@@ -62,10 +70,11 @@ public static class StudentSeeds
 
     public static void Seed(this ModelBuilder modelBuilder) =>
         modelBuilder.Entity<StudentEntity>().HasData(
-            John with{ Subjects = [], Ratings = [] },
+            JohnL with{ Subjects = [], Ratings = [] },
             Terry with { Subjects = [], Ratings = [] },
             Elliot with { Subjects = [], Ratings = [] },
             Takeshi with { Subjects = [], Ratings = [] },
-            Hawkeye with { Subjects = [], Ratings = [] }
+            Hawkeye with { Subjects = [], Ratings = [] },
+            JohnM with { Subjects = [], Ratings = [] }
         );
 }

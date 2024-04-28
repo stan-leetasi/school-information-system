@@ -21,13 +21,13 @@ public sealed class StudentFacadeTests : FacadeTestsBase
         //Act
         IEnumerable<StudentListModel> listModels = await _studentFacadeSUT.GetAsync();
         Assert.NotNull(listModels);
-        var John = listModels.SingleOrDefault(s => s.Id == StudentSeeds.John.Id);
+        var John = listModels.SingleOrDefault(s => s.Id == StudentSeeds.JohnL.Id);
 
         //Assert
         Assert.NotNull(John);
         Assert.Equal("John", John!.Name);
         Assert.Equal("Lark", John!.Surname);
-        Assert.Equal(John.Id, StudentSeeds.John.Id);
+        Assert.Equal(John.Id, StudentSeeds.JohnL.Id);
     }
 
     [Fact]
@@ -149,6 +149,35 @@ public sealed class StudentFacadeTests : FacadeTestsBase
 
         // Assert
         Assert.Contains(listModels, s => s.Name == StudentSeeds.Terry.Name);
+    }
+
+    [Fact]
+    public async Task Filter_Students_By_Name_John_And_Sort_List()
+    {
+        // Arrange
+        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "John", SortByPropertyName = "Surname", DescendingOrder = false };
+
+        // Act
+        IEnumerable<StudentListModel> listModels = await _studentFacadeSUT.GetAsync(preferences);
+        var sortedList = listModels.OrderBy(s => s.Surname).ToList();
+
+        // Assert
+        Assert.Equal(listModels, sortedList);
+        Assert.Contains(listModels, s => s.Name == StudentSeeds.JohnL.Name);
+        Assert.Contains(listModels, s => s.Name == StudentSeeds.JohnM.Name);
+    }
+
+    [Fact]
+    public async Task Filter_Students_By_Name_NonExisting()
+    {
+        // Arrange
+        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "Larry" };
+
+        // Act
+        IEnumerable<StudentListModel> listModels = await _studentFacadeSUT.GetAsync(preferences);
+
+        // Assert
+        Assert.Empty(listModels);
     }
 
     [Fact]

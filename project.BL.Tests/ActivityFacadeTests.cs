@@ -25,7 +25,7 @@ public sealed class ActivityFacadeTests : FacadeTestsBase
     public async Task Get_ActivityStudentDetailModel_ICS_John()
     {
         //Act
-        var ICSCviko = await _activityFacadeSUT.GetAsyncStudentDetail(ActivitiesSeeds.ICSCviko.Id, StudentSeeds.John.Id);
+        var ICSCviko = await _activityFacadeSUT.GetAsyncStudentDetail(ActivitiesSeeds.ICSCviko.Id, StudentSeeds.JohnL.Id);
 
         //Assert
         Assert.True(ICSCviko!.IsRegistered);
@@ -137,7 +137,7 @@ public sealed class ActivityFacadeTests : FacadeTestsBase
         // Act & Assert
         var exception = await Assert.ThrowsAsync<InvalidOperationException>(async () =>
         {
-            await _activityFacadeSUT.RegisterStudent(ActivitiesSeeds.ICSCviko.Id, StudentSeeds.John.Id);
+            await _activityFacadeSUT.RegisterStudent(ActivitiesSeeds.ICSCviko.Id, StudentSeeds.JohnL.Id);
         });
 
         Assert.Equal("Student is already registered.", exception.Message);
@@ -163,12 +163,12 @@ public sealed class ActivityFacadeTests : FacadeTestsBase
     public async Task Unregister_Student_From_Activity()
     {
         // Act
-        await _activityFacadeSUT.UnregisterStudent(ActivitiesSeeds.ICSCviko.Id, StudentSeeds.John.Id);
+        await _activityFacadeSUT.UnregisterStudent(ActivitiesSeeds.ICSCviko.Id, StudentSeeds.JohnL.Id);
 
         //Assert
         await Assert.ThrowsAsync<InvalidOperationException>(async () =>
         {
-            await _activityFacadeSUT.GetAsyncStudentDetail(ActivitiesSeeds.ICSCviko.Id, StudentSeeds.John.Id);
+            await _activityFacadeSUT.GetAsyncStudentDetail(ActivitiesSeeds.ICSCviko.Id, StudentSeeds.JohnL.Id);
         });
     }
 

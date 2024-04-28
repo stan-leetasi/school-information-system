@@ -1,4 +1,5 @@
 ﻿using project.BL.Models;
+using UnidecodeSharpFork;
 
 namespace project.BL.Filters;
 public class SubjectModelFilter : ListModelFilter<SubjectListModel>
@@ -7,8 +8,8 @@ public class SubjectModelFilter : ListModelFilter<SubjectListModel>
         string searchedTerm)
     {
         return listModels.Where(s =>
-            s.Acronym.ToLower().Contains(searchedTerm) ||
-            s.Name.ToLower().Contains(searchedTerm)
+            s.Acronym.Unidecode().ToLower().Contains(searchedTerm.Unidecode().ToLower()) ||
+            s.Name.Unidecode().ToLower().Contains(searchedTerm.Unidecode().ToLower())
         );
     }
 }

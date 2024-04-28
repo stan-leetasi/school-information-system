@@ -5,7 +5,7 @@ namespace project.DAL.Factories
 {
     public class DesignTimeDbFactory : IDesignTimeDbContextFactory<ProjectDbContext>
     {
-        private readonly DbContextSqLiteFactory _dbContextSqLiteFactory = new($"project.db");
+        private readonly DbContextSqLiteFactory _dbContextSqLiteFactory = new($"schoolIS.db");
         public ProjectDbContext CreateDbContext(string[] args) => _dbContextSqLiteFactory.CreateDbContext();
     }
 }

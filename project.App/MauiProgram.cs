@@ -3,6 +3,7 @@ using project.BL;
 using project.DAL;
 using project.DAL.Options;
 using project.DAL.Migrator;
+using project.App.Services;
 using Microsoft.Extensions.Configuration;
 using System.Reflection;
 using Microsoft.Extensions.Logging;
@@ -37,7 +38,7 @@ public static class MauiProgram
 #endif
         var app = builder.Build();
         MigrateDb(app.Services.GetRequiredService<IDbMigrator>());
-
+        RegisterRouting(app.Services.GetRequiredService<INavigationService>());
 
         return app;
     }
@@ -58,6 +59,13 @@ public static class MauiProgram
         builder.Configuration.AddConfiguration(configuration);
     }
 
+    private static void RegisterRouting(INavigationService navigationService)
+    {
+        foreach (var route in navigationService.Routes)
+        {
+            Routing.RegisterRoute(route.Route, route.ViewType);
+        }
+    }
 
     private static DALOptions GetDALOptions(IConfiguration configuration)
     {

@@ -1,13 +1,18 @@
-﻿using CookBook.App.ViewModels;
+﻿using project.App.ViewModels;
+using project.App.Services;
+using project.BL.Facades;
 
 namespace project.App.Views;
 
 public partial class LoginPage : ContentPage
 {
-    public LoginPage()
+    private readonly INavigationService _navigationService;
+
+    public LoginPage(INavigationService navigationService, IStudentFacade studentFacade)
     {
         InitializeComponent();
-        BindingContext = new StudentLogins();
+        BindingContext = new StudentLogins(studentFacade);
+        _navigationService = navigationService;
     }
     
     void OnPickerSelectedItemChanged(object sender, EventArgs e)
@@ -17,13 +22,13 @@ public partial class LoginPage : ContentPage
 
         if (selectedStudent != null && Application.Current != null)
         {
-            Application.Current.MainPage = new AppShell();
+            _navigationService.LogIn(Guid.Empty); // TODO: correct Guid of the student trying to log in
         }
     }
     
     void OnAdminLogin(object sender, EventArgs e)
     {
-        if (Application.Current == null) return; 
-        Application.Current.MainPage = new AppShell();
+        if (Application.Current == null) return;
+        _navigationService.LogIn(null); // userGuid = null ... admin
     }
 }

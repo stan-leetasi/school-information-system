@@ -14,6 +14,8 @@ public static class AppInstaller
         services.AddSingleton<IMessenger>(_ => StrongReferenceMessenger.Default);
         services.AddSingleton<IMessengerService, MessengerService>();
 
+        services.AddTransient<LoginPage>();
+
         services.Scan(selector => selector
             .FromAssemblyOf<App>()
             .AddClasses(filter => filter.AssignableTo<ContentPageBase>())
@@ -25,6 +27,8 @@ public static class AppInstaller
             .AddClasses(filter => filter.AssignableTo<IViewModel>())
             .AsSelfWithInterfaces()
             .WithTransientLifetime());
+
+        services.AddTransient<INavigationService, NavigationService>();
 
         return services;
     }

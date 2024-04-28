@@ -1,14 +1,11 @@
-﻿using project.App.Views;
+﻿namespace project.App;
 
-namespace project.App
+public partial class App : Application
 {
-    public partial class App : Application
+    public App(IServiceProvider serviceProvider)
     {
-        public App()
-        {
-            InitializeComponent();
+        InitializeComponent();
 
-            MainPage = new LoginPage();
-        }
+        MainPage = serviceProvider.GetRequiredService<AppShell>();
     }
 }

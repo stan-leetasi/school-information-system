@@ -242,6 +242,23 @@ public sealed class SubjectFacadeTests : FacadeTestsBase
     }
 
     [Fact]
+    public async Task Filter_Subjects_Multiple_Results()
+    {
+        // Arrange
+        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "I" };
+
+        // Act
+        IEnumerable<SubjectListModel> listModels = await _subjectFacadeSUT.GetAsyncListModels(StudentSeeds.Elliot.Id, preferences);
+
+        // Assert
+        Assert.Contains(listModels, s => s.Name == SubjectSeeds.IOS.Name);
+        Assert.Contains(listModels, s => s.Name == SubjectSeeds.ICS.Name);
+        Assert.Contains(listModels, s => s.Name == SubjectSeeds.IBS.Name);
+        Assert.Contains(listModels, s => s.Name == SubjectSeeds.IVS.Name);
+        Assert.Contains(listModels, s => s.Name == SubjectSeeds.ITS.Name);
+    }
+
+    [Fact]
     public async Task Filter_Subjects_By_Acronym()
     {
         // Arrange
@@ -252,5 +269,21 @@ public sealed class SubjectFacadeTests : FacadeTestsBase
 
         // Assert
         Assert.Contains(listModels, s => s.Name == SubjectSeeds.IVS.Name);
+    }
+
+    [Fact]
+    public async Task Filter_Subjects_Non_Existing()
+    {
+        // Arrange
+        FilterPreferences preferences1 = FilterPreferences.Default with { SearchedTerm = "IZU" };
+        FilterPreferences preferences2 = FilterPreferences.Default with { SearchedTerm = "Inženýrství" };
+
+        // Act
+        IEnumerable<SubjectListModel> listModels1 = await _subjectFacadeSUT.GetAsyncListModels(StudentSeeds.Terry.Id, preferences1);
+        IEnumerable<SubjectListModel> listModels2 = await _subjectFacadeSUT.GetAsyncListModels(StudentSeeds.JohnM.Id, preferences2);
+
+        // Assert
+        Assert.Empty(listModels1);
+        Assert.Empty(listModels2);
     }
 }

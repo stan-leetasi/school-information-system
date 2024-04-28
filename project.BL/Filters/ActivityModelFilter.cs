@@ -7,6 +7,7 @@ public class ActivityModelFilter : ListModelFilter<ActivityListModel>
         string searchedTerm)
     {
         searchedTerm = searchedTerm.ToLower();
+
         return listModels.Where(a =>
             a.BeginTime.ToShortDateString().Replace(" ", "").Contains(searchedTerm) ||
             a.BeginTime.ToShortTimeString().Contains(searchedTerm) ||

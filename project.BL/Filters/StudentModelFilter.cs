@@ -1,4 +1,5 @@
 ﻿using project.BL.Models;
+using UnidecodeSharpFork;
 
 namespace project.BL.Filters;
 public class StudentModelFilter : ListModelFilter<StudentListModel>
@@ -6,12 +7,13 @@ public class StudentModelFilter : ListModelFilter<StudentListModel>
     protected override IEnumerable<StudentListModel> ApplySearchFilterLogic(IEnumerable<StudentListModel> listModels,
         string searchedTerm)
     {
-        searchedTerm = searchedTerm.ToLower();
+        searchedTerm = searchedTerm.Unidecode().ToLower();
+
         return listModels.Where(s =>
-            s.Name.ToLower().Contains(searchedTerm) ||
-            s.Surname.ToLower().Contains(searchedTerm) ||
-            (s.Name + " " + s.Surname).ToLower().Contains(searchedTerm) ||
-            (s.Surname + " " + s.Name).ToLower().Contains(searchedTerm)
+            s.Name.Unidecode().ToLower().Contains(searchedTerm) ||
+            s.Surname.Unidecode().ToLower().Contains(searchedTerm) ||
+            (s.Name + " " + s.Surname).Unidecode().ToLower().Contains(searchedTerm) ||
+            (s.Surname + " " + s.Name).Unidecode().ToLower().Contains(searchedTerm)
         );
     }
 }

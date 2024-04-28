@@ -22,7 +22,7 @@ public sealed class RatingFacadeTests : FacadeTestsBase
             StudentName = StudentSeeds.Terry.Name,
             ActivityId = ActivitiesSeeds.ICSCviko.Id,
             StudentSurname = StudentSeeds.Terry.Surname,
-            ActivityName = Enum.GetName(RatingsSeeds.ICSRating.Activity!.Type)!
+            ActivityName = Enum.GetName(RatingsSeeds.ICSRatingJohn.Activity!.Type)!
         };
     }
 
@@ -59,20 +59,20 @@ public sealed class RatingFacadeTests : FacadeTestsBase
     public async Task Get_RatingDetailModel_ICSRating()
     {
         //Act
-        var ratingDetailModel = await _ratingFacadeSut.GetAsync(RatingsSeeds.ICSRating.Id);
+        var ratingDetailModel = await _ratingFacadeSut.GetAsync(RatingsSeeds.ICSRatingJohn.Id);
 
         //Assert
-        AssertRatingDetailModel(RatingsSeeds.ICSRating, ratingDetailModel);
+        AssertRatingDetailModel(RatingsSeeds.ICSRatingJohn, ratingDetailModel);
     }
 
     [Fact]
     public async Task Get_RatingDetailModel_IOSRating()
     {
         //Act
-        var ratingDetailModel = await _ratingFacadeSut.GetAsync(RatingsSeeds.IOSRating.Id);
+        var ratingDetailModel = await _ratingFacadeSut.GetAsync(RatingsSeeds.IOSRatingTerry.Id);
 
         //Assert
-        AssertRatingDetailModel(RatingsSeeds.IOSRating, ratingDetailModel);
+        AssertRatingDetailModel(RatingsSeeds.IOSRatingTerry, ratingDetailModel);
     }
 
     [Fact]
@@ -92,15 +92,15 @@ public sealed class RatingFacadeTests : FacadeTestsBase
         // Act
         var ratingListModel = await _ratingFacadeSut.GetAsync();
         var ratingList = ratingListModel.ToList();
-        var ICSRating = ratingList.SingleOrDefault(r => r.Id == RatingsSeeds.ICSRating.Id);
-        var IOSRating = ratingList.SingleOrDefault(r => r.Id == RatingsSeeds.IOSRating.Id);
+        var ICSRating = ratingList.SingleOrDefault(r => r.Id == RatingsSeeds.ICSRatingJohn.Id);
+        var IOSRating = ratingList.SingleOrDefault(r => r.Id == RatingsSeeds.IOSRatingTerry.Id);
 
         // Assert
         Assert.NotNull(ratingListModel);
-        Assert.Equal(2, ratingList.Count);
+        Assert.Equal(7, ratingList.Count);
 
-        AssertRating(RatingsSeeds.ICSRating, ICSRating);
-        AssertRating(RatingsSeeds.IOSRating, IOSRating);
+        AssertRating(RatingsSeeds.ICSRatingJohn, ICSRating);
+        AssertRating(RatingsSeeds.IOSRatingTerry, IOSRating);
     }
 
     [Fact]
@@ -123,7 +123,7 @@ public sealed class RatingFacadeTests : FacadeTestsBase
     public async Task Update_RatingDetailModel()
     {
         //Act
-        _local.Id = RatingsSeeds.ICSRating.Id;
+        _local.Id = RatingsSeeds.ICSRatingJohn.Id;
         var rating = await _ratingFacadeSut.SaveAsync(_local);
         _local.Id = rating.Id;
 
@@ -138,9 +138,9 @@ public sealed class RatingFacadeTests : FacadeTestsBase
     public async Task Delete_Existing_RatingDetailModel()
     {
         //Act
-        await _ratingFacadeSut.DeleteAsync(RatingsSeeds.ICSRating.Id);
+        await _ratingFacadeSut.DeleteAsync(RatingsSeeds.ICSRatingJohn.Id);
 
-        var removed = await _ratingFacadeSut.GetAsync(RatingsSeeds.ICSRating.Id);
+        var removed = await _ratingFacadeSut.GetAsync(RatingsSeeds.ICSRatingJohn.Id);
 
         //Assert
         Assert.Null(removed);

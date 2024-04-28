@@ -29,8 +29,8 @@ public sealed class ActivityFacadeTests : FacadeTestsBase
 
         //Assert
         Assert.True(ICSCviko!.IsRegistered);
-        Assert.Equal(RatingsSeeds.ICSRating.Points, ICSCviko.Points);
-        Assert.Equal(RatingsSeeds.ICSRating.Notes, ICSCviko.Notes);
+        Assert.Equal(RatingsSeeds.ICSRatingJohn.Points, ICSCviko.Points);
+        Assert.Equal(RatingsSeeds.ICSRatingJohn.Notes, ICSCviko.Notes);
     }
 
     [Fact]
@@ -41,7 +41,7 @@ public sealed class ActivityFacadeTests : FacadeTestsBase
 
         //Assert
         Assert.True(ICSCviko != null);
-        Assert.Contains(ICSCviko.Ratings, r => r.Id == RatingsSeeds.ICSRating.Id);
+        Assert.Contains(ICSCviko.Ratings, r => r.Id == RatingsSeeds.ICSRatingJohn.Id);
     }
 
     [Fact]
@@ -112,8 +112,8 @@ public sealed class ActivityFacadeTests : FacadeTestsBase
     public async Task Register_Student_For_Activity()
     {
         // Arrange
-        var subjectId = SubjectSeeds.ICS.Id;
-        var activityId = ActivitiesSeeds.ICSCviko.Id;
+        var subjectId = SubjectSeeds.ITS.Id;
+        var activityId = ActivitiesSeeds.ITSSkuska.Id;
         var studentId = StudentSeeds.Terry.Id;
 
         // Act
@@ -124,11 +124,11 @@ public sealed class ActivityFacadeTests : FacadeTestsBase
         //Assert
         Assert.NotNull(TerryICSCviko);
         Assert.True(TerryICSCviko!.IsRegistered);
-        Assert.Equal(SubjectSeeds.ICS.Id, TerryICSCviko.SubjectId);
-        Assert.Equal(SubjectSeeds.ICS.Name, TerryICSCviko.SubjectName);
+        Assert.Equal(SubjectSeeds.ITS.Id, TerryICSCviko.SubjectId);
+        Assert.Equal(SubjectSeeds.ITS.Name, TerryICSCviko.SubjectName);
         Assert.Equal(0, TerryICSCviko.Points);
         Assert.Equal("", TerryICSCviko.Notes);
-        Assert.Equal(ActivityType.Exercise,TerryICSCviko.Type);
+        Assert.Equal(ActivityType.FinalExam,TerryICSCviko.Type);
     }
 
     [Fact]
@@ -178,7 +178,7 @@ public sealed class ActivityFacadeTests : FacadeTestsBase
         // Act & Assert
         var exception = await Assert.ThrowsAsync<InvalidOperationException>(async () =>
         {
-            await _activityFacadeSUT.UnregisterStudent(ActivitiesSeeds.ICSCviko.Id, StudentSeeds.Terry.Id);
+            await _activityFacadeSUT.UnregisterStudent(ActivitiesSeeds.ITSSkuska.Id, StudentSeeds.Terry.Id);
         });
 
         Assert.Equal("Registration does not exist.", exception.Message);

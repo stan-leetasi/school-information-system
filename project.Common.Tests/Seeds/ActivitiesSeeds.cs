@@ -12,26 +12,61 @@ namespace project.Common.Tests.Seeds
     {
         public static readonly ActivityEntity ICSCviko = new()
         {
-
             Id = Guid.Parse("c7435c8b-30a1-4fc9-8e0b-36b3ff2ee8c5"),
             Area = Enums.SchoolArea.ComputerLab,
             BeginTime = new DateTime(2024, 3, 4, 9, 0, 0),
             EndTime = new DateTime(2024, 4, 4, 12, 0, 0),
-            Description = "ICS Cvičenie",
+            Description = "ICS Cvičení",
             Subject = SubjectSeeds.ICS,
             SubjectId = SubjectSeeds.ICS.Id,
             Type = Enums.ActivityType.Exercise
         };
         public static readonly ActivityEntity IOSPolsemka = new()
         {
-            Id = Guid.Parse("d0de8b41-9028-4f5f-82d8-7a3ae1bf8b18"),
+            Id = Guid.Parse("c7435c8b-30a1-4fc9-8e0b-36b3ff2ee8c6"),
             Area = Enums.SchoolArea.MainLectureHall,
             BeginTime = new DateTime(2024, 7, 1, 5, 0, 0),
             EndTime = new DateTime(2024, 7, 1, 8, 0, 0),
-            Description = "IOS Polsemestralka",
+            Description = "IOS Polsemestrálka",
             Subject = SubjectSeeds.IOS,
             SubjectId = SubjectSeeds.IOS.Id,
             Type = Enums.ActivityType.MidtermExam
+        };
+
+        public static readonly ActivityEntity IBSLabak = new()
+        {
+            Id = Guid.Parse("c7435c8b-30a1-4fc9-8e0b-36b3ff2ee8c7"),
+            Area = Enums.SchoolArea.ElectronicsLab,
+            BeginTime = new DateTime(2024, 4, 5, 8, 0, 0),
+            EndTime = new DateTime(2024, 4, 5, 10, 0, 0),
+            Description = "IBS Laboratoř",
+            Subject = SubjectSeeds.IBS,
+            SubjectId = SubjectSeeds.IBS.Id,
+            Type = Enums.ActivityType.Exercise
+        };
+
+        public static readonly ActivityEntity IVSObhajoba = new()
+        {
+            Id = Guid.Parse("c7435c8b-30a1-4fc9-8e0b-36b3ff2ee8c8"),
+            Area = Enums.SchoolArea.ComputerLab,
+            BeginTime = new DateTime(2024, 5, 1, 10, 0, 0),
+            EndTime = new DateTime(2024, 5, 1, 12, 0, 0),
+            Description = "IVS Obhajoby projektů",
+            Subject = SubjectSeeds.IVS,
+            SubjectId = SubjectSeeds.IVS.Id,
+            Type = Enums.ActivityType.ProjectDefense
+        };
+
+        public static readonly ActivityEntity ITSSkuska = new()
+        {
+            Id = Guid.Parse("c7435c8b-30a1-4fc9-8e0b-36b3ff2ee8c9"),
+            Area = Enums.SchoolArea.MainLectureHall,
+            BeginTime = new DateTime(2024, 5, 22, 13, 0, 0),
+            EndTime = new DateTime(2024, 5, 22, 14, 50, 0),
+            Description = "ITS Závěrečná zkouška",
+            Subject = SubjectSeeds.ITS,
+            SubjectId = SubjectSeeds.ITS.Id,
+            Type = Enums.ActivityType.FinalExam
         };
 
         public static readonly ActivityEntity EmptyActivityEntity = new()
@@ -48,13 +83,23 @@ namespace project.Common.Tests.Seeds
 
         static ActivitiesSeeds()
         {
-            ActivitiesSeeds.ICSCviko.Ratings.Add(RatingsSeeds.ICSRating);
-            ActivitiesSeeds.IOSPolsemka.Ratings.Add(RatingsSeeds.IOSRating);
+            ActivitiesSeeds.ICSCviko.Ratings.Add(RatingsSeeds.ICSRatingJohn);
+            ActivitiesSeeds.ICSCviko.Ratings.Add(RatingsSeeds.ICSRatingTerry);
+            ActivitiesSeeds.IOSPolsemka.Ratings.Add(RatingsSeeds.IOSRatingTerry);
+            ActivitiesSeeds.IOSPolsemka.Ratings.Add(RatingsSeeds.IOSRatingElliot);
+            ActivitiesSeeds.IBSLabak.Ratings.Add(RatingsSeeds.IBSRatingElliot);
+            ActivitiesSeeds.IBSLabak.Ratings.Add(RatingsSeeds.IBSRatingTakeshi);
+            ActivitiesSeeds.IVSObhajoba.Ratings.Add(RatingsSeeds.IVSRatingElliot);
+
         }
 
         public static void Seed(this ModelBuilder modelBuilder) =>
             modelBuilder.Entity<ActivityEntity>().HasData(
                 ICSCviko with { Subject = null!, Ratings = [] },
-                IOSPolsemka with { Subject = null!, Ratings = [] });
+                IOSPolsemka with { Subject = null!, Ratings = [] },
+                IBSLabak with { Subject = null!, Ratings = [] },
+                IVSObhajoba with { Subject = null!, Ratings = [] },
+                ITSSkuska with { Subject = null!, Ratings = [] }
+                );
     }
 }

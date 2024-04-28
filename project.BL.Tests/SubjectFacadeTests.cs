@@ -43,7 +43,7 @@ public sealed class SubjectFacadeTests : FacadeTestsBase
         //Assert
         Assert.NotNull(ICSCviko);
         Assert.True(ICSCviko.IsRegistered);
-        Assert.Equal(RatingsSeeds.ICSRating.Points, ICSCviko.Points);
+        Assert.Equal(RatingsSeeds.ICSRatingJohn.Points, ICSCviko.Points);
     }
 
     [Fact]
@@ -64,7 +64,7 @@ public sealed class SubjectFacadeTests : FacadeTestsBase
         Assert.Equal(ActivitiesSeeds.ICSCviko.BeginTime, ICSCviko.BeginTime);
         Assert.Equal(ActivitiesSeeds.ICSCviko.EndTime, ICSCviko.EndTime);
         Assert.False(ICSCviko.IsRegistered);
-        Assert.Equal(1, ICSCviko.RegisteredStudents);
+        Assert.Equal(2, ICSCviko.RegisteredStudents);
         Assert.Equal(ActivitiesSeeds.ICSCviko.Type, ICSCviko.Type);
     }
 
@@ -224,7 +224,7 @@ public sealed class SubjectFacadeTests : FacadeTestsBase
         Assert.Equal(ActivitiesSeeds.ICSCviko.BeginTime, ICSCviko.BeginTime);
         Assert.Equal(ActivitiesSeeds.ICSCviko.EndTime, ICSCviko.EndTime);
         Assert.False(ICSCviko.IsRegistered);
-        Assert.Equal(1, ICSCviko.RegisteredStudents);
+        Assert.Equal(2, ICSCviko.RegisteredStudents);
         Assert.Equal(ActivitiesSeeds.ICSCviko.Type, ICSCviko.Type);
     }
 }

@@ -43,7 +43,7 @@ public sealed class SubjectFacadeTests : FacadeTestsBase
         //Assert
         Assert.NotNull(ICSCviko);
         Assert.True(ICSCviko.IsRegistered);
-        Assert.Equal(RatingsSeeds.ICSRatingJohn.Points, ICSCviko.Points);
+        Assert.Equal(RatingsSeeds.ICSCvikoRatingJohnL.Points, ICSCviko.Points);
     }
 
     [Fact]
@@ -58,7 +58,7 @@ public sealed class SubjectFacadeTests : FacadeTestsBase
         Assert.Equal(SubjectSeeds.ICS.Id, detailModel.Id);
         Assert.Equal(SubjectSeeds.ICS.Name, detailModel.Name);
         Assert.Equal(SubjectSeeds.ICS.Acronym, detailModel.Acronym);
-        Assert.Single(detailModel.Activities);
+        Assert.NotEmpty(detailModel.Activities);
         Assert.Equal(ActivitiesSeeds.ICSCviko.Area, ICSCviko.Area);
         Assert.Equal(ActivitiesSeeds.ICSCviko.Id, ICSCviko.Id);
         Assert.Equal(ActivitiesSeeds.ICSCviko.BeginTime, ICSCviko.BeginTime);
@@ -285,5 +285,192 @@ public sealed class SubjectFacadeTests : FacadeTestsBase
         // Assert
         Assert.Empty(listModels1);
         Assert.Empty(listModels2);
+    }
+
+    [Fact]
+    public async Task Filter_Subject_Activities_SubjectStudentDetailModel_By_Year_ICS()
+    {
+        // Arrange 
+        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "2024" };
+        // Act
+        var detailModel = await _subjectFacadeSUT.GetAsyncStudentDetail(SubjectSeeds.ICS.Id, StudentSeeds.Terry.Id, preferences);
+
+        // Assert
+        Assert.NotNull(detailModel);
+        var ICSObhajoba = detailModel!.Activities.Single(a => a.Id == ActivitiesSeeds.ICSObhajoba.Id);
+        var ICSCviko = detailModel!.Activities.Single(a => a.Id == ActivitiesSeeds.ICSCviko.Id);
+
+        Assert.NotNull(ICSObhajoba);
+        Assert.NotNull(ICSCviko);
+        Assert.Equal(ActivitiesSeeds.ICSObhajoba.Id, ICSObhajoba.Id);
+        Assert.Equal(ActivitiesSeeds.ICSCviko.Id, ICSCviko.Id);
+    }
+
+    [Fact]
+    public async Task Filter_Subject_Activities_SubjectStudentDetailModel_By_Date_Format_1()
+    {
+        // Arrange 
+        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "22.5.2024" };
+        // Act
+        var detailModel = await _subjectFacadeSUT.GetAsyncStudentDetail(SubjectSeeds.ICS.Id, StudentSeeds.Terry.Id, preferences);
+
+        // Assert
+        Assert.NotNull(detailModel);
+        var ICSObhajoba = detailModel!.Activities.Single(a => a.Id == ActivitiesSeeds.ICSObhajoba.Id);
+        Assert.NotNull(ICSObhajoba);
+        Assert.Equal(ActivitiesSeeds.ICSObhajoba.Id, ICSObhajoba.Id);
+    }
+
+    [Fact]
+    public async Task Filter_Subject_Activities_SubjectStudentDetailModel_By_Date_Format_2()
+    {
+        // Arrange 
+        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "22-5-2024" };
+        // Act
+        var detailModel = await _subjectFacadeSUT.GetAsyncStudentDetail(SubjectSeeds.ICS.Id, StudentSeeds.Terry.Id, preferences);
+
+        // Assert
+        Assert.NotNull(detailModel);
+        var ICSObhajoba = detailModel!.Activities.Single(a => a.Id == ActivitiesSeeds.ICSObhajoba.Id);
+        Assert.NotNull(ICSObhajoba);
+        Assert.Equal(ActivitiesSeeds.ICSObhajoba.Id, ICSObhajoba.Id);
+    }
+
+    [Fact]
+    public async Task Filter_Subject_Activities_SubjectStudentDetailModel_By_Date_Format_3()
+    {
+        // Arrange 
+        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "22/5/2024" };
+        // Act
+        var detailModel = await _subjectFacadeSUT.GetAsyncStudentDetail(SubjectSeeds.ICS.Id, StudentSeeds.Terry.Id, preferences);
+
+        // Assert
+        Assert.NotNull(detailModel);
+        var ICSObhajoba = detailModel!.Activities.Single(a => a.Id == ActivitiesSeeds.ICSObhajoba.Id);
+        Assert.NotNull(ICSObhajoba);
+        Assert.Equal(ActivitiesSeeds.ICSObhajoba.Id, ICSObhajoba.Id);
+    }
+
+    [Fact]
+    public async Task Filter_Subject_Activities_SubjectStudentDetailModel_By_Date_Format_4()
+    {
+        // Arrange 
+        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "22 5 2024" };
+        // Act
+        var detailModel = await _subjectFacadeSUT.GetAsyncStudentDetail(SubjectSeeds.ICS.Id, StudentSeeds.Terry.Id, preferences);
+
+        // Assert
+        Assert.NotNull(detailModel);
+        var ICSObhajoba = detailModel!.Activities.Single(a => a.Id == ActivitiesSeeds.ICSObhajoba.Id);
+        Assert.NotNull(ICSObhajoba);
+        Assert.Equal(ActivitiesSeeds.ICSObhajoba.Id, ICSObhajoba.Id);
+    }
+
+    [Fact]
+    public async Task Filter_Subject_Activities_SubjectStudentDetailModel_By_Date_Format_5()
+    {
+        // Arrange 
+        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "5 2024" };
+        // Act
+        var detailModel = await _subjectFacadeSUT.GetAsyncStudentDetail(SubjectSeeds.ICS.Id, StudentSeeds.Terry.Id, preferences);
+
+        // Assert
+        Assert.NotNull(detailModel);
+        var ICSObhajoba = detailModel!.Activities.Single(a => a.Id == ActivitiesSeeds.ICSObhajoba.Id);
+        Assert.NotNull(ICSObhajoba);
+        Assert.Equal(ActivitiesSeeds.ICSObhajoba.Id, ICSObhajoba.Id);
+    }
+
+    
+
+    [Fact]
+    public async Task Filter_Subject_Activities_SubjectStudentDetailModel_By_DateTime_Format_1()
+    {
+        // Arrange 
+        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "22-5-2024 9:45" };
+        // Act
+        var detailModel = await _subjectFacadeSUT.GetAsyncStudentDetail(SubjectSeeds.ICS.Id, StudentSeeds.Terry.Id, preferences);
+
+        // Assert
+        Assert.NotNull(detailModel);
+        var ICSObhajoba = detailModel!.Activities.Single(a => a.Id == ActivitiesSeeds.ICSObhajoba.Id);
+        Assert.NotNull(ICSObhajoba);
+        Assert.Equal(ActivitiesSeeds.ICSObhajoba.Id, ICSObhajoba.Id);
+    }
+
+    [Fact]
+    public async Task Filter_Subject_Activities_SubjectStudentDetailModel_By_DateTime_Format_2()
+    {
+        // Arrange 
+        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "22 5 2024 9:45" };
+        // Act
+        var detailModel = await _subjectFacadeSUT.GetAsyncStudentDetail(SubjectSeeds.ICS.Id, StudentSeeds.Terry.Id, preferences);
+
+        // Assert
+        Assert.NotNull(detailModel);
+        var ICSObhajoba = detailModel!.Activities.Single(a => a.Id == ActivitiesSeeds.ICSObhajoba.Id);
+        Assert.NotNull(ICSObhajoba);
+        Assert.Equal(ActivitiesSeeds.ICSObhajoba.Id, ICSObhajoba.Id);
+    }
+
+    [Fact]
+    public async Task Filter_Subject_Activities_SubjectStudentDetailModel_By_DateTime_Format_3()
+    {
+        // Arrange 
+        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "5 2024 9:45" };
+        // Act
+        var detailModel = await _subjectFacadeSUT.GetAsyncStudentDetail(SubjectSeeds.ICS.Id, StudentSeeds.Terry.Id, preferences);
+
+        // Assert
+        Assert.NotNull(detailModel);
+        var ICSObhajoba = detailModel!.Activities.Single(a => a.Id == ActivitiesSeeds.ICSObhajoba.Id);
+        Assert.NotNull(ICSObhajoba);
+        Assert.Equal(ActivitiesSeeds.ICSObhajoba.Id, ICSObhajoba.Id);
+    }
+
+    [Fact]
+    public async Task Filter_Subject_Activities_SubjectStudentDetailModel_By_DateTime_Format_4()
+    {
+        // Arrange 
+        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "2024 9:45" };
+        // Act
+        var detailModel = await _subjectFacadeSUT.GetAsyncStudentDetail(SubjectSeeds.ICS.Id, StudentSeeds.Terry.Id, preferences);
+
+        // Assert
+        Assert.NotNull(detailModel);
+        var ICSObhajoba = detailModel!.Activities.Single(a => a.Id == ActivitiesSeeds.ICSObhajoba.Id);
+        Assert.NotNull(ICSObhajoba);
+        Assert.Equal(ActivitiesSeeds.ICSObhajoba.Id, ICSObhajoba.Id);
+    }
+
+
+    [Fact]
+    public async Task Filter_Students_Registered_For_Subject_AdminDetailModel_1()
+    {
+        // Arrange 
+        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "e" };
+        // Act
+        var detailModel = await _subjectFacadeSUT.GetAsync(SubjectSeeds.IOS.Id, preferences);
+
+        // Assert
+        Assert.NotNull(detailModel);
+        Assert.NotEmpty(detailModel.Students);
+        Assert.Contains(detailModel.Students, s => s.Id == StudentSeeds.Elliot.Id);
+        Assert.Contains(detailModel.Students, s => s.Id == StudentSeeds.Terry.Id);
+    }
+
+    [Fact]
+    public async Task Filter_Students_Registered_For_Subject_AdminDetailModel_2()
+    {
+        // Arrange 
+        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "terry" };
+        // Act
+        var detailModel = await _subjectFacadeSUT.GetAsync(SubjectSeeds.IOS.Id, preferences);
+
+        // Assert
+        Assert.NotNull(detailModel);
+        Assert.NotEmpty(detailModel.Students);
+        Assert.Single(detailModel.Students);    
+        Assert.Contains(detailModel.Students, s => s.Id == StudentSeeds.Terry.Id);
     }
 }

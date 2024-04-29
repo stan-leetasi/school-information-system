@@ -30,8 +30,8 @@ public sealed class ActivityFacadeTests : FacadeTestsBase
 
         //Assert
         Assert.True(ICSCviko!.IsRegistered);
-        Assert.Equal(RatingsSeeds.ICSRatingJohn.Points, ICSCviko.Points);
-        Assert.Equal(RatingsSeeds.ICSRatingJohn.Notes, ICSCviko.Notes);
+        Assert.Equal(RatingsSeeds.ICSCvikoRatingJohnL.Points, ICSCviko.Points);
+        Assert.Equal(RatingsSeeds.ICSCvikoRatingJohnL.Notes, ICSCviko.Notes);
     }
 
     [Fact]
@@ -42,7 +42,7 @@ public sealed class ActivityFacadeTests : FacadeTestsBase
 
         //Assert
         Assert.True(ICSCviko != null);
-        Assert.Contains(ICSCviko.Ratings, r => r.Id == RatingsSeeds.ICSRatingJohn.Id);
+        Assert.Contains(ICSCviko.Ratings, r => r.Id == RatingsSeeds.ICSCvikoRatingJohnL.Id);
     }
 
     [Fact]
@@ -224,35 +224,6 @@ public sealed class ActivityFacadeTests : FacadeTestsBase
         {
             await _activityFacadeSUT.UnregisterStudent(activityId, StudentSeeds.Terry.Id);
         });
-    }
-
-    [Fact]
-    public async Task Filter_Activities_By_Year()
-    {
-        // Arrange
-        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "2025" };
-
-        // Act
-
-        var activity = await _activityFacadeSUT.GetAsync(ActivitiesSeeds.IBSLabak.Id, preferences);
-        
-        //Assert
-        Assert.NotNull(activity);
-        Assert.Equal(ActivitiesSeeds.IBSLabak.Id, activity.Id);
-    }
-
-    [Fact]
-    public async Task Filter_Activities_By_Year_Month()
-    {
-        // Arrange
-        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "2024-05" };
-
-        // Act
-        var activity = await _activityFacadeSUT.GetAsync(ActivitiesSeeds.IOSPolsemka.Id, preferences);
-
-        // Assert
-        Assert.NotNull(activity);
-        Assert.Equal(ActivitiesSeeds.IOSPolsemka.Id, activity.Id);
     }
 
 }

@@ -14,7 +14,7 @@ public class DbContextRatingTests(ITestOutputHelper output) : DbContextTestsBase
     public void RatingEntity_PropertiesAreSetCorrectly()
     {
         // Arrange
-        var rating = RatingsSeeds.ICSRatingJohn;
+        var rating = RatingsSeeds.ICSCvikoRatingJohnL;
 
         // Act
         var id = rating.Id;
@@ -24,7 +24,7 @@ public class DbContextRatingTests(ITestOutputHelper output) : DbContextTestsBase
         var studentId = rating.StudentId;
 
         // Assert
-        Assert.Equal("5d85804a-7ab0-4d38-b449-cc3f68887c38", id.ToString());
+        Assert.Equal("5d85804a-7ab0-4d38-b449-cc3f68887c37", id.ToString());
         Assert.Equal(8, points);
         Assert.Equal("Skvělé", notes);
     }
@@ -33,7 +33,7 @@ public class DbContextRatingTests(ITestOutputHelper output) : DbContextTestsBase
     public async Task Delete_Rating_ById()
     {
         // Arrange
-        var RatingToDeleteId = RatingsSeeds.ICSRatingJohn.Id;
+        var RatingToDeleteId = RatingsSeeds.ICSCvikoRatingJohnL.Id;
 
         // Act
         ProjectDbContextSUT.Remove(ProjectDbContextSUT.Ratings.Single(i => i.Id == RatingToDeleteId));
@@ -57,7 +57,7 @@ public class DbContextRatingTests(ITestOutputHelper output) : DbContextTestsBase
     public async Task Update_Rating_Persisted()
     {
         // Arrange
-        var baseEntity = RatingsSeeds.ICSRatingJohn;
+        var baseEntity = RatingsSeeds.ICSCvikoRatingJohnL;
         var entity =
             baseEntity with
             {

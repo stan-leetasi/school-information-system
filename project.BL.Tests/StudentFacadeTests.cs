@@ -1,6 +1,7 @@
 ﻿using project.BL.Facades;
 using project.BL.Filters;
 using project.BL.Models;
+using project.Common.Tests;
 using project.Common.Tests.Seeds;
 using Xunit.Abstractions;
 
@@ -155,14 +156,13 @@ public sealed class StudentFacadeTests : FacadeTestsBase
     public async Task Filter_Students_By_Name_John_And_Sort_List()
     {
         // Arrange
-        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "John", SortByPropertyName = "Surname", DescendingOrder = false };
+        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "John", SortByPropertyName = nameof(StudentListModel.Surname), DescendingOrder = false };
 
         // Act
         IEnumerable<StudentListModel> listModels = await _studentFacadeSUT.GetAsync(preferences);
-        var sortedList = listModels.OrderBy(s => s.Surname).ToList();
 
         // Assert
-        Assert.Equal(listModels, sortedList);
+        SortAssert.IsSorted(listModels.ToList(), nameof(StudentListModel.Surname), false);
         Assert.Contains(listModels, s => s.Name == StudentSeeds.JohnL.Name);
         Assert.Contains(listModels, s => s.Name == StudentSeeds.JohnM.Name);
     }

@@ -177,7 +177,7 @@ public sealed class RatingFacadeTests : FacadeTestsBase
     public async Task Filter_Ratings_By_Full_Student_Name_Surname_First()
     {
         // Arrange
-        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "Alderson Elliot" };
+        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = " Alderson Elliot" };
 
         // Act
         IEnumerable<RatingListModel> listModels = await _ratingFacadeSUT.GetAsync(preferences);

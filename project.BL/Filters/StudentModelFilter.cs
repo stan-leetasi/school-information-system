@@ -7,7 +7,7 @@ public class StudentModelFilter : ListModelFilter<StudentListModel>
     protected override IEnumerable<StudentListModel> ApplySearchFilterLogic(IEnumerable<StudentListModel> listModels,
         string searchedTerm)
     {
-        searchedTerm = searchedTerm.Unidecode().ToLower();
+        searchedTerm = searchedTerm.Unidecode().ToLower().Trim();
 
         return listModels.Where(s =>
             s.Name.Unidecode().ToLower().Contains(searchedTerm) ||

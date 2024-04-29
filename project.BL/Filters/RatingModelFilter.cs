@@ -7,7 +7,7 @@ public class RatingModelFilter : ListModelFilter<RatingListModel>
     protected override IEnumerable<RatingListModel> ApplySearchFilterLogic(IEnumerable<RatingListModel> listModels,
         string searchedTerm)
     {
-        searchedTerm = searchedTerm.Unidecode().ToLower();
+        searchedTerm = searchedTerm.Unidecode().ToLower().Trim();
 
         return listModels.Where(s =>
             s.StudentName.Unidecode().ToLower().Contains(searchedTerm) ||

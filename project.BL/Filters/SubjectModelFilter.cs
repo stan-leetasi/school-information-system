@@ -7,7 +7,7 @@ public class SubjectModelFilter : ListModelFilter<SubjectListModel>
     protected override IEnumerable<SubjectListModel> ApplySearchFilterLogic(IEnumerable<SubjectListModel> listModels,
         string searchedTerm)
     {
-        searchedTerm = searchedTerm.Unidecode().ToLower();
+        searchedTerm = searchedTerm.Unidecode().ToLower().Trim();
 
         return listModels.Where(s =>
             s.Acronym.Unidecode().ToLower().Contains(searchedTerm) ||

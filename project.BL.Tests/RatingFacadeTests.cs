@@ -3,17 +3,19 @@ using project.BL.Facades;
 using Xunit.Abstractions;
 using project.DAL.Entities;
 using project.Common.Tests.Seeds;
+using project.BL.Filters;
+using project.Common.Tests;
 
 namespace project.BL.Tests;
 
 public sealed class RatingFacadeTests : FacadeTestsBase
 {
-    private readonly IRatingFacade _ratingFacadeSut;
+    private readonly IRatingFacade _ratingFacadeSUT;
     private readonly RatingDetailModel _local;
 
     public RatingFacadeTests(ITestOutputHelper output) : base(output)
     {
-        _ratingFacadeSut = new RatingFacade(UnitOfWorkFactory, RatingModelMapper);
+        _ratingFacadeSUT = new RatingFacade(UnitOfWorkFactory, RatingModelMapper, RatingModelFilter);
         _local = new RatingDetailModel
         {
             Points = 5,
@@ -22,7 +24,7 @@ public sealed class RatingFacadeTests : FacadeTestsBase
             StudentName = StudentSeeds.Terry.Name,
             ActivityId = ActivitiesSeeds.ICSCviko.Id,
             StudentSurname = StudentSeeds.Terry.Surname,
-            ActivityName = Enum.GetName(RatingsSeeds.ICSRating.Activity!.Type)!
+            ActivityName = Enum.GetName(RatingsSeeds.ICSCvikoRatingJohnL.Activity!.Type)!
         };
     }
 
@@ -59,20 +61,20 @@ public sealed class RatingFacadeTests : FacadeTestsBase
     public async Task Get_RatingDetailModel_ICSRating()
     {
         //Act
-        var ratingDetailModel = await _ratingFacadeSut.GetAsync(RatingsSeeds.ICSRating.Id);
+        var ratingDetailModel = await _ratingFacadeSUT.GetAsync(RatingsSeeds.ICSCvikoRatingJohnL.Id);
 
         //Assert
-        AssertRatingDetailModel(RatingsSeeds.ICSRating, ratingDetailModel);
+        AssertRatingDetailModel(RatingsSeeds.ICSCvikoRatingJohnL, ratingDetailModel);
     }
 
     [Fact]
     public async Task Get_RatingDetailModel_IOSRating()
     {
         //Act
-        var ratingDetailModel = await _ratingFacadeSut.GetAsync(RatingsSeeds.IOSRating.Id);
+        var ratingDetailModel = await _ratingFacadeSUT.GetAsync(RatingsSeeds.IOSPolsemkaRatingTerry.Id);
 
         //Assert
-        AssertRatingDetailModel(RatingsSeeds.IOSRating, ratingDetailModel);
+        AssertRatingDetailModel(RatingsSeeds.IOSPolsemkaRatingTerry, ratingDetailModel);
     }
 
     [Fact]
@@ -90,17 +92,17 @@ public sealed class RatingFacadeTests : FacadeTestsBase
         }
 
         // Act
-        var ratingListModel = await _ratingFacadeSut.GetAsync();
+        var ratingListModel = await _ratingFacadeSUT.GetAsync();
         var ratingList = ratingListModel.ToList();
-        var ICSRating = ratingList.SingleOrDefault(r => r.Id == RatingsSeeds.ICSRating.Id);
-        var IOSRating = ratingList.SingleOrDefault(r => r.Id == RatingsSeeds.IOSRating.Id);
+        var ICSRating = ratingList.SingleOrDefault(r => r.Id == RatingsSeeds.ICSCvikoRatingJohnL.Id);
+        var IOSRating = ratingList.SingleOrDefault(r => r.Id == RatingsSeeds.IOSPolsemkaRatingTerry.Id);
 
         // Assert
         Assert.NotNull(ratingListModel);
-        Assert.Equal(2, ratingList.Count);
+        Assert.Equal(9, ratingList.Count);
 
-        AssertRating(RatingsSeeds.ICSRating, ICSRating);
-        AssertRating(RatingsSeeds.IOSRating, IOSRating);
+        AssertRating(RatingsSeeds.ICSCvikoRatingJohnL, ICSRating);
+        AssertRating(RatingsSeeds.IOSPolsemkaRatingTerry, IOSRating);
     }
 
     [Fact]
@@ -108,11 +110,11 @@ public sealed class RatingFacadeTests : FacadeTestsBase
     {
         //Act
 
-        var rating = await _ratingFacadeSut.SaveAsync(_local);
+        var rating = await _ratingFacadeSUT.SaveAsync(_local);
         _local.Id = rating.Id;
 
 
-        var remote = await _ratingFacadeSut.GetAsync(rating.Id);
+        var remote = await _ratingFacadeSUT.GetAsync(rating.Id);
 
         //Assert
         Assert.NotNull(rating);
@@ -123,11 +125,11 @@ public sealed class RatingFacadeTests : FacadeTestsBase
     public async Task Update_RatingDetailModel()
     {
         //Act
-        _local.Id = RatingsSeeds.ICSRating.Id;
-        var rating = await _ratingFacadeSut.SaveAsync(_local);
+        _local.Id = RatingsSeeds.ICSCvikoRatingJohnL.Id;
+        var rating = await _ratingFacadeSUT.SaveAsync(_local);
         _local.Id = rating.Id;
 
-        var remote = await _ratingFacadeSut.GetAsync(rating.Id);
+        var remote = await _ratingFacadeSUT.GetAsync(rating.Id);
 
         //Assert
         Assert.NotNull(rating);
@@ -138,9 +140,9 @@ public sealed class RatingFacadeTests : FacadeTestsBase
     public async Task Delete_Existing_RatingDetailModel()
     {
         //Act
-        await _ratingFacadeSut.DeleteAsync(RatingsSeeds.ICSRating.Id);
+        await _ratingFacadeSUT.DeleteAsync(RatingsSeeds.ICSCvikoRatingJohnL.Id);
 
-        var removed = await _ratingFacadeSut.GetAsync(RatingsSeeds.ICSRating.Id);
+        var removed = await _ratingFacadeSUT.GetAsync(RatingsSeeds.ICSCvikoRatingJohnL.Id);
 
         //Assert
         Assert.Null(removed);
@@ -152,10 +154,65 @@ public sealed class RatingFacadeTests : FacadeTestsBase
         //Act
         var exception = await Assert.ThrowsAsync<InvalidOperationException>(async () =>
         {
-            await _ratingFacadeSut.DeleteAsync(new Guid());
+            await _ratingFacadeSUT.DeleteAsync(new Guid());
         });
 
         //Assert
         Assert.Equal($"Sequence contains no elements", exception.Message);
+    }
+
+    [Fact]
+    public async Task Filter_Ratings_By_Student_Name_Terry()
+    {
+        // Arrange
+        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "terry" };
+
+        // Act
+        IEnumerable<RatingListModel> listModels = await _ratingFacadeSUT.GetAsync(preferences);
+
+        // Assert
+        Assert.Contains(listModels, s => s.StudentName == StudentSeeds.Terry.Name);
+    }
+
+    [Fact]
+    public async Task Filter_Ratings_By_Full_Student_Name_Surname_First()
+    {
+        // Arrange
+        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = " Alderson Elliot" };
+
+        // Act
+        IEnumerable<RatingListModel> listModels = await _ratingFacadeSUT.GetAsync(preferences);
+        
+
+        // Assert
+        Assert.Contains(listModels, s => s.StudentName == StudentSeeds.Elliot.Name);
+    }
+
+    [Fact]
+    public async Task Filter_Ratings_By_Student_Name_NonExisting()
+    {
+        // Arrange
+        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "Larry" };
+
+        // Act
+        IEnumerable<RatingListModel> listModels = await _ratingFacadeSUT.GetAsync(preferences);
+
+        // Assert
+        Assert.Empty(listModels);
+    }
+
+    [Fact]
+    public async Task Sort_Ratings_Of_Student_By_Points()
+    {
+        // Arrange
+        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "Terry", SortByPropertyName = nameof(RatingListModel.Points) };
+
+        // Act
+        IEnumerable<RatingListModel> listModels = await _ratingFacadeSUT.GetAsync(preferences);
+
+        // Assert
+        Assert.NotNull(listModels);
+        Assert.NotEmpty(listModels);
+        SortAssert.IsSorted(listModels.ToList(), nameof(RatingListModel.Points), false);
     }
 }

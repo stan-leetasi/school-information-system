@@ -1,10 +1,10 @@
 using project.BL.Mappers;
+using project.BL.Filters;
 using project.Common.Tests;
 using project.Common.Tests.Factories;
 using project.DAL;
 using project.DAL.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
-using Xunit;
 using Xunit.Abstractions;
 
 namespace project.BL.Tests;
@@ -23,6 +23,11 @@ public class FacadeTestsBase : IAsyncLifetime
         ActivityModelMapper = new ActivityModelMapper(RatingModelMapper);
         SubjectModelMapper = new SubjectModelMapper(ActivityModelMapper, StudentModelMapper);
 
+        StudentModelFilter = new StudentModelFilter();
+        SubjectModelFilter = new SubjectModelFilter();
+        ActivityModelFilter = new ActivityModelFilter();
+        RatingModelFilter = new RatingModelFilter();
+
         UnitOfWorkFactory = new UnitOfWorkFactory(DbContextFactory);
     }
 
@@ -32,6 +37,11 @@ public class FacadeTestsBase : IAsyncLifetime
     protected SubjectModelMapper SubjectModelMapper { get; }
     protected RatingModelMapper RatingModelMapper { get; }
     protected ActivityModelMapper ActivityModelMapper { get; }
+
+    protected StudentModelFilter StudentModelFilter { get; }
+    protected SubjectModelFilter SubjectModelFilter { get; }
+    protected ActivityModelFilter ActivityModelFilter { get; }
+    protected RatingModelFilter RatingModelFilter { get; }
 
     protected UnitOfWorkFactory UnitOfWorkFactory { get; }
 

@@ -1,0 +1,31 @@
+trigger:
+  branches:
+    include:
+      - main
+      - feature/BL
+      - CI
+
+pool:
+  vmImage: 'windows-latest'
+
+steps:
+  - task: DotNetCoreCLI@2
+    displayName: 'Restore dependencies'
+    inputs:
+      command: 'restore'
+      projects: '**/*.csproj'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Build'
+    inputs:
+      command: 'build'
+      projects: '**/*.csproj'
+      #arguments: '--configuration Release /warnaserror'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Run tests'
+    inputs:
+      command: 'test'
+      projects: '**/*Tests.csproj'
+      #arguments: '--configuration Release'
+      publishTestResults: true

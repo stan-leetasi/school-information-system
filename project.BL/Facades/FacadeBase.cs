@@ -7,24 +7,31 @@ using project.DAL.Mappers;
 using project.DAL.Repositories;
 using project.DAL.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
+using project.BL.Filters;
 
 namespace project.BL.Facades;
 
 public abstract class
-    FacadeBase<TEntity, TListModel, TDetailModel, TEntityMapper>(
+    FacadeBase<TEntity, TListModel, TDetailModel, TEntityMapper, TListModelInDetail>(
         IUnitOfWorkFactory unitOfWorkFactory,
-        IModelMapper<TEntity, TListModel, TDetailModel> modelMapper)
+        IModelMapper<TEntity, TListModel, TDetailModel> modelMapper,
+        IListModelFilter<TListModel> listModelFilter,
+        IListModelFilter<TListModelInDetail> detailModelFilter)
     : IFacade<TEntity, TListModel, TDetailModel>
     where TEntity : class, IEntity
     where TListModel : IModel
     where TDetailModel : class, IModel
     where TEntityMapper : IEntityMapper<TEntity>, new()
+    where TListModelInDetail : IModel
 {
     protected readonly IModelMapper<TEntity, TListModel, TDetailModel> ModelMapper = modelMapper;
     protected readonly IUnitOfWorkFactory UnitOfWorkFactory = unitOfWorkFactory;
 
     protected virtual List<string> IncludesNavigationPathDetails => [];
     protected virtual List<string> IncludesNavigationPathDetailsListModels => [];
+
+    protected abstract IEnumerable<TListModelInDetail> GetListModelsInDetailModel(TDetailModel detailModel);
+    protected abstract TDetailModel SetListModelsInDetailModel(TDetailModel detailModel, IEnumerable<TListModelInDetail> newListModels);
 
     public async Task DeleteAsync(Guid id)
     {
@@ -40,36 +47,40 @@ public abstract class
         }
     }
 
-    public virtual async Task<TDetailModel?> GetAsync(Guid id)
+    public virtual async Task<TDetailModel?> GetAsync(Guid id, FilterPreferences? filterPreferences = null)
     {
         await using IUnitOfWork uow = UnitOfWorkFactory.Create();
 
-        IQueryable<TEntity> query = uow.GetRepository<TEntity, TEntityMapper>().Get();
-
-        foreach (var navInclude in IncludesNavigationPathDetails)
-        {
-            query = query.Include(navInclude);
-        }
+        IQueryable<TEntity> query = GetEntityQuery(uow, IncludesNavigationPathDetails);
 
         TEntity? entity = await query.SingleOrDefaultAsync(e => e.Id == id);
 
-        return entity is null
-            ? null
-            : ModelMapper.MapToDetailModel(entity);
-    }
+        if (entity is null) return null;
+        TDetailModel detailModel = ModelMapper.MapToDetailModel(entity);
 
-    public virtual async Task<IEnumerable<TListModel>> GetAsync()
-    {
-        await using IUnitOfWork uow = UnitOfWorkFactory.Create();
-        
-        IQueryable<TEntity> query = uow.GetRepository<TEntity, TEntityMapper>().Get();
-
-        foreach (var navInclude in IncludesNavigationPathDetailsListModels)
+        if (filterPreferences is not null)
         {
-            query = query.Include(navInclude);
+            IEnumerable<TListModelInDetail> listModelsInside = detailModelFilter.ApplyFilter(GetListModelsInDetailModel(detailModel), filterPreferences);
+            detailModel = SetListModelsInDetailModel(detailModel, listModelsInside);
         }
 
-        return ModelMapper.MapToListModel(await query.ToListAsync());
+        return detailModel;
+    }
+
+    public virtual async Task<IEnumerable<TListModel>> GetAsync(FilterPreferences? filterPreferences = null)
+    {
+        await using IUnitOfWork uow = UnitOfWorkFactory.Create();
+
+        IQueryable<TEntity> query = GetEntityQuery(uow, IncludesNavigationPathDetailsListModels);
+
+        var listModels = ModelMapper.MapToListModel(await query.ToListAsync()); ;
+
+        if (filterPreferences is not null)
+        {
+            listModels = listModelFilter.ApplyFilter(listModels, filterPreferences);
+        }
+
+        return listModels;
     }
 
     public virtual async Task<TDetailModel> SaveAsync(TDetailModel model)
@@ -98,6 +109,18 @@ public abstract class
         await uow.CommitAsync();
 
         return result;
+    }
+
+    private IQueryable<TEntity> GetEntityQuery(IUnitOfWork uow, List<string> includesNavigationPath)
+    {
+        IQueryable<TEntity> query = uow.GetRepository<TEntity, TEntityMapper>().Get();
+
+        foreach (var navInclude in includesNavigationPath)
+        {
+            query = query.Include(navInclude);
+        }
+
+        return query;
     }
 
     /// <summary>

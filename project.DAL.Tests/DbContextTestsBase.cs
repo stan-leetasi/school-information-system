@@ -9,35 +9,29 @@ using Xunit.Abstractions;
 using Microsoft.EntityFrameworkCore;
 
 namespace project.DAL.Tests;
-public class DbContextTestsBase : IAsyncLifetime // Base class for setting up DbContext-related tests
+public class DbContextTestsBase : IAsyncLifetime 
 {
-    protected DbContextTestsBase(ITestOutputHelper output) // Constructor for initializing test output and DbContext-related components
+    protected DbContextTestsBase(ITestOutputHelper output) 
     {
         XUnitTestOutputConverter converter = new(output); // Redirect console output to XUnit test output
         Console.SetOut(converter);
 
-        // Initialize DbContext factory with SQLite for testing
         DbContextFactory = new DbContextSqLiteTestingFactory(GetType().FullName!, seedTestingData: true);
 
-        // Create a new instance of the DbContext for testing
-        ProjectDbContextSUT = DbContextFactory.CreateDbContext(); 
+        ProjectDbContextSUT = DbContextFactory.CreateDbContext();
     }
 
     protected IDbContextFactory<ProjectDbContext> DbContextFactory { get; }
     protected ProjectDbContext ProjectDbContextSUT { get; }
 
-    // Initialize the database before each test
     public async Task InitializeAsync()
     {
-        // Delete and create the database before each test
         await ProjectDbContextSUT.Database.EnsureDeletedAsync();
         await ProjectDbContextSUT.Database.EnsureCreatedAsync();
     }
 
-    // Dispose of resources after each test
     public async Task DisposeAsync()
     {
-        // Delete the database and dispose DbContet after each test
         await ProjectDbContextSUT.Database.EnsureDeletedAsync();
         await ProjectDbContextSUT.DisposeAsync();
     }

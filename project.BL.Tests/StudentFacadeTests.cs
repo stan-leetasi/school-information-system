@@ -53,7 +53,7 @@ public sealed class StudentFacadeTests : FacadeTestsBase
 
         Student.Name = "Maurice";
         Student.Surname = "Moss";
-        Student.ImageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6X-H8hmtdTRXhVZCMLWI6JS6H4uuaRvLfLMUFoEl9LA&s";
+        Student.ImageUrl = new Uri ("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6X-H8hmtdTRXhVZCMLWI6JS6H4uuaRvLfLMUFoEl9LA&s");
 
         // Act
         var SavedStudent = await _studentFacadeSUT.SaveAsync(Student);
@@ -75,7 +75,7 @@ public sealed class StudentFacadeTests : FacadeTestsBase
 
         var NewStudentName = "Jen";
         var NewStudentSurname = "Barber";
-        var NewStudentImageUrl = "https://static.wikia.nocookie.net/offandonagain/images/7/76/The_it_crowd_jen.jpg/revision/latest/scale-to-width-down/250?cb=20091123145816";
+        var NewStudentImageUrl = new Uri ("https://static.wikia.nocookie.net/offandonagain/images/7/76/The_it_crowd_jen.jpg/revision/latest/scale-to-width-down/250?cb=20091123145816");
 
         var NewStudent = new StudentDetailModel()
         {

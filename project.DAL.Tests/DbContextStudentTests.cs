@@ -19,7 +19,7 @@ public class DbContextStudentTests(ITestOutputHelper output) : DbContextTestsBas
             Id = Guid.Parse("af1c534f-9e97-4c3a-a17a-f446328b460c"),
             Name = "Michael",
             Surname = "Mouse",
-            ImageUrl = "www.photots.com/micheal.jpeg"
+            ImageUrl = new Uri("https://static.wikia.nocookie.net/villains/images/5/5e/Vlcsnap-2023-09-15-19h20m43s965.png/revision/latest/smart/width/386/height/259?cb=20230915232245")
         };
 
         // Act

@@ -4,6 +4,7 @@ using Xunit.Abstractions;
 using project.DAL.Entities;
 using project.Common.Tests.Seeds;
 using project.BL.Filters;
+using project.Common.Tests;
 
 namespace project.BL.Tests;
 
@@ -198,5 +199,20 @@ public sealed class RatingFacadeTests : FacadeTestsBase
 
         // Assert
         Assert.Empty(listModels);
+    }
+
+    [Fact]
+    public async Task Sort_Ratings_Of_Student_By_Points()
+    {
+        // Arrange
+        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "Terry", SortByPropertyName = nameof(RatingListModel.Points) };
+
+        // Act
+        IEnumerable<RatingListModel> listModels = await _ratingFacadeSUT.GetAsync(preferences);
+
+        // Assert
+        Assert.NotNull(listModels);
+        Assert.NotEmpty(listModels);
+        SortAssert.IsSorted(listModels.ToList(), nameof(RatingListModel.Points), false);
     }
 }

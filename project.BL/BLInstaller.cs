@@ -2,6 +2,7 @@
 using project.BL.Mappers;
 using project.DAL.UnitOfWork;
 using Microsoft.Extensions.DependencyInjection;
+using project.BL.Filters;
 
 namespace project.BL;
 
@@ -15,6 +16,11 @@ public static class BLInstaller
         services.AddSingleton<SubjectModelMapper>();
         services.AddSingleton<ActivityModelMapper>();
         services.AddSingleton<RatingModelMapper>();
+
+        services.AddSingleton<StudentModelFilter>();
+        services.AddSingleton<SubjectModelFilter>();
+        services.AddSingleton<ActivityModelFilter>();
+        services.AddSingleton<RatingModelFilter>();
 
         services.AddSingleton<IStudentFacade, StudentFacade>();
         services.AddSingleton<ISubjectFacade, SubjectFacade>();

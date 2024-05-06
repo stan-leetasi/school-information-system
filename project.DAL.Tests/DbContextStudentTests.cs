@@ -19,7 +19,7 @@ public class DbContextStudentTests(ITestOutputHelper output) : DbContextTestsBas
             Id = Guid.Parse("af1c534f-9e97-4c3a-a17a-f446328b460c"),
             Name = "Michael",
             Surname = "Mouse",
-            ImageUrl = "www.photots.com/micheal.jpeg"
+            ImageUrl = new Uri("https://static.wikia.nocookie.net/villains/images/5/5e/Vlcsnap-2023-09-15-19h20m43s965.png/revision/latest/smart/width/386/height/259?cb=20230915232245")
         };
 
         // Act
@@ -38,7 +38,7 @@ public class DbContextStudentTests(ITestOutputHelper output) : DbContextTestsBas
     {
         // Arrange
         await using var dbx = await DbContextFactory.CreateDbContextAsync();
-        var Student = await dbx.Students.SingleAsync(i => i.Id == StudentSeeds.John.Id);
+        var Student = await dbx.Students.SingleAsync(i => i.Id == StudentSeeds.JohnL.Id);
 
         Assert.NotNull(Student);
 
@@ -58,7 +58,7 @@ public class DbContextStudentTests(ITestOutputHelper output) : DbContextTestsBas
     public async Task Delete_Student_By_Id()
     {
         // Arrange
-        var StudentToDeleteId = StudentSeeds.John.Id;
+        var StudentToDeleteId = StudentSeeds.JohnL.Id;
 
         // Act
         ProjectDbContextSUT.Remove(ProjectDbContextSUT.Students.Single(i => i.Id == StudentToDeleteId));
@@ -75,7 +75,7 @@ public class DbContextStudentTests(ITestOutputHelper output) : DbContextTestsBas
         var entities = await ProjectDbContextSUT.Students.ToArrayAsync();
 
         // Assert
-        DeepAssert.Contains(StudentSeeds.John, entities, nameof(StudentEntity.Subjects), nameof(StudentEntity.Ratings));
+        DeepAssert.Contains(StudentSeeds.JohnL, entities, nameof(StudentEntity.Subjects), nameof(StudentEntity.Ratings));
     }
 
 
@@ -83,10 +83,10 @@ public class DbContextStudentTests(ITestOutputHelper output) : DbContextTestsBas
     public async Task Get_ById_Student_John()
     {
         // Act
-        var entity = await ProjectDbContextSUT.Students.SingleAsync(i => i.Id == StudentSeeds.John.Id);
+        var entity = await ProjectDbContextSUT.Students.SingleAsync(i => i.Id == StudentSeeds.JohnL.Id);
 
         // Assert
-        DeepAssert.Equal(StudentSeeds.John, entity, nameof(StudentEntity.Subjects), nameof(StudentEntity.Ratings));
+        DeepAssert.Equal(StudentSeeds.JohnL, entity, nameof(StudentEntity.Subjects), nameof(StudentEntity.Ratings));
     }
 
     [Fact]

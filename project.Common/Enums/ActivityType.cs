@@ -12,4 +12,5 @@ public enum ActivityType
     Exercise = 1,
     FinalExam = 2,
     MidtermExam = 3,
+    ProjectDefense = 4
 }

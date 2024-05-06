@@ -6,7 +6,7 @@ public record StudentEntity : IEntity
 
     public required string Name { get; set; }
     public required string Surname { get; set; }
-    public string? ImageUrl { get; set; }
+    public Uri? ImageUrl { get; set; }
 
     public ICollection<StudentSubjectEntity> Subjects { get; init; } = new List<StudentSubjectEntity>();
 

@@ -13,7 +13,7 @@ public record ActivityAdminDetailModel : ModelBase
     public required Guid SubjectId { get; set; }
     public required string SubjectName { get; init; }
 
-    public ObservableCollection<RatingListModel> Ratings { get; init; } = new();
+    public ObservableCollection<RatingListModel> Ratings { get; set; } = new();
 
     public static ActivityAdminDetailModel Empty => new()
     {

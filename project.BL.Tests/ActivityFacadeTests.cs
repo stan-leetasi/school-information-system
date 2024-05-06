@@ -9,6 +9,7 @@ using Xunit.Abstractions;
 using System.Collections.Generic;
 using System.Diagnostics;
 using project.Common.Enums;
+using project.BL.Filters;
 
 namespace project.BL.Tests;
 
@@ -18,19 +19,19 @@ public sealed class ActivityFacadeTests : FacadeTestsBase
 
     public ActivityFacadeTests(ITestOutputHelper output) : base(output)
     {
-        _activityFacadeSUT = new ActivityFacade(UnitOfWorkFactory, ActivityModelMapper);
+        _activityFacadeSUT = new ActivityFacade(UnitOfWorkFactory, ActivityModelMapper, ActivityModelFilter, RatingModelFilter);
     }
 
     [Fact]
     public async Task Get_ActivityStudentDetailModel_ICS_John()
     {
         //Act
-        var ICSCviko = await _activityFacadeSUT.GetAsyncStudentDetail(ActivitiesSeeds.ICSCviko.Id, StudentSeeds.John.Id);
+        var ICSCviko = await _activityFacadeSUT.GetAsyncStudentDetail(ActivitiesSeeds.ICSCviko.Id, StudentSeeds.JohnL.Id);
 
         //Assert
         Assert.True(ICSCviko!.IsRegistered);
-        Assert.Equal(RatingsSeeds.ICSRating.Points, ICSCviko.Points);
-        Assert.Equal(RatingsSeeds.ICSRating.Notes, ICSCviko.Notes);
+        Assert.Equal(RatingsSeeds.ICSCvikoRatingJohnL.Points, ICSCviko.Points);
+        Assert.Equal(RatingsSeeds.ICSCvikoRatingJohnL.Notes, ICSCviko.Notes);
     }
 
     [Fact]
@@ -41,7 +42,7 @@ public sealed class ActivityFacadeTests : FacadeTestsBase
 
         //Assert
         Assert.True(ICSCviko != null);
-        Assert.Contains(ICSCviko.Ratings, r => r.Id == RatingsSeeds.ICSRating.Id);
+        Assert.Contains(ICSCviko.Ratings, r => r.Id == RatingsSeeds.ICSCvikoRatingJohnL.Id);
     }
 
     [Fact]
@@ -112,8 +113,8 @@ public sealed class ActivityFacadeTests : FacadeTestsBase
     public async Task Register_Student_For_Activity()
     {
         // Arrange
-        var subjectId = SubjectSeeds.ICS.Id;
-        var activityId = ActivitiesSeeds.ICSCviko.Id;
+        var subjectId = SubjectSeeds.ITS.Id;
+        var activityId = ActivitiesSeeds.ITSSkuska.Id;
         var studentId = StudentSeeds.Terry.Id;
 
         // Act
@@ -124,11 +125,11 @@ public sealed class ActivityFacadeTests : FacadeTestsBase
         //Assert
         Assert.NotNull(TerryICSCviko);
         Assert.True(TerryICSCviko!.IsRegistered);
-        Assert.Equal(SubjectSeeds.ICS.Id, TerryICSCviko.SubjectId);
-        Assert.Equal(SubjectSeeds.ICS.Name, TerryICSCviko.SubjectName);
+        Assert.Equal(SubjectSeeds.ITS.Id, TerryICSCviko.SubjectId);
+        Assert.Equal(SubjectSeeds.ITS.Name, TerryICSCviko.SubjectName);
         Assert.Equal(0, TerryICSCviko.Points);
         Assert.Equal("", TerryICSCviko.Notes);
-        Assert.Equal(ActivityType.Exercise,TerryICSCviko.Type);
+        Assert.Equal(ActivityType.FinalExam,TerryICSCviko.Type);
     }
 
     [Fact]
@@ -137,7 +138,7 @@ public sealed class ActivityFacadeTests : FacadeTestsBase
         // Act & Assert
         var exception = await Assert.ThrowsAsync<InvalidOperationException>(async () =>
         {
-            await _activityFacadeSUT.RegisterStudent(ActivitiesSeeds.ICSCviko.Id, StudentSeeds.John.Id);
+            await _activityFacadeSUT.RegisterStudent(ActivitiesSeeds.ICSCviko.Id, StudentSeeds.JohnL.Id);
         });
 
         Assert.Equal("Student is already registered.", exception.Message);
@@ -163,12 +164,12 @@ public sealed class ActivityFacadeTests : FacadeTestsBase
     public async Task Unregister_Student_From_Activity()
     {
         // Act
-        await _activityFacadeSUT.UnregisterStudent(ActivitiesSeeds.ICSCviko.Id, StudentSeeds.John.Id);
+        await _activityFacadeSUT.UnregisterStudent(ActivitiesSeeds.ICSCviko.Id, StudentSeeds.JohnL.Id);
 
         //Assert
         await Assert.ThrowsAsync<InvalidOperationException>(async () =>
         {
-            await _activityFacadeSUT.GetAsyncStudentDetail(ActivitiesSeeds.ICSCviko.Id, StudentSeeds.John.Id);
+            await _activityFacadeSUT.GetAsyncStudentDetail(ActivitiesSeeds.ICSCviko.Id, StudentSeeds.JohnL.Id);
         });
     }
 
@@ -178,7 +179,7 @@ public sealed class ActivityFacadeTests : FacadeTestsBase
         // Act & Assert
         var exception = await Assert.ThrowsAsync<InvalidOperationException>(async () =>
         {
-            await _activityFacadeSUT.UnregisterStudent(ActivitiesSeeds.ICSCviko.Id, StudentSeeds.Terry.Id);
+            await _activityFacadeSUT.UnregisterStudent(ActivitiesSeeds.ITSSkuska.Id, StudentSeeds.Terry.Id);
         });
 
         Assert.Equal("Registration does not exist.", exception.Message);
@@ -224,6 +225,7 @@ public sealed class ActivityFacadeTests : FacadeTestsBase
             await _activityFacadeSUT.UnregisterStudent(activityId, StudentSeeds.Terry.Id);
         });
     }
+
 }
 
 

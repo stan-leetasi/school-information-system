@@ -1,6 +1,8 @@
 ﻿using project.App.Models;
 using project.App.ViewModels;
+using project.App.ViewModels.Subject;
 using project.App.Views;
+using project.App.Views.Subject;
 
 namespace project.App.Services;
 
@@ -11,6 +13,7 @@ public class NavigationService : INavigationService
     {
         new("//login", typeof(LoginPage), typeof(ViewModelBase)), // TODO: change ViewModels
         new("//students", typeof(MainPage), typeof(ViewModelBase)), // TODO: change ViewModels
+        new("//subjects", typeof(SubjectListView), typeof(SubjectListViewModel)),
     };
 
     public async Task GoToAsync<TViewModel>()

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:ContentPageBase xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:views="clr-namespace:project.App.Views"
+                       xmlns:m="clr-namespace:project.BL.Models;assembly=project.BL"
+                       xmlns:vm="clr-namespace:project.App.ViewModels.Subject"
+                       x:Class="project.App.Views.Subject.SubjectListView"
+                       x:DataType="vm:SubjectListViewModel">
+    <VerticalStackLayout>
+        <Grid HorizontalOptions="Fill" ColumnDefinitions="Auto,*,Auto">
+            <Button Text="Refresh" Grid.Column="0"/>
+            <SearchBar x:Name="searchBar" Placeholder="Search Subjects" WidthRequest="600" Grid.Column="1"/>
+            <Button Text="Add" Grid.Column="2"/>
+        </Grid>
+
+        <Label Text="List of Subjects" FontSize="Large" HorizontalOptions="Center"/>
+
+        <Grid HorizontalOptions="Fill" ColumnSpacing="20" ColumnDefinitions="*,*,*">
+            <Button Text="Acronym" Grid.Column="0"/>
+            <Button Text="Name" Grid.Column="1"/>
+            <Button Text="Is Registered" Grid.Column="2"/>
+        </Grid>
+
+        <ScrollView>
+            <StackLayout>
+                <ListView ItemsSource="{Binding Subjects}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="m:SubjectListModel">
+                            <ViewCell>
+                                <Grid HorizontalOptions="Fill" ColumnSpacing="20" ColumnDefinitions="*,*,*">
+                                    <Label Text="{Binding Acronym}" Grid.Column="0"/>
+                                    <Label Text="{Binding Name}" Grid.Column="1"/>
+                                    <CheckBox IsChecked="{Binding IsRegistered}" Grid.Column="2" HorizontalOptions="CenterAndExpand"/>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </ScrollView>
+    </VerticalStackLayout>
+
+</views:ContentPageBase>

@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:project.App"
     xmlns:views="clr-namespace:project.App.Views"
+    xmlns:viewsSubject="clr-namespace:project.App.Views.Subject"
     Shell.FlyoutBehavior="Disabled"
     x:Name="AppShellRoot"
     Title="project.App">
@@ -20,7 +21,8 @@
         </MenuBarItem>
     </Shell.MenuBarItems>
 
-    <ShellContent Title="Home" ContentTemplate="{DataTemplate views:LoginPage}" Route="login" />
+    <ShellContent Title="Log In Screen" ContentTemplate="{DataTemplate views:LoginPage}" Route="login" />
     <ShellContent Title="Home" ContentTemplate="{DataTemplate local:MainPage}" Route="students" />
+    <ShellContent Title="Subjects" ContentTemplate="{DataTemplate viewsSubject:SubjectListView}" Route="subjects" />
 
 </Shell>

@@ -20,7 +20,7 @@ public partial class AppShell : Shell
 
     [RelayCommand]
     private async Task GoToSubjects()
-        => await _navigationService.GoToAsync("//students");
+        => await _navigationService.GoToAsync("//subjects");
     [RelayCommand]
     private async Task LogOut()
         => await _navigationService.LogOut();

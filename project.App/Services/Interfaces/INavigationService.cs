@@ -6,6 +6,7 @@ namespace project.App.Services;
 public interface INavigationService
 {
     public Guid? LoggedInUser { get; }
+    public bool IsStudentLoggedIn { get; }
     IEnumerable<RouteModel> Routes { get; }
 
     Task GoToAsync<TViewModel>(IDictionary<string, object?> parameters)

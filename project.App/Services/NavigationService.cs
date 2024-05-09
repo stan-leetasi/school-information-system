@@ -9,6 +9,7 @@ namespace project.App.Services;
 public class NavigationService : INavigationService
 {
     public Guid? LoggedInUser { get; protected set; } = null;
+    public bool IsStudentLoggedIn => LoggedInUser != null;
     public IEnumerable<RouteModel> Routes { get; } = new List<RouteModel>
     {
         new("//login", typeof(LoginPage), typeof(ViewModelBase)), // TODO: change ViewModels

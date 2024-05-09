@@ -13,7 +13,7 @@
             <SearchBar Placeholder="Filter subjects" 
                        Text="{Binding FilterPreferences.SearchedTerm}"
                        WidthRequest="600" Grid.Column="1"/>
-            <Button Text="Add" Grid.Column="2"/>
+            <Button Text="Add" Grid.Column="2" Command="{Binding AddSubjectCommand}"/>
         </Grid>
 
         <Label Text="List of Subjects" FontSize="Large" HorizontalOptions="Center"/>

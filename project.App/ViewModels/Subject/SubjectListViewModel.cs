@@ -1,5 +1,4 @@
-﻿
-using CommunityToolkit.Maui.Core.Extensions;
+﻿using CommunityToolkit.Maui.Core.Extensions;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using project.App.Messages;
@@ -12,14 +11,15 @@ using System.ComponentModel;
 
 namespace project.App.ViewModels.Subject;
 
-public partial class SubjectListViewModel : ViewModelBase, IRecipient<UserLoggedIn>
+public partial class SubjectListViewModel : TableViewModelBase, IRecipient<UserLoggedIn>
 {
+    protected override FilterPreferences DefaultFilterPreferences =>
+        FilterPreferences.Default with { SortByPropertyName = nameof(SubjectListModel.Acronym) };
+
     private readonly ISubjectFacade _subjectFacade;
     private readonly INavigationService _navigationService;
-    public ObservableCollection<SubjectListModel> Subjects { get; set; } = null!;
+    public ObservableCollection<SubjectListModel> Subjects { get; set; } = [];
     public bool StudentView { get; protected set; }
-    private readonly FilterPreferences _defaultFilterPreferences = FilterPreferences.Default with { SortByPropertyName = nameof(SubjectListModel.Acronym) };
-    public FilterPreferences FilterPreferences { get; set; }
 
     public SubjectListViewModel(ISubjectFacade subjectFacade,
         INavigationService navigationService,
@@ -29,13 +29,10 @@ public partial class SubjectListViewModel : ViewModelBase, IRecipient<UserLogged
         _navigationService = navigationService;
 
         StudentView = _navigationService.IsStudentLoggedIn;
-        FilterPreferences = _defaultFilterPreferences;
-        FilterPreferences.PropertyChanged += HandleSearchBarChange!;
     }
 
     protected override async Task LoadDataAsync()
     {
-        await base.LoadDataAsync();
         Subjects = (await _subjectFacade.GetAsyncListModels(studentId: null, filterPreferences: FilterPreferences)).ToObservableCollection();
 
         foreach (var subject in Subjects)
@@ -61,50 +58,28 @@ public partial class SubjectListViewModel : ViewModelBase, IRecipient<UserLogged
         }
     }
 
-    private async Task SortList(string propertyName)
-    {
-        if (FilterPreferences.SortByPropertyName == propertyName)
-        {
-            FilterPreferences.DescendingOrder = !FilterPreferences.DescendingOrder;
-        }
-        else
-        {
-            FilterPreferences.SortByPropertyName = propertyName;
-            FilterPreferences.DescendingOrder = false;
-        }
-        await LoadDataAsync();
-    }
-
-    private async void HandleSearchBarChange(object sender, PropertyChangedEventArgs e)
-    {
-        await LoadDataAsync();
-    }
+    [RelayCommand]
+    private async Task Refresh() => await LoadDataAsync();
 
     [RelayCommand]
-    private async Task Refresh()
-    {
-        await LoadDataAsync();
-    }
+    private Task AddSubject() => Task.CompletedTask;
 
     [RelayCommand]
-    private Task GoToDetailAsync(Guid id)
-    {
-        return Task.CompletedTask;
-    }
+    private Task GoToDetailAsync(Guid id) => Task.CompletedTask;
 
     [RelayCommand]
-    private async Task SortByAcronym() => await SortList(nameof(SubjectListModel.Acronym));
+    private async Task SortByAcronym() => await ApplyNewSorting(nameof(SubjectListModel.Acronym));
 
     [RelayCommand]
-    private async Task SortByName() => await SortList(nameof(SubjectListModel.Name));
+    private async Task SortByName() => await ApplyNewSorting(nameof(SubjectListModel.Name));
 
     [RelayCommand]
-    private async Task SortByRegistered() => await SortList(nameof(SubjectListModel.IsRegistered));
+    private async Task SortByRegistered() => await ApplyNewSorting(nameof(SubjectListModel.IsRegistered));
 
-    public void Receive(UserLoggedIn message)
+    public async void Receive(UserLoggedIn message)
     {
         StudentView = _navigationService.IsStudentLoggedIn;
-        FilterPreferences = _defaultFilterPreferences;
-        FilterPreferences.PropertyChanged += HandleSearchBarChange!;
+        ResetFilterPreferences();
+        await LoadDataAsync();
     }
 }

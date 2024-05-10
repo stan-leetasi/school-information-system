@@ -82,6 +82,9 @@
 	  <MauiXaml Update="Views\ContentPageBase.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\Student\StudentDetailView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\Subject\SubjectListView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -94,6 +97,9 @@
 
 
 	<ItemGroup>
+	  <Compile Update="Views\Student\StudentDetailView.xaml.cs">
+	    <DependentUpon>StudentDetailView.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\Subject\SubjectListView.xaml.cs">
 	    <DependentUpon>SubjectListView.xaml</DependentUpon>
 	  </Compile>

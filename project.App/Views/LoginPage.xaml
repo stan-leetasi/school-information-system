@@ -1,8 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="project.App.Views.LoginPage"
-             Shell.NavBarIsVisible="false">
+<views:ContentPageBase xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:views="clr-namespace:project.App.Views"
+                       xmlns:vm="clr-namespace:project.App.ViewModels"
+                       x:Class="project.App.Views.LoginPage"
+                       x:DataType="vm:StudentLoginViewModel"
+                       Shell.NavBarIsVisible="false">
     
     <StackLayout>
         <Grid>
@@ -28,16 +31,18 @@
             <Button Grid.Row="0" 
                     Grid.Column="2" 
                     Text="Login as admin" 
-                    Clicked="OnAdminLogin" 
+                    Command="{Binding SelectUserCommand}"
+                    CommandParameter="{x:Null}"
                     Margin="20" />
         </Grid>
         
-        <Picker Title="Select student" 
+        <Picker Title="   Select student:   " 
                 HorizontalOptions="CenterAndExpand"
                 VerticalOptions="CenterAndExpand" 
                 FontSize="Large"
                 ItemsSource="{Binding Students}"
-                SelectedIndexChanged="OnPickerSelectedItemChanged">
-        </Picker>
+                ItemDisplayBinding="{Binding ., Converter={StaticResource StudentListModelToStringConverter}}"
+                SelectedItem="{Binding SelectedStudent}" />
+        
     </StackLayout>
-</ContentPage>
+</views:ContentPageBase>

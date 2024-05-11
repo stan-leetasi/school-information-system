@@ -12,7 +12,7 @@ public class NavigationService : INavigationService
     public bool IsStudentLoggedIn => LoggedInUser != null;
     public IEnumerable<RouteModel> Routes { get; } = new List<RouteModel>
     {
-        new("//login", typeof(LoginPage), typeof(ViewModelBase)), // TODO: change ViewModels
+        new("//login", typeof(LoginPage), typeof(StudentLoginViewModel)),
         new("//students", typeof(MainPage), typeof(ViewModelBase)), // TODO: change ViewModels
         new("//subjects", typeof(SubjectListView), typeof(SubjectListViewModel)),
     };

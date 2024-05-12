@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<views:ContentPageBase xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                      xmlns:views="using:project.App.Views"
+                      xmlns:m="clr-namespace:project.BL.Models;assembly=project.BL"
+                      xmlns:vm="clr-namespace:project.App.ViewModels.Rating"
+                      x:Class="project.App.Views.Rating.RatingDetailView"   
+                      x:Name="RatingDetail"
+                      x:DataType="vm:RatingDetailViewModel">
+    <StackLayout>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="1" 
+                    Text="Edit" 
+                    Command="{Binding GoToEditCommand}" 
+                    Margin="0, 0, 50, 0" />
+        </Grid>
+        
+        <Grid HorizontalOptions="Center" 
+              VerticalOptions="Center">
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="0" 
+                   Text="{Binding Rating.ActivityName}"
+                   Margin="20, 10" />
+            <Label Grid.Row="1" 
+                   Text="{Binding Rating.StudentName}" 
+                   Margin="20, 10" />
+            <Entry Grid.Row="2" 
+                   Placeholder="Points: -" 
+                   Text="{Binding Rating.Points, StringFormat='Points: {0}'}" 
+                   Margin="20, 10" 
+                   IsReadOnly="true" />
+            <Editor Grid.Row="3" 
+                    Placeholder="Note" 
+                    Text="{Binding Rating.Notes}" 
+                    Margin="20, 10" 
+                    MinimumHeightRequest="100"
+                    MinimumWidthRequest="250"
+                    MaximumWidthRequest="500"
+                    IsReadOnly="true" />
+        </Grid>
+
+    </StackLayout>
+</views:ContentPageBase>

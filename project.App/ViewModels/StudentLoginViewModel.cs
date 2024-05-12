@@ -11,7 +11,6 @@ public partial class StudentLoginViewModel : ViewModelBase
 {
     private readonly IStudentFacade _studentFacade;
     private readonly INavigationService _navigationService;
-    private readonly IMessengerService _messengerService;
 
     private StudentListModel? _selectedStudent;
 
@@ -33,11 +32,9 @@ public partial class StudentLoginViewModel : ViewModelBase
     {
         _studentFacade = studentFacade;
         _navigationService = navigationService;
-        _messengerService = messengerService;
-        Task.Run(LoadDataAsync);
     }
 
-    private new async Task LoadDataAsync()
+    protected override async Task LoadDataAsync()
     {
         Students = new ObservableCollection<StudentListModel>(await _studentFacade.GetAsync());
     }
@@ -46,6 +43,13 @@ public partial class StudentLoginViewModel : ViewModelBase
     public void OnSelectUser(StudentListModel? selectedStudent)
     {
         _navigationService.LogIn(selectedStudent?.Id);
-        _messengerService.Send(new UserLoggedIn());
+        MessengerService.Send(new UserLoggedIn());
+    }
+
+    [RelayCommand]
+    private async Task OnRefresh()
+    {
+        _selectedStudent = null;
+        await LoadDataAsync();
     }
 }

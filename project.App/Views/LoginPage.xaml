@@ -22,7 +22,8 @@
 
             <Button Grid.Column="0" 
                     Text="[REFRESH BUTTON]" 
-                    Margin="20" />
+                    Margin="20" 
+                    Command="{Binding RefreshCommand}"/>
             <Label Grid.Row="0" 
                    Grid.Column="1" 
                    Text="School information system" 
@@ -36,13 +37,33 @@
                     Margin="20" />
         </Grid>
         
-        <Picker Title="   Select student:   " 
-                HorizontalOptions="CenterAndExpand"
-                VerticalOptions="CenterAndExpand" 
-                FontSize="Large"
-                ItemsSource="{Binding Students}"
-                ItemDisplayBinding="{Binding ., Converter={StaticResource StudentListModelToStringConverter}}"
-                SelectedItem="{Binding SelectedStudent}" />
+        <Grid HorizontalOptions="CenterAndExpand" 
+              VerticalOptions="CenterAndExpand"
+              Margin="0, 0, 0, 100" >
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <Label Grid.Row="0"
+                   Text="Select student:" 
+                   FontSize="Large"
+                   HorizontalOptions="CenterAndExpand" 
+                   Margin="0, 0, 0, 15" />
+            <Picker Grid.Row="1"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="CenterAndExpand" 
+                    FontSize="Large"
+                    ItemsSource="{Binding Students}"
+                    ItemDisplayBinding="{Binding ., Converter={StaticResource StudentListModelToStringConverter}}"
+                    SelectedItem="{Binding SelectedStudent}"
+                    MinimumWidthRequest="550"
+                    />
+        </Grid>
+        <StackLayout >
+            
+        </StackLayout>
         
     </StackLayout>
 </views:ContentPageBase>

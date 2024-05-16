@@ -1,4 +1,9 @@
-﻿using CommunityToolkit.Maui.Core.Extensions;
+﻿using project.App.Services;
+using project.BL.Facades;
+using project.BL.Filters;
+using project.BL.Models;
+using System.Collections.ObjectModel;
+using CommunityToolkit.Maui.Core.Extensions;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using project.App.Messages;
@@ -11,17 +16,20 @@ using System.ComponentModel;
 
 namespace project.App.ViewModels.Subject;
 
-public partial class SubjectListViewModel : TableViewModelBase, IRecipient<UserLoggedIn>
+[QueryProperty(nameof(SubjectId), nameof(SubjectId))]
+public partial class SubjectStudentDetailViewModel : TableViewModelBase, IRecipient<UserLoggedIn>
 {
     protected override FilterPreferences DefaultFilterPreferences =>
         FilterPreferences.Default with { SortByPropertyName = nameof(SubjectListModel.Acronym) };
 
     private readonly ISubjectFacade _subjectFacade;
     private readonly INavigationService _navigationService;
-    public ObservableCollection<SubjectListModel> Subjects { get; set; } = [];
+    public SubjectStudentDetailModel? Subject { get; set; }
     public bool StudentView { get; protected set; }
 
-    public SubjectListViewModel(
+    public Guid SubjectId { get; set; }
+
+    public SubjectStudentDetailViewModel(
         ISubjectFacade subjectFacade,
         INavigationService navigationService,
         IMessengerService messengerService) : base(messengerService)
@@ -34,13 +42,7 @@ public partial class SubjectListViewModel : TableViewModelBase, IRecipient<UserL
 
     protected override async Task LoadDataAsync()
     {
-        Subjects = (await _subjectFacade.GetAsyncListModels(studentId: null, filterPreferences: FilterPreferences))
-            .ToObservableCollection();
-
-        foreach (var subject in Subjects)
-        {
-            subject.PropertyChanged += HandleSubjectPropertyChanged!;
-        }
+        Subject = await _subjectFacade.GetAsyncStudentDetail(SubjectId, _navigationService.LoggedInUser);
     }
 
     private void HandleSubjectPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -67,8 +69,7 @@ public partial class SubjectListViewModel : TableViewModelBase, IRecipient<UserL
     private Task AddSubject() => Task.CompletedTask;
 
     [RelayCommand]
-    private Task GoToDetailAsync(Guid id) =>
-        _navigationService.GoToAsync("//subjects/detail", new Dictionary<string, object?> { ["id"] = id });
+    private async Task GoToDetailAsync(Guid id) => await _navigationService.GoToAsync("//home");
 
     [RelayCommand]
     private async Task SortByAcronym() => await ApplyNewSorting(nameof(SubjectListModel.Acronym));

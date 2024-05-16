@@ -97,5 +97,6 @@
 	  <Compile Update="Views\Subject\SubjectListView.xaml.cs">
 	    <DependentUpon>SubjectListView.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Remove="Views\Activity\ActivityAdminDetailView.xaml.cs" />
 	</ItemGroup>
 </Project>

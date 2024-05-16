@@ -12,14 +12,14 @@ public class NavigationService : INavigationService
 {
     public Guid? LoggedInUser { get; protected set; } = null;
     public bool IsStudentLoggedIn => LoggedInUser != null;
+
     public IEnumerable<RouteModel> Routes { get; } = new List<RouteModel>
     {
         new("//login", typeof(LoginPage), typeof(StudentLoginViewModel)),
         new("//home", typeof(MainPage), typeof(ViewModelBase)),
         new("//students", typeof(StudentListView), typeof(StudentListViewModel)),
         new("//subjects", typeof(SubjectListView), typeof(SubjectListViewModel)),
-
-
+        new("//subjects/detail", typeof(SubjectStudentDetailView), typeof(SubjectStudentDetailViewModel)),
     };
 
     public async Task GoToAsync<TViewModel>()
@@ -46,7 +46,7 @@ public class NavigationService : INavigationService
         => Shell.Current.SendBackButtonPressed();
 
     private string GetRouteByViewModel<TViewModel>()
-        where TViewModel : IViewModel 
+        where TViewModel : IViewModel
         => Routes.First(route => route.ViewModelType == typeof(TViewModel)).Route;
 
     public async Task LogIn(Guid? userGuid)
@@ -59,5 +59,4 @@ public class NavigationService : INavigationService
     {
         await GoToAsync("//login");
     }
-
 }

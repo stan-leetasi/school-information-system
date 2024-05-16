@@ -21,6 +21,11 @@ public partial class AppShell : Shell
     [RelayCommand]
     private async Task GoToSubjects()
         => await _navigationService.GoToAsync("//subjects");
+
+    [RelayCommand]
+    private async Task GoToHome()
+        => await _navigationService.GoToAsync("//home");
+
     [RelayCommand]
     private async Task LogOut()
         => await _navigationService.LogOut();

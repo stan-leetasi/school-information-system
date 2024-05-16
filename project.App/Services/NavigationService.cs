@@ -1,7 +1,9 @@
 ﻿using project.App.Models;
 using project.App.ViewModels;
+using project.App.ViewModels.Student;
 using project.App.ViewModels.Subject;
 using project.App.Views;
+using project.App.Views.Student;
 using project.App.Views.Subject;
 
 namespace project.App.Services;
@@ -13,8 +15,11 @@ public class NavigationService : INavigationService
     public IEnumerable<RouteModel> Routes { get; } = new List<RouteModel>
     {
         new("//login", typeof(LoginPage), typeof(StudentLoginViewModel)),
-        new("//students", typeof(MainPage), typeof(ViewModelBase)), // TODO: change ViewModels
+        new("//home", typeof(MainPage), typeof(ViewModelBase)),
+        new("//students", typeof(StudentListView), typeof(StudentListViewModel)),
         new("//subjects", typeof(SubjectListView), typeof(SubjectListViewModel)),
+
+
     };
 
     public async Task GoToAsync<TViewModel>()
@@ -47,7 +52,7 @@ public class NavigationService : INavigationService
     public async Task LogIn(Guid? userGuid)
     {
         LoggedInUser = userGuid;
-        await GoToAsync("//students");
+        await GoToAsync("//home");
     }
 
     public async Task LogOut()

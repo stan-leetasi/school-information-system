@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
+
 <Shell
     x:Class="project.App.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
@@ -6,12 +7,15 @@
     xmlns:local="clr-namespace:project.App"
     xmlns:views="clr-namespace:project.App.Views"
     xmlns:viewsSubject="clr-namespace:project.App.Views.Subject"
+    xmlns:student="using:project.App.Views.Student"
     Shell.FlyoutBehavior="Disabled"
     x:Name="AppShellRoot"
     Title="project.App">
 
     <Shell.MenuBarItems>
         <MenuBarItem Text="File">
+            <MenuFlyoutItem Text="Home"
+                            Command="{Binding Source={x:Reference AppShellRoot}, Path=GoToHomeCommand}" />
             <MenuFlyoutItem Text="Students"
                             Command="{Binding Source={x:Reference AppShellRoot}, Path=GoToStudentsCommand}" />
             <MenuFlyoutItem Text="Subjects"
@@ -22,7 +26,8 @@
     </Shell.MenuBarItems>
 
     <ShellContent Title="Log In Screen" ContentTemplate="{DataTemplate views:LoginPage}" Route="login" />
-    <ShellContent Title="Home" ContentTemplate="{DataTemplate local:MainPage}" Route="students" />
+    <ShellContent Title="Home" ContentTemplate="{DataTemplate local:MainPage}" Route="home" />
     <ShellContent Title="Subjects" ContentTemplate="{DataTemplate viewsSubject:SubjectListView}" Route="subjects" />
+    <ShellContent Title="Students" ContentTemplate="{DataTemplate student:StudentListView}" Route="students" />
 
 </Shell>

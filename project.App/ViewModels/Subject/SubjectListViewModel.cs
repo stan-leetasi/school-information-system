@@ -20,6 +20,7 @@ public partial class SubjectListViewModel : TableViewModelBase, IRecipient<UserL
     private readonly INavigationService _navigationService;
     public ObservableCollection<SubjectListModel> Subjects { get; set; } = [];
     public bool StudentView { get; protected set; }
+    public bool AdminView { get; protected set; }
 
     public SubjectListViewModel(
         ISubjectFacade subjectFacade,
@@ -30,11 +31,12 @@ public partial class SubjectListViewModel : TableViewModelBase, IRecipient<UserL
         _navigationService = navigationService;
 
         StudentView = _navigationService.IsStudentLoggedIn;
+        AdminView = !_navigationService.IsStudentLoggedIn;
     }
 
     protected override async Task LoadDataAsync()
     {
-        Subjects = (await _subjectFacade.GetAsyncListModels(studentId: null, filterPreferences: FilterPreferences))
+        Subjects = (await _subjectFacade.GetAsyncListModels(studentId: _navigationService.LoggedInUser, filterPreferences: FilterPreferences))
             .ToObservableCollection();
 
         foreach (var subject in Subjects)
@@ -48,14 +50,14 @@ public partial class SubjectListViewModel : TableViewModelBase, IRecipient<UserL
         if (e.PropertyName == nameof(SubjectListModel.IsRegistered))
         {
             var subject = (SubjectListModel)sender;
-            // Guid student = navigationService.LoggedInUser ?? throw new ArgumentNullException();
+            Guid student = _navigationService.LoggedInUser ?? throw new ArgumentNullException();
             if (subject.IsRegistered)
             {
-                // subjectFacade.RegisterStudent(subject.Id, student);
+                _subjectFacade.RegisterStudent(subject.Id, student);
             }
             else
             {
-                // subjectFacade.UnregisterStudent(subject.Id, student);
+                _subjectFacade.UnregisterStudent(subject.Id, student);
             }
         }
     }
@@ -68,7 +70,7 @@ public partial class SubjectListViewModel : TableViewModelBase, IRecipient<UserL
 
     [RelayCommand]
     private Task GoToDetailAsync(Guid id) =>
-        _navigationService.GoToAsync<SubjectStudentDetailViewModel>(new Dictionary<string, object?> { ["SubjectId"] = id });
+        _navigationService.GoToAsync<SubjectStudentDetailViewModel>(new Dictionary<string, object?> { [nameof(SubjectStudentDetailViewModel.SubjectId)] = id });
 
     [RelayCommand]
     private async Task SortByAcronym() => await ApplyNewSorting(nameof(SubjectListModel.Acronym));
@@ -82,6 +84,7 @@ public partial class SubjectListViewModel : TableViewModelBase, IRecipient<UserL
     public async void Receive(UserLoggedIn message)
     {
         StudentView = _navigationService.IsStudentLoggedIn;
+        AdminView = !_navigationService.IsStudentLoggedIn;
         ResetFilterPreferences();
         await LoadDataAsync();
     }

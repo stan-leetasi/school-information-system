@@ -13,7 +13,11 @@
             <SearchBar Placeholder="Filter subjects" 
                        Text="{Binding FilterPreferences.SearchedTerm}"
                        WidthRequest="600" Grid.Column="1"/>
-            <Button Text="Add" Grid.Column="2" Command="{Binding AddSubjectCommand}"/>
+            <HorizontalStackLayout Grid.Column="2" >
+                <Button Text="Add Activity" Command="{Binding AddSubjectCommand}"
+                        IsVisible="{Binding AdminView}"/>
+            </HorizontalStackLayout>
+
         </Grid>
 
         <Label Text="List of Subjects" FontSize="Large" HorizontalOptions="Center"/>

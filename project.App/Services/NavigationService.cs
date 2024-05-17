@@ -1,8 +1,10 @@
 ﻿using project.App.Models;
 using project.App.ViewModels;
+using project.App.ViewModels.Activity;
 using project.App.ViewModels.Student;
 using project.App.ViewModels.Subject;
 using project.App.Views;
+using project.App.Views.Activity;
 using project.App.Views.Student;
 using project.App.Views.Subject;
 
@@ -15,11 +17,12 @@ public class NavigationService : INavigationService
 
     public IEnumerable<RouteModel> Routes { get; } = new List<RouteModel>
     {
-        new("//login", typeof(LoginPage), typeof(StudentLoginViewModel)),
         new("//home", typeof(MainPage), typeof(ViewModelBase)),
+        new("//login", typeof(LoginPage), typeof(StudentLoginViewModel)),
         new("//students", typeof(StudentListView), typeof(StudentListViewModel)),
         new("//subjects", typeof(SubjectListView), typeof(SubjectListViewModel)),
         new("//subjects/detail", typeof(SubjectStudentDetailView), typeof(SubjectStudentDetailViewModel)),
+        new("//subjects/detail/activity", typeof(ActivityStudentDetailView), typeof(ActivityStudentDetailViewModel)),
     };
 
     public async Task GoToAsync<TViewModel>()

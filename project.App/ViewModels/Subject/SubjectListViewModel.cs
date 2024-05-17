@@ -68,7 +68,7 @@ public partial class SubjectListViewModel : TableViewModelBase, IRecipient<UserL
 
     [RelayCommand]
     private Task GoToDetailAsync(Guid id) =>
-        _navigationService.GoToAsync("//subjects/detail", new Dictionary<string, object?> { ["id"] = id });
+        _navigationService.GoToAsync<SubjectStudentDetailViewModel>(new Dictionary<string, object?> { ["SubjectId"] = id });
 
     [RelayCommand]
     private async Task SortByAcronym() => await ApplyNewSorting(nameof(SubjectListModel.Acronym));

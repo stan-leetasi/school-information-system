@@ -9,8 +9,57 @@
                        x:Name="SubjectStudentDetail"
                        x:DataType="vm:SubjectStudentDetailViewModel">
     <VerticalStackLayout>
-        <Label Text="{Binding Subject.Name}" FontSize="Large" HorizontalOptions="Center" />
-        <Label Text="hi" />
+
+        <Label Text="{Binding Title}" HorizontalOptions="Center" FontSize="48" FontAttributes="Bold" Margin="0,0,0,10" />
+
+        <Grid HorizontalOptions="Fill" ColumnDefinitions="Auto,*,Auto">
+            <Button Text="Refresh" Grid.Column="0" Command="{Binding RefreshCommand}" />
+            <SearchBar Placeholder="Filter activities"
+                       Text="{Binding FilterPreferences.SearchedTerm}"
+                       WidthRequest="600" Grid.Column="1" />
+            <!-- <Button Text="Add" Grid.Column="2" Command="{Binding AddSubjectCommand}" /> -->
+        </Grid>
+
+        <Label Text="Activities" FontSize="Large" HorizontalOptions="Center" />
+
+        <Grid HorizontalOptions="Fill" ColumnSpacing="20" ColumnDefinitions="*,*,*,*,*,*,*">
+            <Button Text="Begin Time" Grid.Column="0" Command="{Binding SortByBeginTimeCommand}" />
+            <Button Text="End Time" Grid.Column="1" Command="{Binding SortByEndTimeCommand}" />
+            <Button Text="Area" Grid.Column="2" Command="{Binding SortByAreaCommand}" />
+            <Button Text="Type" Grid.Column="3" Command="{Binding SortByTypeCommand}" />
+            <Button Text="Registered Students" Grid.Column="4" Command="{Binding SortByRegisteredStudentsCommand}" />
+            <Button Text="Points" Grid.Column="5" Command="{Binding SortByPointsCommand}" />
+            <Button Text="Is Registered" Grid.Column="6" Command="{Binding SortByRegisteredCommand}" />
+        </Grid>
+
+        <ScrollView>
+            <StackLayout>
+                <ListView ItemsSource="{Binding Activities}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="m:ActivityListModel">
+                            <ViewCell>
+                                <Grid HorizontalOptions="Fill" ColumnSpacing="20" ColumnDefinitions="*,*,*,*,*,*,*">
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Source={ x:Reference SubjectStudentDetail }, Path=BindingContext.GoToDetailCommand}"
+                                            CommandParameter="{Binding Id}" />
+                                    </Grid.GestureRecognizers>
+                                    <Label Text="{Binding BeginTime}" Grid.Column="0" />
+                                    <Label Text="{Binding EndTime}" Grid.Column="1" />
+                                    <Label Text="{Binding Area}" Grid.Column="2" />
+                                    <Label Text="{Binding Type}" Grid.Column="3" />
+                                    <Label Text="{Binding RegisteredStudents}" Grid.Column="4" />
+                                    <Label Text="{Binding Points}" Grid.Column="5" />
+                                    <CheckBox IsChecked="{Binding IsRegistered}"
+                                              IsEnabled="{Binding Source={ x:Reference SubjectStudentDetail }, Path=BindingContext.StudentView}"
+                                              Grid.Column="6" HorizontalOptions="CenterAndExpand" />
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </ScrollView>
     </VerticalStackLayout>
 
 </views:ContentPageBase>

@@ -11,7 +11,7 @@ using System.ComponentModel;
 
 namespace project.App.ViewModels.Subject;
 
-public partial class SubjectListViewModel : TableViewModelBase, IRecipient<UserLoggedIn>
+public partial class SubjectListViewModel : TableViewModelBase, IRecipient<UserLoggedIn>, IRecipient<RefreshManual>
 {
     protected override FilterPreferences DefaultFilterPreferences =>
         FilterPreferences.Default with { SortByPropertyName = nameof(SubjectListModel.Acronym) };
@@ -63,9 +63,6 @@ public partial class SubjectListViewModel : TableViewModelBase, IRecipient<UserL
     }
 
     [RelayCommand]
-    private async Task Refresh() => await LoadDataAsync();
-
-    [RelayCommand]
     private Task AddSubject() => Task.CompletedTask;
 
     [RelayCommand]
@@ -86,6 +83,11 @@ public partial class SubjectListViewModel : TableViewModelBase, IRecipient<UserL
         StudentView = _navigationService.IsStudentLoggedIn;
         AdminView = !_navigationService.IsStudentLoggedIn;
         ResetFilterPreferences();
+        await LoadDataAsync();
+    }
+
+    public async void Receive(RefreshManual message)
+    {
         await LoadDataAsync();
     }
 }

@@ -20,6 +20,10 @@
                             Command="{Binding Source={x:Reference AppShellRoot}, Path=GoToStudentsCommand}" />
             <MenuFlyoutItem Text="Subjects"
                             Command="{Binding Source={x:Reference AppShellRoot}, Path=GoToSubjectsCommand}" />
+            <MenuFlyoutSeparator/>
+            <MenuFlyoutItem Text="Refresh"
+                            Command="{Binding Source={x:Reference AppShellRoot}, Path=RefreshCommand}"/>
+            <MenuFlyoutSeparator/>
             <MenuFlyoutItem Text="Log out"
                             Command="{Binding Source={x:Reference AppShellRoot}, Path=LogOutCommand}" />
         </MenuBarItem>

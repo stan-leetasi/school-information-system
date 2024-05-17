@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using project.App.Messages;
 using project.App.Services;
 
 namespace project.App;
@@ -6,11 +7,13 @@ namespace project.App;
 public partial class AppShell : Shell
 {
     private readonly INavigationService _navigationService;
-    public AppShell(INavigationService navigationService)
+    private readonly IMessengerService _messengerService;
+    public AppShell(INavigationService navigationService, IMessengerService messengerService)
     {
         InitializeComponent();
 
         _navigationService = navigationService;
+        _messengerService = messengerService;
     }
 
     // TODO: change routes in commands
@@ -25,6 +28,10 @@ public partial class AppShell : Shell
     [RelayCommand]
     private async Task GoToHome()
         => await _navigationService.GoToAsync("//home");
+
+    [RelayCommand]
+    private void Refresh()
+        => _messengerService.Send(new RefreshManual());
 
     [RelayCommand]
     private async Task LogOut()

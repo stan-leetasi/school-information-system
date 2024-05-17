@@ -66,8 +66,15 @@ public partial class SubjectListViewModel : TableViewModelBase, IRecipient<UserL
     private Task AddSubject() => Task.CompletedTask;
 
     [RelayCommand]
-    private Task GoToDetailAsync(Guid id) =>
-        _navigationService.GoToAsync<SubjectStudentDetailViewModel>(new Dictionary<string, object?> { [nameof(SubjectStudentDetailViewModel.SubjectId)] = id });
+    private async Task GoToDetailAsync(Guid id)
+    {
+        SubjectListModel subject = Subjects.SingleOrDefault(s => s.Id == id) ?? throw new ArgumentNullException($"Invalid ID of clicked subject");
+        if (AdminView || subject.IsRegistered)
+            await _navigationService.GoToAsync<SubjectStudentDetailViewModel>(new Dictionary<string, object?>
+            {
+                [nameof(SubjectStudentDetailViewModel.SubjectId)] = id
+            });
+    }
 
     [RelayCommand]
     private async Task SortByAcronym() => await ApplyNewSorting(nameof(SubjectListModel.Acronym));

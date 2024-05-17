@@ -11,7 +11,8 @@ using System.ComponentModel;
 
 namespace project.App.ViewModels.Student;
 
-public partial class StudentListViewModel : TableViewModelBase, IRecipient<UserLoggedIn>
+public partial class StudentListViewModel :
+    TableViewModelBase, IRecipient<UserLoggedIn>, IRecipient<RefreshManual>
 {
     protected override FilterPreferences DefaultFilterPreferences =>
         FilterPreferences.Default with { SortByPropertyName = nameof(StudentListModel.Name) };
@@ -42,22 +43,22 @@ public partial class StudentListViewModel : TableViewModelBase, IRecipient<UserL
         // }
     }
 
-    // private void HandleStudentPropertyChanged(object sender, PropertyChangedEventArgs e)
-    // {
-    //     if (e.PropertyName == nameof(StudentListModel.IsRegistered))
-    //     {
-    //         var student = (StudentListModel)sender;
-    //         // Guid student = navigationService.LoggedInUser ?? throw new ArgumentNullException();
-    //         if (student.IsRegistered)
-    //         {
-    //             // studentFacade.RegisterStudent(student.Id, student);
-    //         }
-    //         else
-    //         {
-    //             // studentFacade.UnregisterStudent(student.Id, student);
-    //         }
-    //     }
-    // }
+// private void HandleStudentPropertyChanged(object sender, PropertyChangedEventArgs e)
+// {
+//     if (e.PropertyName == nameof(StudentListModel.IsRegistered))
+//     {
+//         var student = (StudentListModel)sender;
+//         // Guid student = navigationService.LoggedInUser ?? throw new ArgumentNullException();
+//         if (student.IsRegistered)
+//         {
+//             // studentFacade.RegisterStudent(student.Id, student);
+//         }
+//         else
+//         {
+//             // studentFacade.UnregisterStudent(student.Id, student);
+//         }
+//     }
+// }
 
     [RelayCommand]
     private async Task Refresh() => await LoadDataAsync();
@@ -78,6 +79,11 @@ public partial class StudentListViewModel : TableViewModelBase, IRecipient<UserL
     {
         StudentView = _navigationService.IsStudentLoggedIn;
         ResetFilterPreferences();
+        await LoadDataAsync();
+    }
+
+    public async void Receive(RefreshManual message)
+    {
         await LoadDataAsync();
     }
 }

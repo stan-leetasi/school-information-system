@@ -23,6 +23,7 @@ public class NavigationService : INavigationService
         new("//subjects", typeof(SubjectListView), typeof(SubjectListViewModel)),
         new("//subjects/detail", typeof(SubjectStudentDetailView), typeof(SubjectStudentDetailViewModel)),
         new("//subjects/detail/activity", typeof(ActivityStudentDetailView), typeof(ActivityStudentDetailViewModel)),
+        new("//subjects/detail/admin", typeof(SubjectAdminDetailView), typeof(SubjectAdminDetailViewModel)),
     };
 
     public async Task GoToAsync<TViewModel>()

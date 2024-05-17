@@ -13,7 +13,8 @@ using System.ComponentModel;
 namespace project.App.ViewModels.Subject;
 
 [QueryProperty(nameof(SubjectId), nameof(SubjectId))]
-public partial class SubjectStudentDetailViewModel : TableViewModelBase, IRecipient<UserLoggedIn>
+public partial class SubjectStudentDetailViewModel :
+    TableViewModelBase, IRecipient<UserLoggedIn>, IRecipient<RefreshManual>
 {
     protected override FilterPreferences DefaultFilterPreferences =>
         FilterPreferences.Default with { SortByPropertyName = nameof(ActivityListModel.BeginTime) };
@@ -23,6 +24,7 @@ public partial class SubjectStudentDetailViewModel : TableViewModelBase, IRecipi
 
     public SubjectStudentDetailModel? Subject { get; set; }
     public bool StudentView { get; protected set; }
+    public bool AdminView { get; protected set; }
     public Guid SubjectId { get; set; }
     public ObservableCollection<ActivityListModel>? Activities { get; set; }
 
@@ -36,6 +38,7 @@ public partial class SubjectStudentDetailViewModel : TableViewModelBase, IRecipi
         _subjectFacade = subjectFacade;
         _navigationService = navigationService;
         StudentView = _navigationService.IsStudentLoggedIn;
+        AdminView = !_navigationService.IsStudentLoggedIn;
         Title = "";
     }
 
@@ -70,36 +73,45 @@ public partial class SubjectStudentDetailViewModel : TableViewModelBase, IRecipi
     public async void Receive(UserLoggedIn message)
     {
         StudentView = _navigationService.IsStudentLoggedIn;
+        AdminView = !_navigationService.IsStudentLoggedIn;
         ResetFilterPreferences();
         await LoadDataAsync();
     }
+
+    public async void Receive(RefreshManual message) => await LoadDataAsync();
 
     // Navigation
 
     [RelayCommand]
     private Task GoToDetailAsync(Guid id) =>
-        _navigationService.GoToAsync<ActivityStudentDetailViewModel>(new Dictionary<string, object?> { ["Id"] = id });
+        _navigationService.GoToAsync<ActivityStudentDetailViewModel>(
+            new Dictionary<string, object?> { [nameof(ActivityStudentDetailViewModel.Id)] = id });
+
+    [RelayCommand]
+    private async Task GoToAdminDetail(Guid id) =>
+        await _navigationService.GoToAsync<SubjectAdminDetailViewModel>(
+            new Dictionary<string, object?> { [nameof(SubjectAdminDetailViewModel.SubjectId)] = id });
 
     // Sorting
-
-    [RelayCommand]
-    private async Task SortByBeginTime() => await ApplyNewSorting(nameof(ActivityListModel.BeginTime));
-
-    [RelayCommand]
-    private async Task SortByEndTime() => await ApplyNewSorting(nameof(ActivityListModel.EndTime));
-
-    [RelayCommand]
-    private async Task SortByArea() => await ApplyNewSorting(nameof(ActivityListModel.Area));
-
-    [RelayCommand]
-    private async Task SortByType() => await ApplyNewSorting(nameof(ActivityListModel.Type));
 
     [RelayCommand]
     private async Task SortByRegisteredStudents() =>
         await ApplyNewSorting(nameof(ActivityListModel.RegisteredStudents));
 
     [RelayCommand]
+    private async Task SortByType() => await ApplyNewSorting(nameof(ActivityListModel.Type));
+
+    [RelayCommand]
+    private async Task SortByArea() => await ApplyNewSorting(nameof(ActivityListModel.Area));
+
+    [RelayCommand]
     private async Task SortByPoints() => await ApplyNewSorting(nameof(ActivityListModel.Points));
+
+    [RelayCommand]
+    private async Task SortByEndTime() => await ApplyNewSorting(nameof(ActivityListModel.EndTime));
+
+    [RelayCommand]
+    private async Task SortByBeginTime() => await ApplyNewSorting(nameof(ActivityListModel.BeginTime));
 
     [RelayCommand]
     private async Task SortByRegistered() => await ApplyNewSorting(nameof(ActivityListModel.IsRegistered));

@@ -7,7 +7,6 @@ using project.BL.Facades;
 using project.BL.Filters;
 using project.BL.Models;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 
 namespace project.App.ViewModels.Student;
 
@@ -19,10 +18,12 @@ public partial class StudentListViewModel :
 
     private readonly IStudentFacade _studentFacade;
     private readonly INavigationService _navigationService;
+
     public ObservableCollection<StudentListModel> Students { get; set; } = [];
     public bool StudentView { get; protected set; }
 
-    public StudentListViewModel(IStudentFacade studentFacade,
+    public StudentListViewModel(
+        IStudentFacade studentFacade,
         INavigationService navigationService,
         IMessengerService messengerService) : base(messengerService)
     {
@@ -35,7 +36,7 @@ public partial class StudentListViewModel :
 
     protected override async Task LoadDataAsync()
     {
-        Students = (await _studentFacade.GetAsync()).ToObservableCollection();
+        Students = (await _studentFacade.GetAsync(FilterPreferences)).ToObservableCollection();
 
         // foreach (var student in Students)
         // {

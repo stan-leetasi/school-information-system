@@ -22,12 +22,18 @@
 
     <VerticalStackLayout Grid.Row="1" Grid.RowSpan="2" 
         Grid.Column="2" Spacing="40" VerticalOptions="Start">
-            
-        <Label FontSize="40" 
-        Text="Jozko Vajda" />
 
-        <Label FontSize="Large" 
-        Text="{Binding Student.Id, TargetNullValue='404'}"/>
+            <Label FontSize="40">
+                <Label.Text>
+                    <MultiBinding StringFormat="{}{0} {1}">
+                        <Binding Path="Student.Name" />
+                        <Binding Path="Student.Surname" />
+                    </MultiBinding>
+                </Label.Text>
+            </Label>
+
+            <Label FontSize="Large" 
+        Text="{Binding Student.Id, TargetNullValue='Student Id'}"/>
 
             <HorizontalStackLayout Grid.Row="1" Grid.Column="2" 
                 HorizontalOptions="Start" Spacing="10" HeightRequest="55">

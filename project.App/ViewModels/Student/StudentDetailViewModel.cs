@@ -7,6 +7,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using project.App.Messages;
 using System.ComponentModel;
+using project.DAL.Seeds;
 
 namespace project.App.ViewModels.Student;
 
@@ -16,7 +17,7 @@ public partial class StudentDetailViewModel : ViewModelBase
 
     public StudentDetailModel? Student { get; set; }
     public Guid StudentId { get; set; } = new Guid();
-    public bool StudentView => _navigationService.IsStudentLoggedIn; 
+    public bool StudentView => _navigationService.IsStudentLoggedIn;
     private readonly IStudentFacade _studentFacade;
     private readonly INavigationService _navigationService;
         
@@ -30,17 +31,17 @@ public partial class StudentDetailViewModel : ViewModelBase
 
     protected override async Task LoadDataAsync()
     {
-        Student = await _studentFacade.GetAsync(StudentId);
+        Student = await _studentFacade.GetAsync(StudentSeeds.Hawkeye.Id);
     }
 
     [RelayCommand]
-    private async Task EditStudent(Guid id)
+    private async Task EditStudent()
     {
         //await _navigationService.GoToAsync<>;
     }
 
     [RelayCommand]
-    private async Task DeleteStudent(Guid id)
+    private async Task DeleteStudent()
     {
         await _studentFacade.DeleteAsync(StudentId);
         // await _navigationService.GoToAsync<>;

@@ -2,12 +2,12 @@
 using project.BL.Facades;
 using project.BL.Filters;
 using project.BL.Models;
-using System.Collections.ObjectModel;
-using CommunityToolkit.Maui.Core.Extensions;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using project.App.Messages;
 using project.App.ViewModels.Activity;
+using project.BL;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 namespace project.App.ViewModels.Subject;
@@ -20,48 +20,47 @@ public partial class SubjectStudentDetailViewModel :
         FilterPreferences.Default with { SortByPropertyName = nameof(ActivityListModel.BeginTime) };
 
     private readonly ISubjectFacade _subjectFacade;
+    private readonly IActivityFacade _activityFacade;
     private readonly INavigationService _navigationService;
-
-    public SubjectStudentDetailModel? Subject { get; set; }
     public bool StudentView => _navigationService.IsStudentLoggedIn;
     public bool AdminView => !_navigationService.IsStudentLoggedIn;
     public Guid SubjectId { get; set; }
-    public ObservableCollection<ActivityListModel>? Activities { get; set; }
-
-    public string Title { get; set; }
+    public string Title { get; private set; } = string.Empty;
+    public SubjectStudentDetailModel Subject { get; private set; } = SubjectStudentDetailModel.Empty;
+    public ObservableCollection<ActivityListModel> Activities { get; set; } = [];
 
     public SubjectStudentDetailViewModel(
         ISubjectFacade subjectFacade,
+        IActivityFacade activityFacade,
         INavigationService navigationService,
         IMessengerService messengerService) : base(messengerService)
     {
         _subjectFacade = subjectFacade;
+        _activityFacade = activityFacade;
         _navigationService = navigationService;
-        Title = "";
     }
 
     protected override async Task LoadDataAsync()
     {
-        Subject = await _subjectFacade.GetAsyncStudentDetail(SubjectId, _navigationService.LoggedInUser);
-        Activities = Subject?.Activities.ToObservableCollection();
-        Title = Subject?.Acronym + " - " + Subject?.Name;
+        Subject = await _subjectFacade.GetAsyncStudentDetail(SubjectId, _navigationService.LoggedInUser) ??
+                  SubjectStudentDetailModel.Empty;
+        Activities = Subject.Activities.ToObservableCollection();
+        Title = Subject.Acronym + " - " + Subject.Name;
+
+        foreach (var activity in Activities)
+            activity.PropertyChanged += HandleActivityPropertyChanged!;
     }
 
-    private void HandleSubjectPropertyChanged(object sender, PropertyChangedEventArgs e)
+    private void HandleActivityPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(SubjectListModel.IsRegistered))
-
+        if (e.PropertyName == nameof(ActivityListModel.IsRegistered))
         {
-            var subject = (SubjectListModel)sender;
-            // Guid student = navigationService.LoggedInUser ?? throw new ArgumentNullException();
-            if (subject.IsRegistered)
-            {
-                // subjectFacade.RegisterStudent(subject.Id, student);
-            }
+            var activity = (ActivityListModel)sender;
+            Guid studentId = _navigationService.LoggedInUser ?? throw new ArgumentNullException();
+            if (activity.IsRegistered)
+                _activityFacade.RegisterStudent(activity.Id, studentId);
             else
-            {
-                // subjectFacade.UnregisterStudent(subject.Id, student);
-            }
+                _activityFacade.UnregisterStudent(activity.Id, studentId);
         }
     }
 

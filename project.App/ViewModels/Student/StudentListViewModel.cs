@@ -30,6 +30,12 @@ public partial class StudentListViewModel(
     [RelayCommand]
     private Task GoToDetailAsync(Guid id) => Task.CompletedTask;
 
+    [RelayCommand]
+    private async Task GoToCreateAsync()
+    {
+        await navigationService.GoToAsync("/edit");
+    }
+
     // Sorting
 
     protected override FilterPreferences DefaultFilterPreferences =>

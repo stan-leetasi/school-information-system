@@ -30,21 +30,40 @@
         Text="{Binding Student.Id, TargetNullValue='404'}"/>
 
             <HorizontalStackLayout Grid.Row="1" Grid.Column="2" 
-                               HorizontalOptions="Start" Spacing="10" HeightRequest="55">
+                HorizontalOptions="Start" Spacing="10" HeightRequest="55">
 
                 <Button Text="Delete"
-                CornerRadius="5"
-                BackgroundColor="Red"
-                FontSize="Medium"
-                FontAttributes="Bold"
-            />
+                        CornerRadius="5"
+                        BackgroundColor="Red"
+                        FontSize="Medium"
+                        FontAttributes="Bold"
+                        Command="{Binding DeleteStudentCommand}">
+
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button" Binding="{Binding StudentView}" Value="True">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="Button" Binding="{Binding StudentView}" Value="False">
+                            <Setter Property="IsVisible" Value="True" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
 
                 <Button Text="Edit"
-                CornerRadius="5"
-                BackgroundColor="Cyan"
-                FontSize="Medium"
-                FontAttributes="Bold"
-             />
+                        CornerRadius="5"
+                        BackgroundColor="Cyan"
+                        FontSize="Medium"
+                        FontAttributes="Bold"
+                        Command="{Binding EditStudentCommand}">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button" Binding="{Binding StudentView}" Value="True">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="Button" Binding="{Binding StudentView}" Value="False">
+                            <Setter Property="IsVisible" Value="True" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
 
             </HorizontalStackLayout>
         </VerticalStackLayout>

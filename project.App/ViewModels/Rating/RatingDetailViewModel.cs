@@ -25,16 +25,7 @@ public partial class RatingDetailViewModel : ViewModelBase
     {
         await base.LoadDataAsync();
         
-        // Rating = await _ratingFacade.GetAsync(Id);
-
-        Rating = new RatingDetailModel
-        {
-            ActivityName = "Activity name",
-            StudentName = "Student name",
-            StudentSurname = "Student surname",
-            Points = 100,
-            Notes = "There are no notes"
-        };
+        Rating = await _ratingFacade.GetAsync(Id);
     }
     
     [RelayCommand]

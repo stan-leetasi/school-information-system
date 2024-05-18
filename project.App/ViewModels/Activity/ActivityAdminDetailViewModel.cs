@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using project.App.Services;
+using project.App.ViewModels.Rating;
 using project.BL.Facades;
 using project.BL.Filters;
 using project.BL.Models;
@@ -10,7 +11,7 @@ namespace project.App.ViewModels.Activity;
 [QueryProperty(nameof(ActivityId), nameof(ActivityId))]
 public partial class ActivityAdminDetailViewModel(
     IActivityFacade activityFacade,
-    INavigationService navigationService,
+    INavigationService _navigationService,
     IMessengerService messengerService)
     : TableViewModelBase(messengerService)
 {
@@ -25,6 +26,16 @@ public partial class ActivityAdminDetailViewModel(
     {
         Activity = await activityFacade.GetAsync(ActivityId, FilterPreferences) ?? ActivityAdminDetailModel.Empty;
         Ratings = Activity.Ratings;
+    }
+    
+    [RelayCommand]
+    private async Task GoToDetailAsync(Guid id)
+    {
+        RatingListModel rating = Ratings.SingleOrDefault(r => r.Id == id) ?? throw new ArgumentNullException($"Invalid ID of clicked rating");
+        await _navigationService.GoToAsync<RatingDetailViewModel>(new Dictionary<string, object?>
+        {
+            [nameof(RatingDetailViewModel.Id)] = rating.Id
+        });
     }
 
     [RelayCommand]

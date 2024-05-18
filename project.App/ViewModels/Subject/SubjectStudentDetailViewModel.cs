@@ -61,10 +61,12 @@ public partial class SubjectStudentDetailViewModel(
     [RelayCommand]
     private async Task GoToDetailAsync(Guid id)
     {
-        if (StudentView)
+        var activity = Activities.First(a => a.Id == id);
+        
+        if (StudentView && activity.IsRegistered)
             await navigationService.GoToAsync<ActivityStudentDetailViewModel>(
                 new Dictionary<string, object?> { [nameof(ActivityStudentDetailViewModel.Id)] = id });
-        else
+        else if (AdminView)
             await navigationService.GoToAsync<ActivityAdminDetailViewModel>(
                 new Dictionary<string, object?> { [nameof(ActivityAdminDetailViewModel.ActivityId)] = id });
     }

@@ -33,7 +33,10 @@
                     </Grid.ColumnDefinitions>
 
                     <Label Grid.Column="0" Text="Registered" VerticalOptions="CenterAndExpand" />
-                    <CheckBox Grid.Column="1" IsChecked="{Binding Activity.IsRegistered}" HorizontalOptions="CenterAndExpand" />
+                    <CheckBox Grid.Column="1" 
+                              IsChecked="{Binding Activity.IsRegistered}" 
+                              HorizontalOptions="CenterAndExpand" 
+                              IsEnabled="False" />
                 </Grid>
             </Grid>
             

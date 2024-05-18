@@ -1,10 +1,12 @@
 ﻿using project.App.Models;
 using project.App.ViewModels;
 using project.App.ViewModels.Activity;
+using project.App.ViewModels.Rating;
 using project.App.ViewModels.Student;
 using project.App.ViewModels.Subject;
 using project.App.Views;
 using project.App.Views.Activity;
+using project.App.Views.Rating;
 using project.App.Views.Student;
 using project.App.Views.Subject;
 
@@ -26,6 +28,7 @@ public class NavigationService : INavigationService
         new("//subjects/detail/admin", typeof(SubjectAdminDetailView), typeof(SubjectAdminDetailViewModel)),
         new("//subjects/detail/activity", typeof(ActivityStudentDetailView), typeof(ActivityStudentDetailViewModel)),
         new("//subjects/detail/activity-admin", typeof(ActivityAdminDetailView), typeof(ActivityAdminDetailViewModel)),
+        new("//subjects/detail/activity-admin/rating", typeof(RatingDetailView), typeof(RatingDetailViewModel)),
     };
 
     public async Task GoToAsync<TViewModel>()

@@ -58,12 +58,8 @@
                     ItemsSource="{Binding Students}"
                     ItemDisplayBinding="{Binding ., Converter={StaticResource StudentListModelToStringConverter}}"
                     SelectedItem="{Binding SelectedStudent}"
-                    MinimumWidthRequest="550"
-                    />
+                    MinimumWidthRequest="550" />
         </Grid>
-        <StackLayout >
-            
-        </StackLayout>
         
     </StackLayout>
 </views:ContentPageBase>

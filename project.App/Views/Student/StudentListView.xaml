@@ -13,7 +13,7 @@
             <SearchBar Placeholder="Filter students"
                        Text="{Binding FilterPreferences.SearchedTerm}"
                        WidthRequest="600" Grid.Column="1"/>
-            <Button Text="Add" Grid.Column="2" Command="{Binding AddStudentCommand}"/>
+            <Button Text="Add" Grid.Column="2" Command="{Binding GoToCreateCommand}"/>
         </Grid>
 
         <Label Text="List of Students" FontSize="Large" HorizontalOptions="Center"/>

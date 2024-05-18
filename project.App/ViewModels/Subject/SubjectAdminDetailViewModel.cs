@@ -2,7 +2,6 @@
 using CommunityToolkit.Mvvm.Messaging;
 using project.App.Messages;
 using project.App.Services;
-using project.BL;
 using project.BL.Facades;
 using project.BL.Filters;
 using project.BL.Models;

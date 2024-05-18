@@ -22,8 +22,9 @@ public class NavigationService : INavigationService
         new("//students", typeof(StudentListView), typeof(StudentListViewModel)),
         new("//subjects", typeof(SubjectListView), typeof(SubjectListViewModel)),
         new("//subjects/detail", typeof(SubjectStudentDetailView), typeof(SubjectStudentDetailViewModel)),
-        new("//subjects/detail/activity", typeof(ActivityStudentDetailView), typeof(ActivityStudentDetailViewModel)),
         new("//subjects/detail/admin", typeof(SubjectAdminDetailView), typeof(SubjectAdminDetailViewModel)),
+        new("//subjects/detail/activity", typeof(ActivityStudentDetailView), typeof(ActivityStudentDetailViewModel)),
+        new("//subjects/detail/activity-admin", typeof(ActivityAdminDetailView), typeof(ActivityAdminDetailViewModel)),
     };
 
     public async Task GoToAsync<TViewModel>()

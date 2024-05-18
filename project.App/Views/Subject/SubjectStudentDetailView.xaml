@@ -20,7 +20,7 @@
             <Button Text="Registered Students" Grid.Column="2"
                     Command="{Binding GoToAdminDetailCommand}"
                     CommandParameter="{Binding SubjectId}"
-                    IsVisible="{Binding  AdminView}" />
+                    IsVisible="{Binding AdminView}" />
         </Grid>
 
         <Label Text="Activities" FontSize="Large" HorizontalOptions="Center" />

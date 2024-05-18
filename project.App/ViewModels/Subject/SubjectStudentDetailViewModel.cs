@@ -23,8 +23,8 @@ public partial class SubjectStudentDetailViewModel :
     private readonly INavigationService _navigationService;
 
     public SubjectStudentDetailModel? Subject { get; set; }
-    public bool StudentView { get; protected set; }
-    public bool AdminView { get; protected set; }
+    public bool StudentView => _navigationService.IsStudentLoggedIn;
+    public bool AdminView => !_navigationService.IsStudentLoggedIn;
     public Guid SubjectId { get; set; }
     public ObservableCollection<ActivityListModel>? Activities { get; set; }
 
@@ -37,8 +37,6 @@ public partial class SubjectStudentDetailViewModel :
     {
         _subjectFacade = subjectFacade;
         _navigationService = navigationService;
-        StudentView = _navigationService.IsStudentLoggedIn;
-        AdminView = !_navigationService.IsStudentLoggedIn;
         Title = "";
     }
 
@@ -72,8 +70,6 @@ public partial class SubjectStudentDetailViewModel :
 
     public async void Receive(UserLoggedIn message)
     {
-        StudentView = _navigationService.IsStudentLoggedIn;
-        AdminView = !_navigationService.IsStudentLoggedIn;
         ResetFilterPreferences();
         await LoadDataAsync();
     }
@@ -83,9 +79,15 @@ public partial class SubjectStudentDetailViewModel :
     // Navigation
 
     [RelayCommand]
-    private Task GoToDetailAsync(Guid id) =>
-        _navigationService.GoToAsync<ActivityStudentDetailViewModel>(
-            new Dictionary<string, object?> { [nameof(ActivityStudentDetailViewModel.Id)] = id });
+    private async Task GoToDetailAsync(Guid id)
+    {
+        if (StudentView)
+            await _navigationService.GoToAsync<ActivityStudentDetailViewModel>(
+                new Dictionary<string, object?> { [nameof(ActivityStudentDetailViewModel.Id)] = id });
+        else
+            await _navigationService.GoToAsync<ActivityAdminDetailViewModel>(
+                new Dictionary<string, object?> { [nameof(ActivityAdminDetailViewModel.Id)] = id });
+    }
 
     [RelayCommand]
     private async Task GoToAdminDetail(Guid id) =>

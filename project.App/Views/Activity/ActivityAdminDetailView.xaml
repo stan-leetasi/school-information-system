@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<views:ContentPageBase xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:views="clr-namespace:project.App.Views"
+                       xmlns:m="clr-namespace:project.BL.Models;assembly=project.BL"
+                       xmlns:activity="clr-namespace:project.App.ViewModels.Activity"
+                       x:Class="project.App.Views.Activity.ActivityAdminDetailView"
+                       x:Name="ActivityAdminDetail"
+                       x:DataType="activity:ActivityAdminDetailViewModel">
+    <VerticalStackLayout>
+        <Label Text="{Binding Title}" HorizontalOptions="Center" FontSize="48" FontAttributes="Bold" Margin="0,0,0,10" />
+
+        <Grid HorizontalOptions="Fill" ColumnDefinitions="Auto,*,Auto">
+            <!-- <Button Text="Refresh" Grid.Column="0" Command="{Binding RefreshCommand}" /> -->
+            <SearchBar Placeholder="Filter students"
+                       Text="{Binding FilterPreferences.SearchedTerm}"
+                       WidthRequest="600" Grid.Column="1" />
+            <!-- <Button Text="Add" Grid.Column="2" Command="{Binding AddStudentCommand}" /> -->
+        </Grid>
+
+        <Label Text="List of Students" FontSize="Large" HorizontalOptions="Center" />
+
+        <!-- <Grid HorizontalOptions="Fill" ColumnSpacing="20" ColumnDefinitions="*,*"> -->
+        <!--     <Button Text="Surname" Grid.Column="0" Command="{Binding SortBySurnameCommand}" /> -->
+        <!--     <Button Text="Name" Grid.Column="1" Command="{Binding SortByNameCommand}" /> -->
+        <!-- </Grid> -->
+
+        <ScrollView>
+            <StackLayout>
+                <ListView ItemsSource="{Binding Ratings}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="m:RatingListModel">
+                            <ViewCell>
+                                <Grid HorizontalOptions="Fill" ColumnSpacing="20" ColumnDefinitions="*,*">
+                                    <!-- <Grid.GestureRecognizers> -->
+                                    <!--     <TapGestureRecognizer -->
+                                    <!--         Command="{Binding Source={ x:Reference SubjectAdminDetail }, Path=BindingContext.GoToDetailCommand}" -->
+                                    <!--         CommandParameter="{Binding Id}" /> -->
+                                    <!-- </Grid.GestureRecognizers> -->
+                                    <Label Text="{Binding StudentSurname}" Grid.Column="0" />
+                                    <Label Text="{Binding StudentName}" Grid.Column="1" />
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </ScrollView>
+    </VerticalStackLayout>
+
+</views:ContentPageBase>

@@ -84,10 +84,8 @@ public class ActivityFacade(
         return detailModel with { IsRegistered = isRegistered, Points = points, Notes = notes };
     }
 
-    protected override async Task<bool> CanBeRegisteredFor(Guid targetId, Guid studentId, IUnitOfWork? uow)
+    protected override async Task<bool> CanBeRegisteredFor(Guid targetId, Guid studentId, IUnitOfWork uow)
     {
-        if (uow == null) throw new NotImplementedException("Unit of Work is required.");
-
         ActivityEntity activity = await uow!.GetRepository<ActivityEntity, ActivityEntityMapper>().Get()
             .SingleOrDefaultAsync(a => a.Id == targetId) ?? throw new ArgumentNullException($"Non-existent activity ({targetId}");
 
@@ -95,4 +93,6 @@ public class ActivityFacade(
         return await uow!.GetRepository<StudentSubjectEntity, StudentSubjectEntityMapper>().Get()
             .AnyAsync(reg => reg.StudentId == studentId && reg.SubjectId == activity.SubjectId);
     }
+
+    protected override Task UnregisterCascadeProcedure(Guid targetId, Guid studentId, IUnitOfWork uow) => Task.CompletedTask;
 }

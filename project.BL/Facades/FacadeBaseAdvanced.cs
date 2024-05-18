@@ -37,8 +37,6 @@ public abstract class
         return uow.GetRepository<StudentEntity, StudentEntityMapper>().Get().Any(s => s.Id == studentId);
     }
 
-    protected abstract Task<bool> CanBeRegisteredFor(Guid targetId, Guid studentId, IUnitOfWork? uow);
-
     /// <summary>
     /// Gets <c>TStudentDetailModel</c> from the perspective of a certain student.
     /// </summary>
@@ -75,10 +73,14 @@ public abstract class
         var registration = await GetRegistrationEntity(targetId, studentId, repositoryRegistrations.Get())
                            ?? throw new InvalidOperationException("Registration does not exist.");
 
+        await UnregisterCascadeProcedure(targetId, studentId, uow);
         repositoryRegistrations.Delete(registration.Id);
+        
         await uow.CommitAsync();
     }
 
     protected abstract Task<TRegistrationEntity?> GetRegistrationEntity(Guid targetId, Guid studentId, IQueryable<TRegistrationEntity> registrationEntities);
     protected abstract TRegistrationEntity CreateRegistrationEntity(Guid targetId, Guid studentId);
+    protected abstract Task<bool> CanBeRegisteredFor(Guid targetId, Guid studentId, IUnitOfWork uow);
+    protected abstract Task UnregisterCascadeProcedure(Guid targetId, Guid studentId, IUnitOfWork uow);
 }

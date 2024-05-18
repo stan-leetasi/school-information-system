@@ -3,6 +3,8 @@ using project.BL.Filters;
 using project.BL.Models;
 using project.Common.Tests;
 using project.Common.Tests.Seeds;
+using project.DAL.Entities;
+using project.DAL.Mappers;
 using Xunit.Abstractions;
 
 namespace project.BL.Tests;
@@ -119,6 +121,12 @@ public sealed class SubjectFacadeTests : FacadeTestsBase
         //Assert
         subjectListModels = await _subjectFacadeSUT.GetAsyncListModels(StudentSeeds.Terry.Id);
         Assert.True(!subjectListModels.SingleOrDefault(s => s.Id == SubjectSeeds.ICS.Id)!.IsRegistered);
+
+        // Assert that registered activities have been unregistered too.
+        await using var uow = UnitOfWorkFactory.Create();
+        var ratingRepository = uow.GetRepository<RatingEntity, RatingEntityMapper>();
+        Assert.False(ratingRepository.Get().Any(r => r.Id == RatingsSeeds.ICSCvikoRatingTerry.Id));
+        Assert.False(ratingRepository.Get().Any(r => r.Id == RatingsSeeds.ICSObhajobaRatingTerry.Id));
     }
 
     // Basic CRUD tests

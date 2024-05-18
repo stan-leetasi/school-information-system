@@ -127,5 +127,16 @@ public class SubjectFacade(
         return detailModel;
     }
 
-    protected override Task<bool> CanBeRegisteredFor(Guid targetId, Guid studentId, IUnitOfWork? uow) => Task.FromResult(true);
+    protected override Task<bool> CanBeRegisteredFor(Guid targetId, Guid studentId, IUnitOfWork uow) => Task.FromResult(true);
+    protected override Task UnregisterCascadeProcedure(Guid targetId, Guid studentId, IUnitOfWork uow)
+    {
+        var repositoryRatings = uow.GetRepository<RatingEntity, RatingEntityMapper>();
+        var ratings = repositoryRatings.Get().Include(r => r.Activity)
+            .Where(r => r.StudentId == studentId && r.Activity!.SubjectId == targetId).ToList();
+        foreach (RatingEntity rating in ratings)
+        {
+            repositoryRatings.Delete(rating.Id);
+        }
+        return Task.CompletedTask;
+    }
 }

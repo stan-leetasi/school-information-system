@@ -14,6 +14,9 @@ public partial class StudentListViewModel(
     IMessengerService messengerService)
     : TableViewModelBase(messengerService)
 {
+    protected override FilterPreferences DefaultFilterPreferences =>
+        FilterPreferences.Default with { SortByPropertyName = nameof(StudentListModel.Name) };
+
     public ObservableCollection<StudentListModel> Students { get; set; } = [];
 
     protected override async Task LoadDataAsync() =>
@@ -27,8 +30,12 @@ public partial class StudentListViewModel(
     [RelayCommand]
     private Task AddStudent() => Task.CompletedTask;
 
+    // Navigation
+
     [RelayCommand]
-    private Task GoToDetailAsync(Guid id) => Task.CompletedTask;
+    private Task GoToDetailAsync(Guid id) =>
+        navigationService.GoToAsync<ViewModels.Student.StudentDetailViewModel>(
+            new Dictionary<string, object?> { { nameof(StudentDetailViewModel.StudentId), id } });
 
     [RelayCommand]
     private async Task GoToCreateAsync()
@@ -37,9 +44,6 @@ public partial class StudentListViewModel(
     }
 
     // Sorting
-
-    protected override FilterPreferences DefaultFilterPreferences =>
-        FilterPreferences.Default with { SortByPropertyName = nameof(StudentListModel.Name) };
 
     [RelayCommand]
     private async Task SortBySurname() => await ApplyNewSorting(nameof(StudentListModel.Surname));

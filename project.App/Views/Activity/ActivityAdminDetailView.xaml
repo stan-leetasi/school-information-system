@@ -9,22 +9,26 @@
                        x:Name="ActivityAdminDetail"
                        x:DataType="activity:ActivityAdminDetailViewModel">
     <VerticalStackLayout>
-        <Label Text="{Binding Title}" HorizontalOptions="Center" FontSize="48" FontAttributes="Bold" Margin="0,0,0,10" />
+        <Label Text="{Binding Activity.Description}"
+               HorizontalOptions="Center" FontSize="48"
+               FontAttributes="Bold"
+               Margin="0,0,0,10" />
+
+        <Label Text="{Binding Activity.SubjectName}" HorizontalOptions="Center" FontSize="24" />
 
         <Grid HorizontalOptions="Fill" ColumnDefinitions="Auto,*,Auto">
-            <!-- <Button Text="Refresh" Grid.Column="0" Command="{Binding RefreshCommand}" /> -->
-            <SearchBar Placeholder="Filter students"
+            <SearchBar Placeholder="Filter Activities"
                        Text="{Binding FilterPreferences.SearchedTerm}"
                        WidthRequest="600" Grid.Column="1" />
-            <!-- <Button Text="Add" Grid.Column="2" Command="{Binding AddStudentCommand}" /> -->
         </Grid>
 
-        <Label Text="List of Students" FontSize="Large" HorizontalOptions="Center" />
+        <Label Text="List of Ratings" FontSize="Large" HorizontalOptions="Center" />
 
-        <!-- <Grid HorizontalOptions="Fill" ColumnSpacing="20" ColumnDefinitions="*,*"> -->
-        <!--     <Button Text="Surname" Grid.Column="0" Command="{Binding SortBySurnameCommand}" /> -->
-        <!--     <Button Text="Name" Grid.Column="1" Command="{Binding SortByNameCommand}" /> -->
-        <!-- </Grid> -->
+        <Grid HorizontalOptions="Fill" ColumnSpacing="20" ColumnDefinitions="*,*,*">
+            <Button Text="Surname" Command="{Binding SortBySurnameCommand}" Grid.Column="0" />
+            <Button Text="Name" Command="{Binding SortByNameCommand}" Grid.Column="1" />
+            <Button Text="Points" Command="{Binding SortByPointsCommand}" Grid.Column="2" />
+        </Grid>
 
         <ScrollView>
             <StackLayout>
@@ -32,7 +36,7 @@
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="m:RatingListModel">
                             <ViewCell>
-                                <Grid HorizontalOptions="Fill" ColumnSpacing="20" ColumnDefinitions="*,*">
+                                <Grid HorizontalOptions="Fill" ColumnSpacing="20" ColumnDefinitions="*,*,*">
                                     <!-- <Grid.GestureRecognizers> -->
                                     <!--     <TapGestureRecognizer -->
                                     <!--         Command="{Binding Source={ x:Reference SubjectAdminDetail }, Path=BindingContext.GoToDetailCommand}" -->
@@ -40,6 +44,7 @@
                                     <!-- </Grid.GestureRecognizers> -->
                                     <Label Text="{Binding StudentSurname}" Grid.Column="0" />
                                     <Label Text="{Binding StudentName}" Grid.Column="1" />
+                                    <Label Text="{Binding Points}" Grid.Column="2" />
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>

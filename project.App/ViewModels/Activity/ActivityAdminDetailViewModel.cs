@@ -1,7 +1,7 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
-using project.App.Messages;
+﻿using CommunityToolkit.Mvvm.Input;
 using project.App.Services;
 using project.BL.Facades;
+using project.BL.Filters;
 using project.BL.Models;
 using System.Collections.ObjectModel;
 
@@ -14,16 +14,30 @@ public partial class ActivityAdminDetailViewModel(
     IMessengerService messengerService)
     : TableViewModelBase(messengerService)
 {
-    public ActivityAdminDetailModel? Activity { get; set; }
-    public ObservableCollection<RatingListModel>? Ratings { get; set; }
+    protected override FilterPreferences DefaultFilterPreferences =>
+        FilterPreferences.Default with { SortByPropertyName = nameof(RatingListModel.StudentSurname) };
 
+    public ActivityAdminDetailModel Activity { get; private set; } = ActivityAdminDetailModel.Empty;
+    public ObservableCollection<RatingListModel> Ratings { get; set; } = [];
     public Guid ActivityId { get; set; }
-    public string? Title { get; set; }
 
     protected override async Task LoadDataAsync()
     {
-        Activity = await activityFacade.GetAsync(ActivityId);
-        Ratings = Activity?.Ratings;
-        //Title = Activity?.Acronym + " - " + Subject?.Name;
+        Activity = await activityFacade.GetAsync(ActivityId, FilterPreferences) ?? ActivityAdminDetailModel.Empty;
+        Ratings = Activity.Ratings;
     }
+
+    [RelayCommand]
+    private async Task Refresh() => await LoadDataAsync();
+
+    // Sorting
+
+    [RelayCommand]
+    private async Task SortBySurname() => await ApplyNewSorting(nameof(RatingListModel.StudentSurname));
+
+    [RelayCommand]
+    private async Task SortByName() => await ApplyNewSorting(nameof(RatingListModel.StudentName));
+
+    [RelayCommand]
+    private async Task SortByPoints() => await ApplyNewSorting(nameof(RatingListModel.Points));
 }

@@ -13,7 +13,6 @@
         <Label Text="{Binding Title}" HorizontalOptions="Center" FontSize="48" FontAttributes="Bold" Margin="0,0,0,10" />
 
         <Grid HorizontalOptions="Fill" ColumnDefinitions="Auto,*,Auto">
-            <Button Text="Refresh" Grid.Column="0" Command="{Binding RefreshCommand}" />
             <SearchBar Placeholder="Filter activities"
                        Text="{Binding FilterPreferences.SearchedTerm}"
                        WidthRequest="600" Grid.Column="1" />
@@ -32,7 +31,7 @@
             <Button Text="Type" Grid.Column="3" Command="{Binding SortByTypeCommand}" />
             <Button Text="Registered Students" Grid.Column="4" Command="{Binding SortByRegisteredStudentsCommand}" />
             <Button Text="Points" Grid.Column="5" Command="{Binding SortByPointsCommand}" />
-            <Button Text="Is Registered" Grid.Column="6" Command="{Binding SortByRegisteredCommand}" />
+            <Button Text="Is Registered" Grid.Column="6" Command="{Binding SortByIsRegisteredCommand}" />
         </Grid>
 
         <ScrollView>

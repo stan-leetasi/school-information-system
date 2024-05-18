@@ -95,5 +95,5 @@ public partial class SubjectStudentDetailViewModel(
     private async Task SortByBeginTime() => await ApplyNewSorting(nameof(ActivityListModel.BeginTime));
 
     [RelayCommand]
-    private async Task SortByRegistered() => await ApplyNewSorting(nameof(ActivityListModel.IsRegistered));
+    private async Task SortByIsRegistered() => await ApplyNewSorting(nameof(ActivityListModel.IsRegistered));
 }

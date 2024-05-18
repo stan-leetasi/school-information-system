@@ -15,6 +15,7 @@ public partial class StudentEditViewModel(
 {
     public StudentDetailModel Student { get; init; } = StudentDetailModel.Empty;
 
+
     [RelayCommand]
     private async Task SaveAsync()
     {

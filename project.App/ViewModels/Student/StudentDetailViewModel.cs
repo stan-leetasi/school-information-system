@@ -8,6 +8,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using project.App.Messages;
 using System.ComponentModel;
 using project.DAL.Seeds;
+using System;
 
 namespace project.App.ViewModels.Student;
 
@@ -32,17 +33,18 @@ public partial class StudentDetailViewModel : ViewModelBase
     {
         Student = await _studentFacade.GetAsync(StudentId);
     }
-
+    
     [RelayCommand]
-    private async Task EditStudent()
+    private async Task EditStudentInfo()
     {
-        //await _navigationService.GoToAsync<>;
+        await _navigationService.GoToAsync<StudentEditViewModel>(
+           new Dictionary<string, object?> { { nameof(Student), Student } });
     }
 
     [RelayCommand]
     private async Task DeleteStudent()
     {
         await _studentFacade.DeleteAsync(StudentId);
-        // await _navigationService.GoToAsync<>;
+        await _navigationService.GoToAsync("//students");
     }
 }

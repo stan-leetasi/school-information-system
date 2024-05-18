@@ -28,7 +28,9 @@ public partial class StudentListViewModel(
     private Task AddStudent() => Task.CompletedTask;
 
     [RelayCommand]
-    private Task GoToDetailAsync(Guid id) => Task.CompletedTask;
+    private Task GoToDetailAsync(Guid id) =>
+        navigationService.GoToAsync<ViewModels.Student.StudentDetailViewModel>(
+            new Dictionary<string, object?> { { nameof(StudentDetailViewModel.StudentId), id } });
 
     // Sorting
 

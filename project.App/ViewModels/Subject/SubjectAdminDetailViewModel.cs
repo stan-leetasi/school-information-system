@@ -1,6 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
-using project.App.Messages;
 using project.App.Services;
 using project.BL.Facades;
 using project.BL.Filters;
@@ -10,48 +8,34 @@ using System.Collections.ObjectModel;
 namespace project.App.ViewModels.Subject;
 
 [QueryProperty(nameof(SubjectId), nameof(SubjectId))]
-public partial class SubjectAdminDetailViewModel : TableViewModelBase
+public partial class SubjectAdminDetailViewModel(
+    ISubjectFacade subjectFacade,
+    INavigationService navigationService,
+    IMessengerService messengerService) : TableViewModelBase(messengerService)
 {
     protected override FilterPreferences DefaultFilterPreferences =>
         FilterPreferences.Default with { SortByPropertyName = nameof(ActivityListModel.BeginTime) };
 
-    private readonly ISubjectFacade _subjectFacade;
-
     // private readonly INavigationService _navigationService;
-    public SubjectAdminDetailModel? Subject { get; set; }
     public Guid SubjectId { get; set; }
     public ObservableCollection<StudentListModel>? Students { get; set; } = [];
-    public string? Title { get; set; }
+    public string Title { get; set; } = string.Empty;
 
-    public SubjectAdminDetailViewModel(
-        ISubjectFacade subjectFacade,
-        INavigationService navigationService,
-        IMessengerService messengerService) : base(messengerService)
+    protected override async Task LoadDataAsync()
     {
-        _subjectFacade = subjectFacade;
-        //_navigationService = navigationService;
+        SubjectAdminDetailModel subject = await subjectFacade.GetAsync(SubjectId) ?? SubjectAdminDetailModel.Empty;
+        Students = subject.Students;
+        Title = subject.Acronym + " - " + subject.Name;
     }
 
     [RelayCommand]
     private async Task Refresh() => await LoadDataAsync();
 
-    [RelayCommand]
-    private Task AddStudent() => Task.CompletedTask;
-
-    [RelayCommand]
-    private Task GoToDetailAsync(Guid id) => Task.CompletedTask;
+    // Sorting
 
     [RelayCommand]
     private async Task SortBySurname() => await ApplyNewSorting(nameof(StudentListModel.Surname));
 
     [RelayCommand]
     private async Task SortByName() => await ApplyNewSorting(nameof(StudentListModel.Name));
-
-
-    protected override async Task LoadDataAsync()
-    {
-        Subject = await _subjectFacade.GetAsync(SubjectId);
-        Students = Subject?.Students;
-        Title = Subject?.Acronym + " - " + Subject?.Name;
-    }
 }

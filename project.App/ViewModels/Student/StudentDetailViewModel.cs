@@ -14,20 +14,19 @@ namespace project.App.ViewModels.Student;
 [QueryProperty(nameof(StudentId), nameof(StudentId))]
 public partial class StudentDetailViewModel : ViewModelBase
 {
-
     public StudentDetailModel? Student { get; set; }
     public Guid StudentId { get; set; } = new Guid();
     public bool StudentView => _navigationService.IsStudentLoggedIn;
     private readonly IStudentFacade _studentFacade;
     private readonly INavigationService _navigationService;
-        
+
     public StudentDetailViewModel(IStudentFacade studentFacade,
-        INavigationService navigationService, 
-        IMessengerService messengerService): base(messengerService) 
-        {
-            _studentFacade = studentFacade;
-            _navigationService = navigationService;
-        }
+        INavigationService navigationService,
+        IMessengerService messengerService) : base(messengerService)
+    {
+        _studentFacade = studentFacade;
+        _navigationService = navigationService;
+    }
 
     protected override async Task LoadDataAsync()
     {
@@ -46,6 +45,4 @@ public partial class StudentDetailViewModel : ViewModelBase
         await _studentFacade.DeleteAsync(StudentId);
         // await _navigationService.GoToAsync<>;
     }
-
 }
-

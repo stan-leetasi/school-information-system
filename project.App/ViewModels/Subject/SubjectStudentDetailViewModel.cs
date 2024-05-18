@@ -25,31 +25,32 @@ public partial class SubjectStudentDetailViewModel(
     public bool AdminView => !navigationService.IsStudentLoggedIn;
     public Guid SubjectId { get; set; }
     public string Title { get; private set; } = string.Empty;
-    public SubjectStudentDetailModel Subject { get; private set; } = SubjectStudentDetailModel.Empty;
     public ObservableCollection<ActivityListModel> Activities { get; set; } = [];
 
     protected override async Task LoadDataAsync()
     {
-        Subject = await subjectFacade.GetAsyncStudentDetail(SubjectId, navigationService.LoggedInUser) ??
-                  SubjectStudentDetailModel.Empty;
-        Activities = Subject.Activities.ToObservableCollection();
-        Title = Subject.Acronym + " - " + Subject.Name;
+        SubjectStudentDetailModel subject =
+            await subjectFacade.GetAsyncStudentDetail(SubjectId, navigationService.LoggedInUser) ??
+            SubjectStudentDetailModel.Empty;
 
-        foreach (var activity in Activities)
+        Activities = subject.Activities.ToObservableCollection();
+        Title = subject.Acronym + " - " + subject.Name;
+
+        foreach (ActivityListModel activity in Activities)
             activity.PropertyChanged += HandleActivityPropertyChanged!;
     }
 
     private void HandleActivityPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(ActivityListModel.IsRegistered))
-        {
-            var activity = (ActivityListModel)sender;
-            Guid studentId = navigationService.LoggedInUser ?? throw new ArgumentNullException();
-            if (activity.IsRegistered)
-                activityFacade.RegisterStudent(activity.Id, studentId);
-            else
-                activityFacade.UnregisterStudent(activity.Id, studentId);
-        }
+        if (e.PropertyName != nameof(ActivityListModel.IsRegistered))
+            return;
+
+        ActivityListModel activity = (ActivityListModel)sender;
+        Guid studentId = navigationService.LoggedInUser ?? Guid.Empty;
+        if (activity.IsRegistered)
+            activityFacade.RegisterStudent(activity.Id, studentId);
+        else
+            activityFacade.UnregisterStudent(activity.Id, studentId);
     }
 
     [RelayCommand]

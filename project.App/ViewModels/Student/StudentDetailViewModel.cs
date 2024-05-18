@@ -30,7 +30,7 @@ public partial class StudentDetailViewModel : ViewModelBase
 
     protected override async Task LoadDataAsync()
     {
-        Student = await _studentFacade.GetAsync(StudentSeeds.Hawkeye.Id);
+        Student = await _studentFacade.GetAsync(StudentId);
     }
 
     [RelayCommand]

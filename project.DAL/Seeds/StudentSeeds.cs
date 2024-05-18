@@ -9,7 +9,7 @@ public static class StudentSeeds
         Id = Guid.Parse("4b28c9f6-8e4a-48a2-b7df-6e26e3e9c879"),
         Name = "John",
         Surname = "Lark",
-        ImageUrl = new Uri("https://i.imgur.com/tE5E66T.png")
+        ImageUrl = new Uri("https://i.ibb.co/600vQdp/tE5E66T.png")
     };
 
     public static readonly StudentEntity Terry = new()
@@ -17,7 +17,7 @@ public static class StudentSeeds
         Id = Guid.Parse("4b28c9f6-8e4a-48a2-b7df-6e26e3e9c880"),
         Name = "Terry",
         Surname = "Davis",
-        ImageUrl = new Uri("https://i.imgur.com/Qume1La.png")
+        ImageUrl = new Uri("https://i.ibb.co/RCkCZXj/Qume1La.png")
     };
     
     public static readonly StudentEntity Elliot = new()
@@ -25,7 +25,7 @@ public static class StudentSeeds
         Id = Guid.Parse("4b28c9f6-8e4a-48a2-b7df-6e26e3e9c881"),
         Name = "Elliot",
         Surname = "Alderson",
-        ImageUrl = new Uri("https://i.imgur.com/cfb5avx.png")
+        ImageUrl = new Uri("https://i.ibb.co/kHnv0L9/Elliot-Alderson.png")
     };
 
     public static readonly StudentEntity Takeshi = new()
@@ -33,7 +33,7 @@ public static class StudentSeeds
         Id = Guid.Parse("4b28c9f6-8e4a-48a2-b7df-6e26e3e9c882"),
         Name = "Takeshi",
         Surname = "Kovacs",
-        ImageUrl = new Uri("https://i.imgur.com/lu9MTXa.png")
+        ImageUrl = new Uri("https://i.ibb.co/yV7bLyV/Takeshi-Kovacs.png")
     };
 
     public static readonly StudentEntity Hawkeye = new()
@@ -41,7 +41,7 @@ public static class StudentSeeds
         Id = Guid.Parse("4b28c9f6-8e4a-48a2-b7df-6e26e3e9c883"),
         Name = "Hawkeye",
         Surname = "Pierce",
-        ImageUrl = new Uri("https://imgur.com/50N3h3w")
+        ImageUrl = new Uri("https://i.ibb.co/ypbJ8Ws/50N3h3w.png")
     };
 
     public static readonly StudentEntity JohnM = new()
@@ -49,7 +49,7 @@ public static class StudentSeeds
         Id = Guid.Parse("4b28c9f6-8e4a-48a2-b7df-6e26e3e9c884"),
         Name = "John",
         Surname = "McIntyre",
-        ImageUrl = new Uri("https://imgur.com/lW0VYrG")
+        ImageUrl = new Uri("https://i.ibb.co/gygkfC3/lW0VYrG.png")
     };
 
     static StudentSeeds()

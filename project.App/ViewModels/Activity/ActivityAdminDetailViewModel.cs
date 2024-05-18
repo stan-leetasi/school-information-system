@@ -14,13 +14,11 @@ public partial class ActivityAdminDetailViewModel(
     IMessengerService messengerService)
     : TableViewModelBase(messengerService)
 {
-
     protected override FilterPreferences DefaultFilterPreferences =>
         FilterPreferences.Default with { SortByPropertyName = nameof(RatingListModel.StudentSurname) };
 
     public ActivityAdminDetailModel Activity { get; private set; } = ActivityAdminDetailModel.Empty;
     public ObservableCollection<RatingListModel> Ratings { get; set; } = [];
-
     public Guid ActivityId { get; set; }
 
     protected override async Task LoadDataAsync()
@@ -33,8 +31,6 @@ public partial class ActivityAdminDetailViewModel(
     private async Task Refresh() => await LoadDataAsync();
 
     // Sorting
-
-
 
     [RelayCommand]
     private async Task SortBySurname() => await ApplyNewSorting(nameof(RatingListModel.StudentSurname));

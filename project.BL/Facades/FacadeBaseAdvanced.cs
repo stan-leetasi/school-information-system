@@ -37,6 +37,8 @@ public abstract class
         return uow.GetRepository<StudentEntity, StudentEntityMapper>().Get().Any(s => s.Id == studentId);
     }
 
+    protected abstract Task<bool> CanBeRegisteredFor(Guid targetId, Guid studentId, IUnitOfWork? uow);
+
     /// <summary>
     /// Gets <c>TStudentDetailModel</c> from the perspective of a certain student.
     /// </summary>
@@ -49,7 +51,10 @@ public abstract class
     {
         await using IUnitOfWork uow = UnitOfWorkFactory.Create();
 
-        if (!ExistsStudent(uow, studentId)) throw new ArgumentException($"Student with {studentId} does not exist.");
+        if (!ExistsStudent(uow, studentId)) throw new ArgumentException($"Student with ID {studentId} does not exist.");
+
+        if (!(await CanBeRegisteredFor(targetId, studentId, uow)))
+            throw new InvalidOperationException($"Student with ID {studentId} doesn't meet the requirements to be registered.");
 
         IRepository<TRegistrationEntity> repositoryRegistrations = uow.GetRepository<TRegistrationEntity, TRegistrationEntityMapper>();
         if (await GetRegistrationEntity(targetId, studentId, repositoryRegistrations.Get()) is not null)
@@ -64,7 +69,7 @@ public abstract class
     {
         await using IUnitOfWork uow = UnitOfWorkFactory.Create();
 
-        if (!ExistsStudent(uow, studentId)) throw new ArgumentException($"Student with {studentId} does not exist.");
+        if (!ExistsStudent(uow, studentId)) throw new ArgumentException($"Student with ID {studentId} does not exist.");
 
         IRepository<TRegistrationEntity> repositoryRegistrations = uow.GetRepository<TRegistrationEntity, TRegistrationEntityMapper>();
         var registration = await GetRegistrationEntity(targetId, studentId, repositoryRegistrations.Get())

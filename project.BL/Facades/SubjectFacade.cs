@@ -102,6 +102,12 @@ public class SubjectFacade(
 
         SubjectStudentDetailModel detailModel = modelMapper.MapToStudentDetailModel(entity);
 
+        if (studentId is not null)
+        {
+            detailModel.IsRegistered = await uow.GetRepository<StudentSubjectEntity, StudentSubjectEntityMapper>().Get()
+                .AnyAsync(reg => reg.SubjectId == entityId && reg.StudentId == studentId);
+        }
+
         var updatedList = detailModel.Activities.Select(listModel =>
         {
             ActivityEntity activity = entity.Activities.Single(a => a.Id == listModel.Id);
@@ -120,4 +126,6 @@ public class SubjectFacade(
         detailModel.Activities = updatedList.ToObservableCollection();
         return detailModel;
     }
+
+    protected override Task<bool> CanBeRegisteredFor(Guid targetId, Guid studentId, IUnitOfWork? uow) => Task.FromResult(true);
 }

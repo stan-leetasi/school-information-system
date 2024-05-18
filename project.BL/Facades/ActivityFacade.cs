@@ -84,14 +84,15 @@ public class ActivityFacade(
         return detailModel with { IsRegistered = isRegistered, Points = points, Notes = notes };
     }
 
-    public static IEnumerable<ActivityListModel> FilterActivityListModels(IEnumerable<ActivityListModel> listModels, string searchedTerm)
+    protected override async Task<bool> CanBeRegisteredFor(Guid targetId, Guid studentId, IUnitOfWork? uow)
     {
-        searchedTerm = searchedTerm.ToLower();
-        return listModels.Where(a =>
-            a.BeginTime.ToShortDateString().Replace(" ", "").Contains(searchedTerm) ||
-            a.BeginTime.ToShortTimeString().Contains(searchedTerm) ||
-            a.EndTime.ToShortDateString().Replace(" ", "").Contains(searchedTerm) ||
-            a.EndTime.ToShortTimeString().Contains(searchedTerm)
-        );
+        if (uow == null) throw new NotImplementedException("Unit of Work is required.");
+
+        ActivityEntity activity = await uow!.GetRepository<ActivityEntity, ActivityEntityMapper>().Get()
+            .SingleOrDefaultAsync(a => a.Id == targetId) ?? throw new ArgumentNullException($"Non-existent activity ({targetId}");
+
+        // The student must have the subject registered in order to register its activities.
+        return await uow!.GetRepository<StudentSubjectEntity, StudentSubjectEntityMapper>().Get()
+            .AnyAsync(reg => reg.StudentId == studentId && reg.SubjectId == activity.SubjectId);
     }
 }

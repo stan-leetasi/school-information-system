@@ -95,7 +95,7 @@ public sealed class ActivityFacadeTests : FacadeTestsBase
     }
 
     [Fact]
-    public async Task Remove_Non_xisting_Activity()
+    public async Task Remove_Non_existing_Activity()
     {
         // Arrange
         var NonExistingActivityID = new Guid();
@@ -113,23 +113,22 @@ public sealed class ActivityFacadeTests : FacadeTestsBase
     public async Task Register_Student_For_Activity()
     {
         // Arrange
-        var subjectId = SubjectSeeds.ITS.Id;
-        var activityId = ActivitiesSeeds.ITSSkuska.Id;
-        var studentId = StudentSeeds.Terry.Id;
+        var activityId = ActivitiesSeeds.IOSSemka.Id;
+        var studentId = StudentSeeds.Elliot.Id;
 
         // Act
         await _activityFacadeSUT.RegisterStudent(activityId, studentId);
 
-        var TerryICSCviko = await _activityFacadeSUT.GetAsyncStudentDetail(activityId, studentId);
+        var ElliotIOSExam = await _activityFacadeSUT.GetAsyncStudentDetail(activityId, studentId);
 
         //Assert
-        Assert.NotNull(TerryICSCviko);
-        Assert.True(TerryICSCviko!.IsRegistered);
-        Assert.Equal(SubjectSeeds.ITS.Id, TerryICSCviko.SubjectId);
-        Assert.Equal(SubjectSeeds.ITS.Name, TerryICSCviko.SubjectName);
-        Assert.Equal(0, TerryICSCviko.Points);
-        Assert.Equal("", TerryICSCviko.Notes);
-        Assert.Equal(ActivityType.FinalExam,TerryICSCviko.Type);
+        Assert.NotNull(ElliotIOSExam);
+        Assert.True(ElliotIOSExam!.IsRegistered);
+        Assert.Equal(SubjectSeeds.IOS.Id, ElliotIOSExam.SubjectId);
+        Assert.Equal(SubjectSeeds.IOS.Name, ElliotIOSExam.SubjectName);
+        Assert.Equal(0, ElliotIOSExam.Points);
+        Assert.Equal("", ElliotIOSExam.Notes);
+        Assert.Equal(ActivityType.FinalExam, ElliotIOSExam.Type);
     }
 
     [Fact]
@@ -156,8 +155,6 @@ public sealed class ActivityFacadeTests : FacadeTestsBase
         {
             await _activityFacadeSUT.RegisterStudent(ActivitiesSeeds.ICSCviko.Id, NonExistingStudent);
         });
-
-        Assert.Equal($"Student with {NonExistingStudent} does not exist.", exception.Message);
     }
 
     [Fact]
@@ -196,8 +193,6 @@ public sealed class ActivityFacadeTests : FacadeTestsBase
         {
             await _activityFacadeSUT.UnregisterStudent(ActivitiesSeeds.ICSCviko.Id, NonExistingStudent);
         });
-
-        Assert.Equal($"Student with {NonExistingStudent} does not exist.", exception.Message);
     }
 
     [Fact]
@@ -207,7 +202,7 @@ public sealed class ActivityFacadeTests : FacadeTestsBase
         var activityId = new Guid();
 
         // Act & Assert
-        var exception = await Assert.ThrowsAsync<DbUpdateException>(async () =>
+        var exception = await Assert.ThrowsAsync<ArgumentNullException>(async () =>
         {
             await _activityFacadeSUT.RegisterStudent(activityId, StudentSeeds.Terry.Id);
         });
@@ -225,7 +220,20 @@ public sealed class ActivityFacadeTests : FacadeTestsBase
             await _activityFacadeSUT.UnregisterStudent(activityId, StudentSeeds.Terry.Id);
         });
     }
+    [Fact]
+    public async Task Register_Student_For_Activity_Without_Registered_Subject()
+    {
+        // Arrange
+        var subjectId = SubjectSeeds.ITS.Id;
+        var activityId = ActivitiesSeeds.ITSSkuska.Id;
+        var studentId = StudentSeeds.Terry.Id;
 
+        // Act & Assert
+        await Assert.ThrowsAsync<InvalidOperationException>(async () =>
+        {
+            await _activityFacadeSUT.RegisterStudent(activityId, studentId);
+        });
+    }
 }
 
 

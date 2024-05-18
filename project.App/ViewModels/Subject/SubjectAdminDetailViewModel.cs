@@ -10,14 +10,14 @@ using System.Collections.ObjectModel;
 namespace project.App.ViewModels.Subject;
 
 [QueryProperty(nameof(SubjectId), nameof(SubjectId))]
-public partial class SubjectAdminDetailViewModel :
-    TableViewModelBase, IRecipient<UserLoggedIn>, IRecipient<RefreshManual>
+public partial class SubjectAdminDetailViewModel : TableViewModelBase
 {
     protected override FilterPreferences DefaultFilterPreferences =>
         FilterPreferences.Default with { SortByPropertyName = nameof(ActivityListModel.BeginTime) };
 
     private readonly ISubjectFacade _subjectFacade;
-    private readonly INavigationService _navigationService;
+
+    // private readonly INavigationService _navigationService;
     public SubjectAdminDetailModel? Subject { get; set; }
     public Guid SubjectId { get; set; }
     public ObservableCollection<StudentListModel>? Students { get; set; } = [];
@@ -29,8 +29,7 @@ public partial class SubjectAdminDetailViewModel :
         IMessengerService messengerService) : base(messengerService)
     {
         _subjectFacade = subjectFacade;
-        _navigationService = navigationService;
-
+        //_navigationService = navigationService;
     }
 
     [RelayCommand]
@@ -54,16 +53,5 @@ public partial class SubjectAdminDetailViewModel :
         Subject = await _subjectFacade.GetAsync(SubjectId);
         Students = Subject?.Students;
         Title = Subject?.Acronym + " - " + Subject?.Name;
-    }
-
-    public async void Receive(UserLoggedIn message)
-    {
-        ResetFilterPreferences();
-        await LoadDataAsync();
-    }
-
-    public async void Receive(RefreshManual message)
-    {
-        await LoadDataAsync();
     }
 }

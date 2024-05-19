@@ -14,8 +14,8 @@
         <Label Text="Surname" />
         <Entry Text="{Binding Student.Surname}" />
         <Label Text="Image URL" />
-        <Entry Text="{Binding Student.ImageUrl}" />
-        <Image Source="{Binding Student.ImageUrl}" HeightRequest="200" />
+        <Entry Text="{Binding StudentImageUrl}" />
+        <Image Source="{Binding StudentImageUrl}" HeightRequest="200" />
         <Button Text="Save" Command="{Binding SaveCommand}" />
     </VerticalStackLayout>
 </views:ContentPageBase>

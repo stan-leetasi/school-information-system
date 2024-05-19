@@ -16,9 +16,8 @@
     <Image Aspect="AspectFill" Grid.Row="1" Grid.Column="1" 
             HorizontalOptions="Center" VerticalOptions="Start"
             WidthRequest="300" HeightRequest="400"
-            Source="{Binding Student.ImageUrl, TargetNullValue='student_photo_placeholder.jpg'}"
+            Source="{Binding StudentImageUrl}"
     />
-
 
     <VerticalStackLayout Grid.Row="1" Grid.RowSpan="2" 
         Grid.Column="2" Spacing="40" VerticalOptions="Start">

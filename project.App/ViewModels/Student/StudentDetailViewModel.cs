@@ -15,9 +15,10 @@ namespace project.App.ViewModels.Student;
 [QueryProperty(nameof(StudentId), nameof(StudentId))]
 public partial class StudentDetailViewModel : ViewModelBase
 {
-    public StudentDetailModel? Student { get; set; }
+    public StudentDetailModel? Student { get; set; } = StudentDetailModel.Empty;
     public Guid StudentId { get; set; } = new Guid();
     public bool StudentView => _navigationService.IsStudentLoggedIn;
+    public Uri StudentImageUrl { get; set; } = new Uri("https://i.ibb.co/mJrKVdp/student-photo-placeholder.jpg");
     private readonly IStudentFacade _studentFacade;
     private readonly INavigationService _navigationService;
 
@@ -31,14 +32,21 @@ public partial class StudentDetailViewModel : ViewModelBase
 
     protected override async Task LoadDataAsync()
     {
-        Student = await _studentFacade.GetAsync(StudentId);
+        var getStudent = await _studentFacade.GetAsync(StudentId);
+
+        if (getStudent != null)
+            Student = getStudent;
+
+        // Don't display empty URL
+        if (Student.ImageUrl == null || !Student.ImageUrl.AbsoluteUri.Equals("about:blank", StringComparison.OrdinalIgnoreCase))
+            StudentImageUrl = Student.ImageUrl;
     }
     
     [RelayCommand]
     private async Task EditStudentInfo()
     {
         await _navigationService.GoToAsync<StudentEditViewModel>(
-           new Dictionary<string, object?> { { nameof(Student), Student } });
+           new Dictionary<string, object?> { { nameof(StudentId), StudentId } });
     }
 
     [RelayCommand]

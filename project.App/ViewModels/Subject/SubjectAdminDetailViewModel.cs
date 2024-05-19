@@ -15,7 +15,7 @@ public partial class SubjectAdminDetailViewModel(
     IMessengerService messengerService) : TableViewModelBase(messengerService)
 {
     protected override FilterPreferences DefaultFilterPreferences =>
-        FilterPreferences.Default with { SortByPropertyName = nameof(ActivityListModel.BeginTime) };
+        FilterPreferences.Default with { SortByPropertyName = nameof(StudentListModel.Name) };
 
     // private readonly INavigationService _navigationService;
     public Guid SubjectId { get; set; }

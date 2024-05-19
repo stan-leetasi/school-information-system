@@ -1,8 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-
-
-
 <views:ContentPageBase xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                        xmlns:views="clr-namespace:project.App.Views"
@@ -12,12 +9,14 @@
                        x:Name="StudentList"
                        x:DataType="vm:StudentListViewModel">
     <VerticalStackLayout>
-        <Grid HorizontalOptions="Fill" ColumnDefinitions="*,Auto">
+        <Grid HorizontalOptions="Fill" ColumnDefinitions="*,*,*">
             <SearchBar Placeholder="Filter students"
                        Text="{Binding FilterPreferences.SearchedTerm}"
                        WidthRequest="600" Grid.Column="1" />
-            <Button Text="Add" Grid.Column="2" Command="{Binding GoToCreateCommand}"
-                    IsVisible="{Binding AdminView}" />
+            <Grid HorizontalOptions="Fill" ColumnDefinitions="*,Auto" Grid.Column="2">
+                <Button Text="Add" Command="{Binding GoToCreateCommand}"
+                        IsVisible="{Binding AdminView}" Grid.Column="1" />
+            </Grid>
         </Grid>
 
         <Label Text="List of Students" FontSize="Large" HorizontalOptions="Center" />

@@ -11,15 +11,16 @@
     <VerticalStackLayout>
 
         <Label Text="{Binding Title}" HorizontalOptions="Center" FontSize="48" FontAttributes="Bold" Margin="0,0,0,10" />
-
-        <Grid HorizontalOptions="Fill" ColumnDefinitions="Auto,*,Auto">
+        <Grid HorizontalOptions="Fill" ColumnDefinitions="*,*,*">
             <SearchBar Placeholder="Filter activities"
                        Text="{Binding FilterPreferences.SearchedTerm}"
                        WidthRequest="600" Grid.Column="1" />
-            <Button Text="Registered Students" Grid.Column="2"
-                    Command="{Binding GoToAdminDetailCommand}"
-                    CommandParameter="{Binding SubjectId}"
-                    IsVisible="{Binding AdminView}" />
+            <Grid HorizontalOptions="Fill" ColumnDefinitions="*,Auto" Grid.Column="2">
+                <Button Text="Registered Students"
+                        Command="{Binding GoToAdminDetailCommand}"
+                        CommandParameter="{Binding SubjectId}"
+                        IsVisible="{Binding AdminView}" Grid.Column="1" />
+            </Grid>
         </Grid>
 
         <Label Text="Activities" FontSize="Large" HorizontalOptions="Center" />

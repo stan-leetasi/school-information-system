@@ -9,12 +9,14 @@
                        x:Name="SubjectList"
                        x:DataType="vm:SubjectListViewModel">
     <VerticalStackLayout>
-        <Grid HorizontalOptions="Fill" ColumnDefinitions="*,Auto">
+        <Grid HorizontalOptions="Fill" ColumnDefinitions="*,*,*">
             <SearchBar Placeholder="Filter subjects"
                        Text="{Binding FilterPreferences.SearchedTerm}"
-                       WidthRequest="600" Grid.Column="0" />
-            <Button Text="Add Activity" Command="{Binding AddSubjectCommand}"
-                    IsVisible="{Binding AdminView}" />
+                       WidthRequest="600" Grid.Column="1" />
+            <Grid HorizontalOptions="Fill" ColumnDefinitions="*,Auto" Grid.Column="2">
+                <Button Text="Add Activity" Command="{Binding AddSubjectCommand}"
+                        IsVisible="{Binding AdminView}" Grid.Column="1" />
+            </Grid>
         </Grid>
 
         <Label Text="List of Subjects" FontSize="Large" HorizontalOptions="Center" />

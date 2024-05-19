@@ -16,11 +16,9 @@
 
         <Label Text="{Binding Activity.SubjectName}" HorizontalOptions="Center" FontSize="24" />
 
-        <Grid HorizontalOptions="Fill" ColumnDefinitions="Auto,*,Auto">
-            <SearchBar Placeholder="Filter Activities"
-                       Text="{Binding FilterPreferences.SearchedTerm}"
-                       WidthRequest="600" Grid.Column="1" />
-        </Grid>
+        <SearchBar Placeholder="Filter Activities"
+                   Text="{Binding FilterPreferences.SearchedTerm}"
+                   WidthRequest="600" Grid.Column="1" />
 
         <Label Text="List of Ratings" FontSize="Large" HorizontalOptions="Center" />
 

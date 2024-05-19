@@ -15,7 +15,10 @@ namespace project.BL.Mappers
 
             return new SubjectListModel
             {
-                Id = entity.Id, Name = entity.Name, Acronym = entity.Acronym, IsRegistered = false
+                Id = entity.Id,
+                Name = entity.Name,
+                Acronym = entity.Acronym,
+                IsRegistered = false
             };
         }
 
@@ -27,6 +30,7 @@ namespace project.BL.Mappers
                 {
                     Id = entity.Id,
                     Name = entity.Name,
+                    IsRegistered = false,
                     Acronym = entity.Acronym,
                     Activities = activityModelMapper.MapToListModel(entity.Activities).ToObservableCollection()
                 };

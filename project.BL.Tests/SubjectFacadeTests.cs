@@ -3,6 +3,8 @@ using project.BL.Filters;
 using project.BL.Models;
 using project.Common.Tests;
 using project.Common.Tests.Seeds;
+using project.DAL.Entities;
+using project.DAL.Mappers;
 using Xunit.Abstractions;
 
 namespace project.BL.Tests;
@@ -41,6 +43,7 @@ public sealed class SubjectFacadeTests : FacadeTestsBase
         var ICSCviko = detailModel!.Activities.Single(a => a.Id == ActivitiesSeeds.ICSCviko.Id);
 
         //Assert
+        Assert.True(detailModel.IsRegistered);
         Assert.NotNull(ICSCviko);
         Assert.True(ICSCviko.IsRegistered);
         Assert.Equal(RatingsSeeds.ICSCvikoRatingJohnL.Points, ICSCviko.Points);
@@ -118,6 +121,12 @@ public sealed class SubjectFacadeTests : FacadeTestsBase
         //Assert
         subjectListModels = await _subjectFacadeSUT.GetAsyncListModels(StudentSeeds.Terry.Id);
         Assert.True(!subjectListModels.SingleOrDefault(s => s.Id == SubjectSeeds.ICS.Id)!.IsRegistered);
+
+        // Assert that registered activities have been unregistered too.
+        await using var uow = UnitOfWorkFactory.Create();
+        var ratingRepository = uow.GetRepository<RatingEntity, RatingEntityMapper>();
+        Assert.False(ratingRepository.Get().Any(r => r.Id == RatingsSeeds.ICSCvikoRatingTerry.Id));
+        Assert.False(ratingRepository.Get().Any(r => r.Id == RatingsSeeds.ICSObhajobaRatingTerry.Id));
     }
 
     // Basic CRUD tests
@@ -194,7 +203,7 @@ public sealed class SubjectFacadeTests : FacadeTestsBase
     public async Task Get_SubjectAdminDetail_Filter_By_Student_Name()
     {
         //Arrange
-        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "terry"};
+        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "terry" };
 
         //Act
         SubjectAdminDetailModel ICS = (await _subjectFacadeSUT.GetAsync(SubjectSeeds.ICS.Id, preferences))!;
@@ -381,7 +390,7 @@ public sealed class SubjectFacadeTests : FacadeTestsBase
         Assert.Equal(ActivitiesSeeds.ICSObhajoba.Id, ICSObhajoba.Id);
     }
 
-    
+
 
     [Fact]
     public async Task Filter_Subject_Activities_SubjectStudentDetailModel_By_DateTime_Format_1()
@@ -470,7 +479,7 @@ public sealed class SubjectFacadeTests : FacadeTestsBase
         // Assert
         Assert.NotNull(detailModel);
         Assert.NotEmpty(detailModel.Students);
-        Assert.Single(detailModel.Students);    
+        Assert.Single(detailModel.Students);
         Assert.Contains(detailModel.Students, s => s.Id == StudentSeeds.Terry.Id);
     }
 }

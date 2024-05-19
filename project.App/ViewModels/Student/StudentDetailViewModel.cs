@@ -25,7 +25,7 @@ public partial class StudentDetailViewModel(
         StudentView = navigationService.IsStudentLoggedIn;
 
         // Don't display empty URL
-        if (Student.ImageUrl == null ||
+        if (Student.ImageUrl != null &&
             !Student.ImageUrl.AbsoluteUri.Equals("about:blank", StringComparison.OrdinalIgnoreCase))
             StudentImageUrl = Student.ImageUrl;
     }

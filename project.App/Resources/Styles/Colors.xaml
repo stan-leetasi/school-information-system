@@ -11,14 +11,14 @@
     <Color x:Key="UnselectedTextColor">#FFFFFF</Color>
     <Color x:Key="SelectedTextColor">#000000</Color>
 
-    <Color x:Key="EntryBarBackgroundColor">#AFF4F0</Color>
+    <Color x:Key="EntryBarBackgroundColor">#82C2D3</Color>
     <Color x:Key="EntryBarTextColor">#022B3A</Color>
 
     <Color x:Key="LabelTextColor">#022B3A</Color>
 
     <Color x:Key="EditButtonColor">#FCB365</Color>
     <Color x:Key="DeleteButtonColor">#DF4D48</Color>
-    <Color x:Key="SaveButtonColor">#249A52</Color>
+    <Color x:Key="SaveButtonColor">#1CBA85</Color>
 
     <Color x:Key="TableRowColor">DarkGrey</Color>
 

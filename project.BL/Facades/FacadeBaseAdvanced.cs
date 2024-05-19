@@ -49,7 +49,10 @@ public abstract class
     {
         await using IUnitOfWork uow = UnitOfWorkFactory.Create();
 
-        if (!ExistsStudent(uow, studentId)) throw new ArgumentException($"Student with {studentId} does not exist.");
+        if (!ExistsStudent(uow, studentId)) throw new ArgumentException($"Student with ID {studentId} does not exist.");
+
+        if (!(await CanBeRegisteredFor(targetId, studentId, uow)))
+            throw new InvalidOperationException($"Student with ID {studentId} doesn't meet the requirements to be registered.");
 
         IRepository<TRegistrationEntity> repositoryRegistrations = uow.GetRepository<TRegistrationEntity, TRegistrationEntityMapper>();
         if (await GetRegistrationEntity(targetId, studentId, repositoryRegistrations.Get()) is not null)
@@ -64,16 +67,20 @@ public abstract class
     {
         await using IUnitOfWork uow = UnitOfWorkFactory.Create();
 
-        if (!ExistsStudent(uow, studentId)) throw new ArgumentException($"Student with {studentId} does not exist.");
+        if (!ExistsStudent(uow, studentId)) throw new ArgumentException($"Student with ID {studentId} does not exist.");
 
         IRepository<TRegistrationEntity> repositoryRegistrations = uow.GetRepository<TRegistrationEntity, TRegistrationEntityMapper>();
         var registration = await GetRegistrationEntity(targetId, studentId, repositoryRegistrations.Get())
                            ?? throw new InvalidOperationException("Registration does not exist.");
 
+        await UnregisterCascadeProcedure(targetId, studentId, uow);
         repositoryRegistrations.Delete(registration.Id);
+        
         await uow.CommitAsync();
     }
 
     protected abstract Task<TRegistrationEntity?> GetRegistrationEntity(Guid targetId, Guid studentId, IQueryable<TRegistrationEntity> registrationEntities);
     protected abstract TRegistrationEntity CreateRegistrationEntity(Guid targetId, Guid studentId);
+    protected abstract Task<bool> CanBeRegisteredFor(Guid targetId, Guid studentId, IUnitOfWork uow);
+    protected abstract Task UnregisterCascadeProcedure(Guid targetId, Guid studentId, IUnitOfWork uow);
 }

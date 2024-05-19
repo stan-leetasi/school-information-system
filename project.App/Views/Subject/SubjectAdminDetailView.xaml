@@ -17,9 +17,11 @@
 
         <Label Text="List of Students" FontSize="Large" HorizontalOptions="Center" />
 
-        <Grid HorizontalOptions="Fill" ColumnSpacing="20" ColumnDefinitions="*,*">
-            <Button Text="Surname" Grid.Column="0" Command="{Binding SortBySurnameCommand}" />
-            <Button Text="Name" Grid.Column="1" Command="{Binding SortByNameCommand}" />
+        <Grid HorizontalOptions="Fill" ColumnDefinitions="*,*">
+            <Button Text="Surname" Grid.Column="0" Command="{Binding SortBySurnameCommand}" 
+                    Style="{StaticResource ColumnHeader}"/>
+            <Button Text="Name" Grid.Column="1" Command="{Binding SortByNameCommand}" 
+                    Style="{StaticResource ColumnHeader}"/>
         </Grid>
 
         <ScrollView>
@@ -28,14 +30,16 @@
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="m:StudentListModel">
                             <ViewCell>
-                                <Grid HorizontalOptions="Fill" ColumnSpacing="20" ColumnDefinitions="*,*">
+                                <Grid HorizontalOptions="Fill" ColumnDefinitions="*,*">
                                     <Grid.GestureRecognizers>
                                         <TapGestureRecognizer
                                             Command="{Binding Source={ x:Reference SubjectAdminDetail }, Path=BindingContext.GoToDetailCommand}"
                                             CommandParameter="{Binding Id}" />
                                     </Grid.GestureRecognizers>
-                                    <Label Text="{Binding Surname}" Grid.Column="0" />
-                                    <Label Text="{Binding Name}" Grid.Column="1" />
+                                    <Label Text="{Binding Surname}" Grid.Column="0" 
+                                           Style="{StaticResource TableLabelNormal}"/>
+                                    <Label Text="{Binding Name}" Grid.Column="1" 
+                                           Style="{StaticResource TableLabelNormal}"/>
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>

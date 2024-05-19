@@ -22,10 +22,10 @@ public partial class SubjectListViewModel(
 
     public ObservableCollection<SubjectListModel> Subjects { get; set; } = [];
     public bool StudentView => navigationService.IsStudentLoggedIn;
-    public bool AdminView => !navigationService.IsStudentLoggedIn;
-
+    public bool AdminView { get; set; }
     protected override async Task LoadDataAsync()
     {
+        AdminView = !navigationService.IsStudentLoggedIn;
         Subjects = (await subjectFacade.GetAsyncListModels(navigationService.LoggedInUser, FilterPreferences))
             .ToObservableCollection();
 
@@ -53,13 +53,10 @@ public partial class SubjectListViewModel(
     [RelayCommand]
     private async Task GoToDetailAsync(Guid id)
     {
-        SubjectListModel subject = Subjects.SingleOrDefault(s => s.Id == id) ??
-                                   throw new ArgumentNullException($"Invalid ID of clicked subject");
-        if (AdminView || subject.IsRegistered)
-            await navigationService.GoToAsync<SubjectStudentDetailViewModel>(new Dictionary<string, object?>
-            {
-                [nameof(SubjectStudentDetailViewModel.SubjectId)] = id
-            });
+        await navigationService.GoToAsync<SubjectStudentDetailViewModel>(new Dictionary<string, object?>
+        {
+            [nameof(SubjectStudentDetailViewModel.SubjectId)] = id
+        });
     }
 
     [RelayCommand]

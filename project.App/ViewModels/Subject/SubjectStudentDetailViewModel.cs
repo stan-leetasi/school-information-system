@@ -25,6 +25,7 @@ public partial class SubjectStudentDetailViewModel(
 
     public bool StudentView => navigationService.IsStudentLoggedIn;
     public bool AdminView => !navigationService.IsStudentLoggedIn;
+    public bool AllowActivityRegistration { get; set; }
     public Guid SubjectId { get; set; }
     public string Title { get; private set; } = string.Empty;
     public ObservableCollection<ActivityListModel> Activities { get; set; } = [];
@@ -37,6 +38,7 @@ public partial class SubjectStudentDetailViewModel(
 
         Activities = subject.Activities.ToObservableCollection();
         Title = subject.Acronym + " - " + subject.Name;
+        AllowActivityRegistration = subject.IsRegistered;
 
         foreach (ActivityListModel activity in Activities)
             activity.PropertyChanged += HandleActivityPropertyChanged!;

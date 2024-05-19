@@ -20,4 +20,6 @@
     <Color x:Key="DeleteButtonColor">#DF4D48</Color>
     <Color x:Key="SaveButtonColor">#249A52</Color>
 
+    <Color x:Key="TableRowColor">DarkGrey</Color>
+
 </ResourceDictionary>

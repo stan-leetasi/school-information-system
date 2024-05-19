@@ -79,6 +79,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Resources\Styles\TableStyle.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Resources\Styles\AboutPageStyle.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

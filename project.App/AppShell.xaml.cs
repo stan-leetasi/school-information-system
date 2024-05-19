@@ -28,7 +28,7 @@ public partial class AppShell : Shell
         => await _navigationService.GoToAsync<SubjectListViewModel>();
 
     [RelayCommand]
-    private async Task GoToHome()
+    private async Task GoToAbout()
         => await _navigationService.GoToAsync("//about");
 
     [RelayCommand]

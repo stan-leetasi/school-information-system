@@ -36,7 +36,8 @@
                     <CheckBox Grid.Column="1" 
                               IsChecked="{Binding Activity.IsRegistered}" 
                               HorizontalOptions="CenterAndExpand" 
-                              IsEnabled="False" />
+                              IsEnabled="False"  
+                              Style="{StaticResource TableCheckbox}"/>
                 </Grid>
             </Grid>
             

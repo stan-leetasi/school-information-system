@@ -9,6 +9,7 @@
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
                 <ResourceDictionary Source="Resources/Styles/AboutPageStyle.xaml" />
+                <ResourceDictionary Source="Resources/Styles/TableStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <converters:StudentListModelToStringConverter x:Key="StudentListModelToStringConverter" />

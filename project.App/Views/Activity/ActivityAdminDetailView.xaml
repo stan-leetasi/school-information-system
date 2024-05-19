@@ -22,10 +22,13 @@
 
         <Label Text="List of Ratings" FontSize="Large" HorizontalOptions="Center" />
 
-        <Grid HorizontalOptions="Fill" ColumnSpacing="20" ColumnDefinitions="*,*,*">
-            <Button Text="Surname" Command="{Binding SortBySurnameCommand}" Grid.Column="0" />
-            <Button Text="Name" Command="{Binding SortByNameCommand}" Grid.Column="1" />
-            <Button Text="Points" Command="{Binding SortByPointsCommand}" Grid.Column="2" />
+        <Grid HorizontalOptions="Fill" ColumnDefinitions="*,*,*">
+            <Button Text="Surname" Command="{Binding SortBySurnameCommand}" Grid.Column="0"
+                    Style="{StaticResource ColumnHeader}" />
+            <Button Text="Name" Command="{Binding SortByNameCommand}" Grid.Column="1"
+                    Style="{StaticResource ColumnHeader}" />
+            <Button Text="Points" Command="{Binding SortByPointsCommand}" Grid.Column="2" 
+                    Style="{StaticResource ColumnHeader}"/>
         </Grid>
 
         <ScrollView>
@@ -34,15 +37,18 @@
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="m:RatingListModel">
                             <ViewCell>
-                                <Grid HorizontalOptions="Fill" ColumnSpacing="20" ColumnDefinitions="*,*,*">
+                                <Grid HorizontalOptions="Fill" ColumnDefinitions="*,*,*">
                                     <Grid.GestureRecognizers>
                                         <TapGestureRecognizer
                                             Command="{Binding Source={ x:Reference ActivityAdminDetail }, Path=BindingContext.GoToDetailCommand}"
                                             CommandParameter="{Binding Id}" />
                                     </Grid.GestureRecognizers>
-                                    <Label Text="{Binding StudentSurname}" Grid.Column="0" />
-                                    <Label Text="{Binding StudentName}" Grid.Column="1" />
-                                    <Label Text="{Binding Points}" Grid.Column="2" />
+                                    <Label Text="{Binding StudentSurname}" Grid.Column="0"
+                                           Style="{StaticResource TableLabelNormal}" />
+                                    <Label Text="{Binding StudentName}" Grid.Column="1"
+                                           Style="{StaticResource TableLabelNormal}" />
+                                    <Label Text="{Binding Points}" Grid.Column="2" 
+                                           Style="{StaticResource TableLabelNormal}"/>
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>

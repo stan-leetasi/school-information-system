@@ -10,7 +10,6 @@ public abstract class TableViewModelBase : ViewModelBase, IRecipient<UserLoggedI
 {
     protected abstract FilterPreferences DefaultFilterPreferences { get; }
     public FilterPreferences FilterPreferences { get; set; } = FilterPreferences.Default;
-
     protected TableViewModelBase(IMessengerService messengerService)
         : base(messengerService) => ResetFilterPreferences();
 

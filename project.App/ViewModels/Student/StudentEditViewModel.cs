@@ -16,6 +16,7 @@ public partial class StudentEditViewModel(
     public StudentDetailModel Student { get; set; } = StudentDetailModel.Empty;
     public Guid StudentId { get; init; } = new();
     public string StudentImageUrl { get; set; } = string.Empty;
+    public string StudentImageUrlTemp { get; set; } = string.Empty;
 
     protected override async Task LoadDataAsync()
     {
@@ -24,10 +25,20 @@ public partial class StudentEditViewModel(
         if (getStudent != null)
             Student = getStudent;
 
-        // Don't display empty URL
-        if (Student.ImageUrl == null ||
+        // Display only valid image URLs
+        if (Student.ImageUrl != null &&
             !Student.ImageUrl.AbsoluteUri.Equals("about:blank", StringComparison.OrdinalIgnoreCase))
+        {
             StudentImageUrl = Student.ImageUrl.ToString();
+            StudentImageUrlTemp = StudentImageUrl;
+        }
+    }
+
+    [RelayCommand]
+    private void UpdateImage()
+    {
+        if(Uri.TryCreate(StudentImageUrlTemp, UriKind.Absolute, out _))
+            StudentImageUrl = StudentImageUrlTemp;
     }
 
     [RelayCommand]
@@ -42,6 +53,7 @@ public partial class StudentEditViewModel(
 
         MessengerService.Send(new StudentEditMessage { StudentId = Student.Id });
 
-        navigationService.SendBackButtonPressed();
+        await navigationService.GoToAsync<StudentDetailViewModel>(
+            new Dictionary<string, object?> { { nameof(StudentDetailViewModel.StudentId), Student.Id } });
     }
 }

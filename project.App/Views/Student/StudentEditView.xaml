@@ -7,15 +7,48 @@
                        x:Class="project.App.Views.Student.StudentEditView"
                        x:DataType="student:StudentEditViewModel">
 
-    <VerticalStackLayout Padding="10">
-        <Label Text="Edit Student" FontSize="Large" HorizontalOptions="Center" />
-        <Label Text="Name" />
-        <Entry Text="{Binding Student.Name}" />
-        <Label Text="Surname" />
-        <Entry Text="{Binding Student.Surname}" />
-        <Label Text="Image URL" />
-        <Entry Text="{Binding StudentImageUrl}" />
-        <Image Source="{Binding StudentImageUrl}" HeightRequest="200" />
-        <Button Text="Save" Command="{Binding SaveCommand}" Style="{StaticResource SaveButtonStyle}" />
-    </VerticalStackLayout>
+    <Grid HorizontalOptions="Start" VerticalOptions="Start"
+          RowDefinitions="50, 800" ColumnDefinitions="100, 300, 800, 100"
+          RowSpacing="0" ColumnSpacing="80">
+
+
+        <Image Aspect="AspectFill" Grid.Row="1" Grid.Column="1" 
+            HorizontalOptions="Center" VerticalOptions="Start" HeightRequest="400"
+            Source="{Binding StudentImageUrl, TargetNullValue='student_photo_placeholder.jpg'}"
+/>
+
+        <VerticalStackLayout Grid.Row="1" Grid.RowSpan="2" 
+            Grid.Column="2" Spacing="20" VerticalOptions="Start">
+
+            <Entry Text="{Binding Student.Name}" Placeholder="Name" 
+                   FontSize="Medium" HeightRequest="60" MaximumWidthRequest="600" 
+                   WidthRequest="600" HorizontalOptions="StartAndExpand"/>
+                   
+            <Entry Text="{Binding Student.Surname}" Placeholder="Surname" 
+                   FontSize="Medium" HeightRequest="60" MaximumWidthRequest="600" 
+                   WidthRequest="600" HorizontalOptions="StartAndExpand"/>
+            
+            <Entry Text="{Binding StudentImageUrlTemp}" Placeholder="Image Url" 
+                   FontSize="Medium" HeightRequest="60" MaximumWidthRequest="600" 
+                   WidthRequest="600" HorizontalOptions="StartAndExpand"
+                   />
+
+            <HorizontalStackLayout Grid.Row="1" Grid.Column="2" 
+            HorizontalOptions="Start" Spacing="10" HeightRequest="55">
+
+                <Button Text="Update Image"
+                    FontSize="Medium"
+                    Command="{Binding UpdateImageCommand}"
+                    Style="{StaticResource EditButtonStyle}">
+                </Button>
+
+                <Button Text="Save"
+                    FontSize="Medium"
+                    Command="{Binding SaveCommand}"
+                    Style="{StaticResource SaveButtonStyle}">
+                </Button>
+
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </Grid>
 </views:ContentPageBase>

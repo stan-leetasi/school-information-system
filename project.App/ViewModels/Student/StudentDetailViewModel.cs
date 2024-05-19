@@ -24,7 +24,7 @@ public partial class StudentDetailViewModel(
         Student = await studentFacade.GetAsync(StudentId) ?? Student;
 
         // Don't display empty URL
-        if (Student.ImageUrl == null ||
+        if (Student.ImageUrl != null &&
             !Student.ImageUrl.AbsoluteUri.Equals("about:blank", StringComparison.OrdinalIgnoreCase))
             StudentImageUrl = Student.ImageUrl;
     }

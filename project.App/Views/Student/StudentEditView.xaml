@@ -22,12 +22,26 @@
 
             <Entry Text="{Binding Student.Name}" Placeholder="Name" 
                    FontSize="Medium" HeightRequest="60" MaximumWidthRequest="600" 
-                   WidthRequest="600" HorizontalOptions="StartAndExpand"/>
-                   
+                   WidthRequest="600" HorizontalOptions="StartAndExpand">
+                <Entry.Triggers>
+                    <DataTrigger TargetType="Entry" Binding="{Binding InvalidName}" Value="True">
+                        <Setter Property="PlaceholderColor" Value="{StaticResource ErrorTextColor}"/>
+                        <Setter Property="Placeholder" Value="Enter a valid name"/>
+                    </DataTrigger>
+                </Entry.Triggers>
+            </Entry>
+
             <Entry Text="{Binding Student.Surname}" Placeholder="Surname" 
                    FontSize="Medium" HeightRequest="60" MaximumWidthRequest="600" 
-                   WidthRequest="600" HorizontalOptions="StartAndExpand"/>
-            
+                   WidthRequest="600" HorizontalOptions="StartAndExpand">
+                <Entry.Triggers>
+                    <DataTrigger TargetType="Entry" Binding="{Binding InvalidName}" Value="True">
+                        <Setter Property="PlaceholderColor" Value="{StaticResource ErrorTextColor}"/>
+                        <Setter Property="Placeholder" Value="Enter a valid surname"/>
+                    </DataTrigger>
+                </Entry.Triggers>
+            </Entry>
+
             <Entry Text="{Binding StudentImageUrlTemp}" Placeholder="Image Url" 
                    FontSize="Medium" HeightRequest="60" MaximumWidthRequest="600" 
                    WidthRequest="600" HorizontalOptions="StartAndExpand"

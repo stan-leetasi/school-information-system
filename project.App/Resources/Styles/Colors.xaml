@@ -10,6 +10,7 @@
 
     <Color x:Key="UnselectedTextColor">#FFFFFF</Color>
     <Color x:Key="SelectedTextColor">#000000</Color>
+    <Color x:Key="ErrorTextColor">#CF1900</Color>
 
     <Color x:Key="EntryBarBackgroundColor">#82C2D3</Color>
     <Color x:Key="EntryBarTextColor">#022B3A</Color>

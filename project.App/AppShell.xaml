@@ -14,8 +14,6 @@
 
     <Shell.MenuBarItems>
         <MenuBarItem Text="File">
-            <MenuFlyoutItem Text="Home"
-                            Command="{Binding Source={x:Reference AppShellRoot}, Path=GoToHomeCommand}" />
             <MenuFlyoutItem Text="Students"
                             Command="{Binding Source={x:Reference AppShellRoot}, Path=GoToStudentsCommand}" />
             <MenuFlyoutItem Text="Subjects"
@@ -24,14 +22,16 @@
             <MenuFlyoutItem Text="Refresh"
                             Command="{Binding Source={x:Reference AppShellRoot}, Path=RefreshCommand}"/>
             <MenuFlyoutSeparator/>
+            <MenuFlyoutItem Text="About"
+                            Command="{Binding Source={x:Reference AppShellRoot}, Path=GoToHomeCommand}" />
             <MenuFlyoutItem Text="Log out"
                             Command="{Binding Source={x:Reference AppShellRoot}, Path=LogOutCommand}" />
         </MenuBarItem>
     </Shell.MenuBarItems>
 
     <ShellContent Title="Log In Screen" ContentTemplate="{DataTemplate views:LoginPage}" Route="login" />
-    <ShellContent Title="Home" ContentTemplate="{DataTemplate local:MainPage}" Route="home" />
     <ShellContent Title="Subjects" ContentTemplate="{DataTemplate viewsSubject:SubjectListView}" Route="subjects" />
     <ShellContent Title="Students" ContentTemplate="{DataTemplate student:StudentListView}" Route="students" />
+    <ShellContent Title="About" ContentTemplate="{DataTemplate views:AboutPage}" Route="about" />
 
 </Shell>

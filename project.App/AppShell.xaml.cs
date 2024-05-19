@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using project.App.Messages;
 using project.App.Services;
+using project.App.ViewModels.Student;
+using project.App.ViewModels.Subject;
 
 namespace project.App;
 
@@ -19,15 +21,15 @@ public partial class AppShell : Shell
     // TODO: change routes in commands
     [RelayCommand]
     private async Task GoToStudents()
-        => await _navigationService.GoToAsync("//students");
+        => await _navigationService.GoToAsync<StudentListViewModel>();
 
     [RelayCommand]
     private async Task GoToSubjects()
-        => await _navigationService.GoToAsync("//subjects");
+        => await _navigationService.GoToAsync<SubjectListViewModel>();
 
     [RelayCommand]
     private async Task GoToHome()
-        => await _navigationService.GoToAsync("//home");
+        => await _navigationService.GoToAsync("//about");
 
     [RelayCommand]
     private void Refresh()

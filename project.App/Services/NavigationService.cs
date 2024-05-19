@@ -19,7 +19,7 @@ public class NavigationService : INavigationService
 
     public IEnumerable<RouteModel> Routes { get; } = new List<RouteModel>
     {
-        new("//home", typeof(MainPage), typeof(ViewModelBase)),
+        new("//about", typeof(AboutPage), typeof(ViewModelBase)),
         new("//login", typeof(LoginPage), typeof(StudentLoginViewModel)),
         new("//students", typeof(StudentListView), typeof(StudentListViewModel)),
         new("//students/detail", typeof(StudentDetailView), typeof(StudentDetailViewModel)),
@@ -63,11 +63,11 @@ public class NavigationService : INavigationService
     public async Task LogIn(Guid? userGuid)
     {
         LoggedInUser = userGuid;
-        await GoToAsync("//home");
+        await GoToAsync<SubjectListViewModel>();
     }
 
     public async Task LogOut()
     {
-        await GoToAsync("//login");
+        await GoToAsync<StudentListViewModel>();
     }
 }

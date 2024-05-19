@@ -8,8 +8,9 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
+                <ResourceDictionary Source="Resources/Styles/AboutPageStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            
+
             <converters:StudentListModelToStringConverter x:Key="StudentListModelToStringConverter" />
         </ResourceDictionary>
     </Application.Resources>

@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using project.App.Services;
 using project.BL.Facades;
 using project.BL.Models;
@@ -10,7 +11,7 @@ public partial class RatingDetailViewModel(
     IRatingFacade ratingFacade,
     INavigationService navigationService,
     IMessengerService messengerService)
-    : ViewModelBase(messengerService)
+    : ViewModelBase(messengerService) // TODO , IRecipient<RatingEditMessage>
 {
     public Guid Id { get; set; }
     public RatingDetailModel? Rating { get; set; }
@@ -19,10 +20,10 @@ public partial class RatingDetailViewModel(
     {
         Rating = await ratingFacade.GetAsync(Id);
     }
-    
+
     [RelayCommand]
     private async Task Refresh() => await LoadDataAsync();
-    
+
     [RelayCommand]
     private async Task GoToEditAsync()
     {
@@ -32,4 +33,6 @@ public partial class RatingDetailViewModel(
             //     new Dictionary<string, object?> { [nameof(RatingEditViewModel.Recipe)] = Recipe with { } });
         }
     }
+
+    // TODO public async void Receive(RatingEditMessage message) => await LoadDataAsync();
 }

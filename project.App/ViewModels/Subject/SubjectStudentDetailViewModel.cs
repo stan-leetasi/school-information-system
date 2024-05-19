@@ -17,7 +17,7 @@ public partial class SubjectStudentDetailViewModel(
     IActivityFacade activityFacade,
     INavigationService navigationService,
     IMessengerService messengerService)
-    : TableViewModelBase(messengerService)
+    : TableViewModelBase(messengerService) // TODO , IRecipient<ActivityEditMessage>
 {
     protected override FilterPreferences DefaultFilterPreferences =>
         FilterPreferences.Default with { SortByPropertyName = nameof(ActivityListModel.BeginTime) };
@@ -100,4 +100,6 @@ public partial class SubjectStudentDetailViewModel(
 
     [RelayCommand]
     private async Task SortByIsRegistered() => await ApplyNewSorting(nameof(ActivityListModel.IsRegistered));
+
+    // TODO public async void Receive(ActivityEditMessage message) => await LoadDataAsync();
 }

@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using project.App.Services;
 using project.App.ViewModels.Student;
 using project.BL.Facades;
@@ -12,7 +13,7 @@ namespace project.App.ViewModels.Subject;
 public partial class SubjectAdminDetailViewModel(
     ISubjectFacade subjectFacade,
     INavigationService navigationService,
-    IMessengerService messengerService) : TableViewModelBase(messengerService)
+    IMessengerService messengerService) : TableViewModelBase(messengerService) //TODO , IRecipient<RatingEditMessage>
 {
     protected override FilterPreferences DefaultFilterPreferences =>
         FilterPreferences.Default with { SortByPropertyName = nameof(StudentListModel.Name) };
@@ -47,4 +48,6 @@ public partial class SubjectAdminDetailViewModel(
 
     [RelayCommand]
     private async Task SortByName() => await ApplyNewSorting(nameof(StudentListModel.Name));
+
+    // TODO public async void Receive(RatingEditMessage message) => await LoadDataAsync();
 }

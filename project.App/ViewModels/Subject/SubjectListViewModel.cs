@@ -15,7 +15,7 @@ public partial class SubjectListViewModel(
     ISubjectFacade subjectFacade,
     INavigationService navigationService,
     IMessengerService messengerService)
-    : TableViewModelBase(messengerService)
+    : TableViewModelBase(messengerService) // TODO , IRecipient<SubjectEditMessage>
 {
     protected override FilterPreferences DefaultFilterPreferences =>
         FilterPreferences.Default with { SortByPropertyName = nameof(SubjectListModel.Acronym) };
@@ -70,4 +70,6 @@ public partial class SubjectListViewModel(
 
     [RelayCommand]
     private async Task SortByRegistered() => await ApplyNewSorting(nameof(SubjectListModel.IsRegistered));
+
+    // TODO public async void Receive(SubjectEditMessage message) => await LoadDataAsync();
 }

@@ -2,6 +2,8 @@
 using project.BL.Facades;
 using project.BL.Models;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using project.App.Messages;
 
 namespace project.App.ViewModels.Student;
 
@@ -10,7 +12,7 @@ public partial class StudentDetailViewModel(
     IStudentFacade studentFacade,
     INavigationService navigationService,
     IMessengerService messengerService)
-    : ViewModelBase(messengerService)
+    : ViewModelBase(messengerService), IRecipient<StudentEditMessage>
 {
     public StudentDetailModel? Student { get; set; } = StudentDetailModel.Empty;
     public Guid StudentId { get; set; } = new();
@@ -38,4 +40,6 @@ public partial class StudentDetailViewModel(
         await studentFacade.DeleteAsync(StudentId);
         await navigationService.GoToAsync("//students");
     }
+
+    public async void Receive(StudentEditMessage message) => await LoadDataAsync();
 }

@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using project.App.Services;
 using project.App.ViewModels.Rating;
 using project.BL.Facades;
@@ -13,7 +14,7 @@ public partial class ActivityAdminDetailViewModel(
     IActivityFacade activityFacade,
     INavigationService navigationService,
     IMessengerService messengerService)
-    : TableViewModelBase(messengerService)
+    : TableViewModelBase(messengerService) // TODO, IRecipient<RatingEditMessage>, IRecipient<ActivityEditMessage>
 {
     protected override FilterPreferences DefaultFilterPreferences =>
         FilterPreferences.Default with { SortByPropertyName = nameof(RatingListModel.StudentSurname) };
@@ -52,4 +53,6 @@ public partial class ActivityAdminDetailViewModel(
 
     [RelayCommand]
     private async Task SortByPoints() => await ApplyNewSorting(nameof(RatingListModel.Points));
+
+    // TODO public async void Receive(RatingEditMessage message) => await LoadDataAsync();
 }

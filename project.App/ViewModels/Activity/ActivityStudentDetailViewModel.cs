@@ -14,7 +14,7 @@ public partial class ActivityStudentDetailViewModel(
     IActivityFacade activityFacade,
     INavigationService navigationService,
     IMessengerService messengerService)
-    : ViewModelBase(messengerService)
+    : ViewModelBase(messengerService) //TODO , IRecipient<ActivityEditMessage>
 {
     public Guid Id { get; set; }
     public ActivityStudentDetailModel? Activity { get; set; }
@@ -25,7 +25,9 @@ public partial class ActivityStudentDetailViewModel(
         //await base.LoadDataAsync();
         Activity = await activityFacade.GetAsyncStudentDetail(Id, navigationService.LoggedInUser, null);
     }
-    
+
     [RelayCommand]
     private async Task Refresh() => await LoadDataAsync();
+
+    // TODO public async void Receive(ActivityEditMessage message) => await LoadDataAsync();
 }

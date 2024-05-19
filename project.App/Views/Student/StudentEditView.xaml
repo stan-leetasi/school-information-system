@@ -16,6 +16,6 @@
         <Label Text="Image URL" />
         <Entry Text="{Binding StudentImageUrl}" />
         <Image Source="{Binding StudentImageUrl}" HeightRequest="200" />
-        <Button Text="Save" Command="{Binding SaveCommand}" />
+        <Button Text="Save" Command="{Binding SaveCommand}" Style="{StaticResource SaveButtonStyle}" />
     </VerticalStackLayout>
 </views:ContentPageBase>

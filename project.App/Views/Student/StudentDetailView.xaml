@@ -38,11 +38,9 @@
                 HorizontalOptions="Start" Spacing="10" HeightRequest="55">
 
                 <Button Text="Delete"
-                        CornerRadius="5"
-                        BackgroundColor="Red"
                         FontSize="Medium"
-                        FontAttributes="Bold"
-                        Command="{Binding DeleteStudentCommand}">
+                        Command="{Binding DeleteStudentCommand}"
+                        Style="{StaticResource DeleteButtonStyle}">
 
                     <Button.Triggers>
                         <DataTrigger TargetType="Button" Binding="{Binding StudentView}" Value="True">
@@ -55,11 +53,9 @@
                 </Button>
 
                 <Button Text="Edit"
-                        CornerRadius="5"
-                        BackgroundColor="Cyan"
                         FontSize="Medium"
-                        FontAttributes="Bold"
-                        Command="{Binding EditStudentInfoCommand}">
+                        Command="{Binding EditStudentInfoCommand}"
+                        Style="{StaticResource EditButtonStyle}">
                     <Button.Triggers>
                         <DataTrigger TargetType="Button" Binding="{Binding StudentView}" Value="True">
                             <Setter Property="IsVisible" Value="False" />

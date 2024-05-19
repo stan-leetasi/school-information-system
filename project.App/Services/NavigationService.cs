@@ -68,6 +68,6 @@ public class NavigationService : INavigationService
 
     public async Task LogOut()
     {
-        await GoToAsync<StudentListViewModel>();
+        await GoToAsync<StudentLoginViewModel>();
     }
 }

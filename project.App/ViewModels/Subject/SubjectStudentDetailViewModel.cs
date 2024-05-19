@@ -4,6 +4,7 @@ using project.BL.Filters;
 using project.BL.Models;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using project.App.Messages;
 using project.App.ViewModels.Activity;
 using project.BL;
 using System.Collections.ObjectModel;
@@ -17,7 +18,7 @@ public partial class SubjectStudentDetailViewModel(
     IActivityFacade activityFacade,
     INavigationService navigationService,
     IMessengerService messengerService)
-    : TableViewModelBase(messengerService) // TODO , IRecipient<ActivityEditMessage>
+    : TableViewModelBase(messengerService), IRecipient<StudentEditMessage>,IRecipient<ActivityEditMessage>
 {
     protected override FilterPreferences DefaultFilterPreferences =>
         FilterPreferences.Default with { SortByPropertyName = nameof(ActivityListModel.BeginTime) };
@@ -101,5 +102,7 @@ public partial class SubjectStudentDetailViewModel(
     [RelayCommand]
     private async Task SortByIsRegistered() => await ApplyNewSorting(nameof(ActivityListModel.IsRegistered));
 
-    // TODO public async void Receive(ActivityEditMessage message) => await LoadDataAsync();
+    public async void Receive(ActivityEditMessage message) => await LoadDataAsync();
+
+    public async void Receive(StudentEditMessage message) => await LoadDataAsync();
 }

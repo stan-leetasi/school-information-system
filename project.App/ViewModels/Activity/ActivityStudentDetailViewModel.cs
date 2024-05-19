@@ -4,8 +4,6 @@ using project.App.Messages;
 using project.App.Services;
 using project.BL.Facades;
 using project.BL.Models;
-using project.Common.Enums;
-using System.Diagnostics;
 
 namespace project.App.ViewModels.Activity;
 
@@ -14,7 +12,7 @@ public partial class ActivityStudentDetailViewModel(
     IActivityFacade activityFacade,
     INavigationService navigationService,
     IMessengerService messengerService)
-    : ViewModelBase(messengerService) //TODO , IRecipient<ActivityEditMessage>
+    : ViewModelBase(messengerService), IRecipient<ActivityEditMessage>
 {
     public Guid Id { get; set; }
     public ActivityStudentDetailModel? Activity { get; set; }
@@ -22,12 +20,11 @@ public partial class ActivityStudentDetailViewModel(
 
     protected override async Task LoadDataAsync()
     {
-        //await base.LoadDataAsync();
-        Activity = await activityFacade.GetAsyncStudentDetail(Id, navigationService.LoggedInUser, null);
+        Activity = await activityFacade.GetAsyncStudentDetail(Id, navigationService.LoggedInUser);
     }
 
     [RelayCommand]
     private async Task Refresh() => await LoadDataAsync();
 
-    // TODO public async void Receive(ActivityEditMessage message) => await LoadDataAsync();
+    public async void Receive(ActivityEditMessage message) => await LoadDataAsync();
 }

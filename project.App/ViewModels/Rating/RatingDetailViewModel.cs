@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using project.App.Messages;
 using project.App.Services;
 using project.BL.Facades;
 using project.BL.Models;
@@ -11,7 +12,7 @@ public partial class RatingDetailViewModel(
     IRatingFacade ratingFacade,
     INavigationService navigationService,
     IMessengerService messengerService)
-    : ViewModelBase(messengerService) // TODO , IRecipient<RatingEditMessage>
+    : ViewModelBase(messengerService) ,IRecipient<RatingEditMessage>
 {
     public Guid Id { get; set; }
     public RatingDetailModel? Rating { get; set; }
@@ -34,5 +35,5 @@ public partial class RatingDetailViewModel(
         }
     }
 
-    // TODO public async void Receive(RatingEditMessage message) => await LoadDataAsync();
+    public async void Receive(RatingEditMessage message) => await LoadDataAsync();
 }

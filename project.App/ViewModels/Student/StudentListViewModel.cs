@@ -20,11 +20,13 @@ public partial class StudentListViewModel(
         FilterPreferences.Default with { SortByPropertyName = nameof(StudentListModel.Name) };
 
     public ObservableCollection<StudentListModel> Students { get; set; } = [];
-    public bool AdminView => !navigationService.IsStudentLoggedIn;
+    public bool AdminView { get; set; } = !navigationService.IsStudentLoggedIn;
 
-    protected override async Task LoadDataAsync() =>
+    protected override async Task LoadDataAsync()
+    {
         Students = (await studentFacade.GetAsync(FilterPreferences)).ToObservableCollection();
-
+        AdminView = !navigationService.IsStudentLoggedIn;
+    }
     // Commands
 
     [RelayCommand]

@@ -21,11 +21,13 @@ public partial class SubjectListViewModel(
         FilterPreferences.Default with { SortByPropertyName = nameof(SubjectListModel.Acronym) };
 
     public ObservableCollection<SubjectListModel> Subjects { get; set; } = [];
-    public bool StudentView => navigationService.IsStudentLoggedIn;
-    public bool AdminView { get; set; }
+    public bool StudentView { get; set; } = navigationService.IsStudentLoggedIn;
+    public bool AdminView { get; set; } = !navigationService.IsStudentLoggedIn;
+
     protected override async Task LoadDataAsync()
     {
         AdminView = !navigationService.IsStudentLoggedIn;
+        StudentView = navigationService.IsStudentLoggedIn;
         Subjects = (await subjectFacade.GetAsyncListModels(navigationService.LoggedInUser, FilterPreferences))
             .ToObservableCollection();
 

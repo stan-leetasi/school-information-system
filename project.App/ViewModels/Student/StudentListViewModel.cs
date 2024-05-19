@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Maui.Core.Extensions;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using project.App.Messages;
 using project.App.Services;
 using project.BL.Facades;
 using project.BL.Filters;
@@ -12,12 +14,13 @@ public partial class StudentListViewModel(
     IStudentFacade studentFacade,
     INavigationService navigationService,
     IMessengerService messengerService)
-    : TableViewModelBase(messengerService)
+    : TableViewModelBase(messengerService), IRecipient<StudentEditMessage>
 {
     protected override FilterPreferences DefaultFilterPreferences =>
         FilterPreferences.Default with { SortByPropertyName = nameof(StudentListModel.Name) };
 
     public ObservableCollection<StudentListModel> Students { get; set; } = [];
+    public bool AdminView => !navigationService.IsStudentLoggedIn;
 
     protected override async Task LoadDataAsync() =>
         Students = (await studentFacade.GetAsync(FilterPreferences)).ToObservableCollection();
@@ -27,21 +30,17 @@ public partial class StudentListViewModel(
     [RelayCommand]
     private async Task Refresh() => await LoadDataAsync();
 
-    [RelayCommand]
-    private Task AddStudent() => Task.CompletedTask;
+    public async void Receive(StudentEditMessage message) => await LoadDataAsync();
 
     // Navigation
 
     [RelayCommand]
     private Task GoToDetailAsync(Guid id) =>
-        navigationService.GoToAsync<ViewModels.Student.StudentDetailViewModel>(
+        navigationService.GoToAsync<StudentDetailViewModel>(
             new Dictionary<string, object?> { { nameof(StudentDetailViewModel.StudentId), id } });
 
     [RelayCommand]
-    private async Task GoToCreateAsync()
-    {
-        await navigationService.GoToAsync("/edit");
-    }
+    private async Task GoToCreateAsync() => await navigationService.GoToAsync("/edit");
 
     // Sorting
 

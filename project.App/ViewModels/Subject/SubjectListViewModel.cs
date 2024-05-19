@@ -11,66 +11,52 @@ using System.ComponentModel;
 
 namespace project.App.ViewModels.Subject;
 
-public partial class SubjectListViewModel : TableViewModelBase, IRecipient<UserLoggedIn>, IRecipient<RefreshManual>
+public partial class SubjectListViewModel(
+    ISubjectFacade subjectFacade,
+    INavigationService navigationService,
+    IMessengerService messengerService)
+    : TableViewModelBase(messengerService)
 {
     protected override FilterPreferences DefaultFilterPreferences =>
         FilterPreferences.Default with { SortByPropertyName = nameof(SubjectListModel.Acronym) };
 
-    private readonly ISubjectFacade _subjectFacade;
-    private readonly INavigationService _navigationService;
     public ObservableCollection<SubjectListModel> Subjects { get; set; } = [];
-    public bool StudentView { get; protected set; }
-    public bool AdminView { get; protected set; }
-
-    public SubjectListViewModel(
-        ISubjectFacade subjectFacade,
-        INavigationService navigationService,
-        IMessengerService messengerService) : base(messengerService)
-    {
-        _subjectFacade = subjectFacade;
-        _navigationService = navigationService;
-
-        StudentView = _navigationService.IsStudentLoggedIn;
-        AdminView = !_navigationService.IsStudentLoggedIn;
-    }
+    public bool StudentView => navigationService.IsStudentLoggedIn;
+    public bool AdminView => !navigationService.IsStudentLoggedIn;
 
     protected override async Task LoadDataAsync()
     {
-        Subjects = (await _subjectFacade.GetAsyncListModels(studentId: _navigationService.LoggedInUser, filterPreferences: FilterPreferences))
+        Subjects = (await subjectFacade.GetAsyncListModels(navigationService.LoggedInUser, FilterPreferences))
             .ToObservableCollection();
 
-        foreach (var subject in Subjects)
-        {
+        foreach (SubjectListModel subject in Subjects)
             subject.PropertyChanged += HandleSubjectPropertyChanged!;
-        }
     }
 
     private void HandleSubjectPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(SubjectListModel.IsRegistered))
-        {
-            var subject = (SubjectListModel)sender;
-            Guid student = _navigationService.LoggedInUser ?? throw new ArgumentNullException();
-            if (subject.IsRegistered)
-            {
-                _subjectFacade.RegisterStudent(subject.Id, student);
-            }
-            else
-            {
-                _subjectFacade.UnregisterStudent(subject.Id, student);
-            }
-        }
+        if (e.PropertyName != nameof(SubjectListModel.IsRegistered))
+            return;
+
+        SubjectListModel subject = (SubjectListModel)sender;
+        Guid student = navigationService.LoggedInUser ?? throw new ArgumentNullException();
+        if (subject.IsRegistered)
+            subjectFacade.RegisterStudent(subject.Id, student);
+        else
+            subjectFacade.UnregisterStudent(subject.Id, student);
     }
 
+    // TODO: AddSubject
     [RelayCommand]
     private Task AddSubject() => Task.CompletedTask;
 
     [RelayCommand]
     private async Task GoToDetailAsync(Guid id)
     {
-        SubjectListModel subject = Subjects.SingleOrDefault(s => s.Id == id) ?? throw new ArgumentNullException($"Invalid ID of clicked subject");
+        SubjectListModel subject = Subjects.SingleOrDefault(s => s.Id == id) ??
+                                   throw new ArgumentNullException($"Invalid ID of clicked subject");
         if (AdminView || subject.IsRegistered)
-            await _navigationService.GoToAsync<SubjectStudentDetailViewModel>(new Dictionary<string, object?>
+            await navigationService.GoToAsync<SubjectStudentDetailViewModel>(new Dictionary<string, object?>
             {
                 [nameof(SubjectStudentDetailViewModel.SubjectId)] = id
             });
@@ -84,17 +70,4 @@ public partial class SubjectListViewModel : TableViewModelBase, IRecipient<UserL
 
     [RelayCommand]
     private async Task SortByRegistered() => await ApplyNewSorting(nameof(SubjectListModel.IsRegistered));
-
-    public async void Receive(UserLoggedIn message)
-    {
-        StudentView = _navigationService.IsStudentLoggedIn;
-        AdminView = !_navigationService.IsStudentLoggedIn;
-        ResetFilterPreferences();
-        await LoadDataAsync();
-    }
-
-    public async void Receive(RefreshManual message)
-    {
-        await LoadDataAsync();
-    }
 }

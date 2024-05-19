@@ -8,7 +8,7 @@ namespace project.App.ViewModels;
 
 public abstract class TableViewModelBase : ViewModelBase, IRecipient<UserLoggedIn>, IRecipient<RefreshManual>
 {
-    protected virtual FilterPreferences DefaultFilterPreferences => FilterPreferences.Default;
+    protected abstract FilterPreferences DefaultFilterPreferences { get; }
     public FilterPreferences FilterPreferences { get; set; } = FilterPreferences.Default;
 
     protected TableViewModelBase(IMessengerService messengerService)
@@ -20,7 +20,7 @@ public abstract class TableViewModelBase : ViewModelBase, IRecipient<UserLoggedI
         FilterPreferences.PropertyChanged += HandleSearchBarChange!;
     }
 
-    protected async void HandleSearchBarChange(object sender, PropertyChangedEventArgs e) => await LoadDataAsync();
+    private async void HandleSearchBarChange(object sender, PropertyChangedEventArgs e) => await LoadDataAsync();
 
     protected async Task ApplyNewSorting(string propertyName)
     {
@@ -41,8 +41,5 @@ public abstract class TableViewModelBase : ViewModelBase, IRecipient<UserLoggedI
         await LoadDataAsync();
     }
 
-    public async void Receive(RefreshManual message)
-    {
-        await LoadDataAsync();
-    }
+    public virtual async void Receive(RefreshManual message) => await LoadDataAsync();
 }

@@ -3,6 +3,7 @@ using project.BL.Facades;
 using project.BL.Filters;
 using project.BL.Models;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using project.App.ViewModels.Activity;
 using project.BL;
 using System.Collections.ObjectModel;
@@ -40,7 +41,7 @@ public partial class SubjectStudentDetailViewModel(
             activity.PropertyChanged += HandleActivityPropertyChanged!;
     }
 
-    private void HandleActivityPropertyChanged(object sender, PropertyChangedEventArgs e)
+    private async void HandleActivityPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName != nameof(ActivityListModel.IsRegistered))
             return;
@@ -48,9 +49,10 @@ public partial class SubjectStudentDetailViewModel(
         ActivityListModel activity = (ActivityListModel)sender;
         Guid studentId = navigationService.LoggedInUser ?? Guid.Empty;
         if (activity.IsRegistered)
-            activityFacade.RegisterStudent(activity.Id, studentId);
+            await activityFacade.RegisterStudent(activity.Id, studentId);
         else
-            activityFacade.UnregisterStudent(activity.Id, studentId);
+            await activityFacade.UnregisterStudent(activity.Id, studentId);
+        await LoadDataAsync();
     }
 
     [RelayCommand]
@@ -61,8 +63,7 @@ public partial class SubjectStudentDetailViewModel(
     [RelayCommand]
     private async Task GoToDetailAsync(Guid id)
     {
-        var activity = Activities.First(a => a.Id == id);
-        
+        ActivityListModel activity = Activities.First(a => a.Id == id);
         if (StudentView && activity.IsRegistered)
             await navigationService.GoToAsync<ActivityStudentDetailViewModel>(
                 new Dictionary<string, object?> { [nameof(ActivityStudentDetailViewModel.Id)] = id });

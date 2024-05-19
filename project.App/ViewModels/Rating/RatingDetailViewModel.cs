@@ -6,26 +6,18 @@ using project.BL.Models;
 namespace project.App.ViewModels.Rating;
 
 [QueryProperty(nameof(Id), nameof(Id))]
-public partial class RatingDetailViewModel : ViewModelBase
+public partial class RatingDetailViewModel(
+    IRatingFacade ratingFacade,
+    INavigationService navigationService,
+    IMessengerService messengerService)
+    : ViewModelBase(messengerService)
 {
-    private readonly IRatingFacade _ratingFacade;
-    private readonly INavigationService _navigationService;
     public Guid Id { get; set; }
     public RatingDetailModel? Rating { get; set; }
 
-    public RatingDetailViewModel(IRatingFacade ratingFacade,
-        INavigationService navigationService,
-        IMessengerService messengerService)
-        : base(messengerService)
-    {
-        _ratingFacade = ratingFacade;
-        _navigationService = navigationService;
-    }
     protected override async Task LoadDataAsync()
     {
-        await base.LoadDataAsync();
-        
-        Rating = await _ratingFacade.GetAsync(Id);
+        Rating = await ratingFacade.GetAsync(Id);
     }
     
     [RelayCommand]
@@ -36,7 +28,7 @@ public partial class RatingDetailViewModel : ViewModelBase
     {
         if (Rating is not null)
         {
-            // await _navigationService.GoToAsync("/edit",
+            // await navigationService.GoToAsync("/edit",
             //     new Dictionary<string, object?> { [nameof(RatingEditViewModel.Recipe)] = Recipe with { } });
         }
     }

@@ -10,29 +10,20 @@ using System.Diagnostics;
 namespace project.App.ViewModels.Activity;
 
 [QueryProperty(nameof(Id), nameof(Id))]
-public partial class ActivityStudentDetailViewModel : ViewModelBase
+public partial class ActivityStudentDetailViewModel(
+    IActivityFacade activityFacade,
+    INavigationService navigationService,
+    IMessengerService messengerService)
+    : ViewModelBase(messengerService)
 {
-    private readonly IActivityFacade _activityFacade;
-    private readonly INavigationService _navigationService;
-    
     public Guid Id { get; set; }
     public ActivityStudentDetailModel? Activity { get; set; }
-
-    public ActivityStudentDetailViewModel(
-        IActivityFacade activityFacade,
-        INavigationService navigationService,
-        IMessengerService messengerService)
-        : base(messengerService)
-    {
-        _activityFacade = activityFacade;
-        _navigationService = navigationService;
-    }
 
 
     protected override async Task LoadDataAsync()
     {
-        await base.LoadDataAsync();
-        Activity = await _activityFacade.GetAsyncStudentDetail(Id, _navigationService.LoggedInUser, null);
+        //await base.LoadDataAsync();
+        Activity = await activityFacade.GetAsyncStudentDetail(Id, navigationService.LoggedInUser, null);
     }
     
     [RelayCommand]

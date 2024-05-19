@@ -24,7 +24,8 @@ public partial class SubjectAdminDetailViewModel(
 
     protected override async Task LoadDataAsync()
     {
-        SubjectAdminDetailModel subject = await subjectFacade.GetAsync(SubjectId) ?? SubjectAdminDetailModel.Empty;
+        SubjectAdminDetailModel subject = await subjectFacade.GetAsync(SubjectId, FilterPreferences) ??
+                                          SubjectAdminDetailModel.Empty;
         Students = subject.Students;
         Title = subject.Acronym + " - " + subject.Name;
     }
@@ -36,7 +37,8 @@ public partial class SubjectAdminDetailViewModel(
 
     [RelayCommand]
     private async Task GoToDetail(Guid studentId) =>
-        await navigationService.GoToAsync("//subjects/detail/admin/students", new Dictionary<string, object?> { { "StudentId", studentId } });
+        await navigationService.GoToAsync("//subjects/detail/admin/students",
+            new Dictionary<string, object?> { { "StudentId", studentId } });
 
     // Sorting
 

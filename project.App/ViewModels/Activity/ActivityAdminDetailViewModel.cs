@@ -11,7 +11,7 @@ namespace project.App.ViewModels.Activity;
 [QueryProperty(nameof(ActivityId), nameof(ActivityId))]
 public partial class ActivityAdminDetailViewModel(
     IActivityFacade activityFacade,
-    INavigationService _navigationService,
+    INavigationService navigationService,
     IMessengerService messengerService)
     : TableViewModelBase(messengerService)
 {
@@ -27,12 +27,13 @@ public partial class ActivityAdminDetailViewModel(
         Activity = await activityFacade.GetAsync(ActivityId, FilterPreferences) ?? ActivityAdminDetailModel.Empty;
         Ratings = Activity.Ratings;
     }
-    
+
     [RelayCommand]
     private async Task GoToDetailAsync(Guid id)
     {
-        RatingListModel rating = Ratings.SingleOrDefault(r => r.Id == id) ?? throw new ArgumentNullException($"Invalid ID of clicked rating");
-        await _navigationService.GoToAsync<RatingDetailViewModel>(new Dictionary<string, object?>
+        RatingListModel rating = Ratings.SingleOrDefault(r => r.Id == id) ??
+                                 throw new ArgumentNullException($"Invalid ID of clicked rating");
+        await navigationService.GoToAsync<RatingDetailViewModel>(new Dictionary<string, object?>
         {
             [nameof(RatingDetailViewModel.Id)] = rating.Id
         });

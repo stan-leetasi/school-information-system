@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using project.App.Services;
+using project.App.ViewModels.Student;
 using project.BL.Facades;
 using project.BL.Filters;
 using project.BL.Models;
@@ -30,6 +31,12 @@ public partial class SubjectAdminDetailViewModel(
 
     [RelayCommand]
     private async Task Refresh() => await LoadDataAsync();
+
+    // Navigation
+
+    [RelayCommand]
+    private async Task GoToDetail(Guid studentId) =>
+        await navigationService.GoToAsync("//subjects/detail/admin/students", new Dictionary<string, object?> { { "StudentId", studentId } });
 
     // Sorting
 

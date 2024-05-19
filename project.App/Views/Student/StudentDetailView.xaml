@@ -60,7 +60,7 @@
                         BackgroundColor="Cyan"
                         FontSize="Medium"
                         FontAttributes="Bold"
-                        Command="{Binding EditStudentCommand}">
+                        Command="{Binding EditStudentInfoCommand}">
                     <Button.Triggers>
                         <DataTrigger TargetType="Button" Binding="{Binding StudentView}" Value="True">
                             <Setter Property="IsVisible" Value="False" />

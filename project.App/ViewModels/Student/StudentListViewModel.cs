@@ -37,6 +37,12 @@ public partial class StudentListViewModel(
         navigationService.GoToAsync<ViewModels.Student.StudentDetailViewModel>(
             new Dictionary<string, object?> { { nameof(StudentDetailViewModel.StudentId), id } });
 
+    [RelayCommand]
+    private async Task GoToCreateAsync()
+    {
+        await navigationService.GoToAsync("/edit");
+    }
+
     // Sorting
 
     [RelayCommand]

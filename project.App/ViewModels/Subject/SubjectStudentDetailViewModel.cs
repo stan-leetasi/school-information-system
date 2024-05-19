@@ -30,7 +30,7 @@ public partial class SubjectStudentDetailViewModel(
     protected override async Task LoadDataAsync()
     {
         SubjectStudentDetailModel subject =
-            await subjectFacade.GetAsyncStudentDetail(SubjectId, navigationService.LoggedInUser) ??
+            await subjectFacade.GetAsyncStudentDetail(SubjectId, navigationService.LoggedInUser, FilterPreferences) ??
             SubjectStudentDetailModel.Empty;
 
         Activities = subject.Activities.ToObservableCollection();

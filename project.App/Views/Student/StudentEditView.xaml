@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:ContentPageBase xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:edit="clr-namespace:project.App.ViewModels.Student"
+                       xmlns:views="clr-namespace:project.App.Views"
+                       xmlns:student="clr-namespace:project.App.ViewModels.Student"
+                       x:Class="project.App.Views.Student.StudentEditView"
+                       x:DataType="student:StudentEditViewModel">
+
+    <VerticalStackLayout Padding="10">
+        <Label Text="Edit Student" FontSize="Large" HorizontalOptions="Center" />
+        <Label Text="Name" />
+        <Entry Text="{Binding Student.Name}" />
+        <Label Text="Surname" />
+        <Entry Text="{Binding Student.Surname}" />
+        <Label Text="Image URL" />
+        <Entry Text="{Binding Student.ImageUrl}" />
+        <Image Source="{Binding Student.ImageUrl}" HeightRequest="200" />
+        <Button Text="Save" Command="{Binding SaveCommand}" />
+    </VerticalStackLayout>
+</views:ContentPageBase>

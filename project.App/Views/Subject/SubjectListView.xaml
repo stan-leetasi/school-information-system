@@ -14,7 +14,7 @@
                        Text="{Binding FilterPreferences.SearchedTerm}"
                        WidthRequest="600" Grid.Column="1" />
             <Grid HorizontalOptions="Fill" ColumnDefinitions="*,Auto" Grid.Column="2">
-                <Button Text="Add Subject" Command="{Binding AddSubjectCommand}"
+                <Button Text="Add Subject" Command="{Binding GoToCreateCommand}"
                         IsVisible="{Binding AdminView}" Grid.Column="1" />
             </Grid>
         </Grid>

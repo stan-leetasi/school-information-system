@@ -13,7 +13,7 @@ namespace project.Common.Tests.Seeds
         public static readonly ActivityEntity ICSObhajoba = new()
         {
             Id = Guid.Parse("c7435c8b-30a1-4fc9-8e0b-36b3ff2ee8c4"),
-            Area = Enums.SchoolArea.ComputerLab,
+            Area = Enums.SchoolArea.Classroom202,
             BeginTime = new DateTime(2024, 5, 22, 9, 45, 0),
             EndTime = new DateTime(2024, 5, 22, 10, 0, 0),
             Description = "ICS Obhajoba Projektu",
@@ -97,7 +97,7 @@ namespace project.Common.Tests.Seeds
             Id = default,
             Area = default,
             BeginTime = default,
-            Description = default,
+            Description = default!,
             EndTime = default,
             Subject = default,
             SubjectId = default,

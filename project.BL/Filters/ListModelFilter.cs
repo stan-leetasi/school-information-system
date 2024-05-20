@@ -8,6 +8,11 @@ where TListModel : IModel
     public virtual IEnumerable<TListModel> ApplyFilter(IEnumerable<TListModel> listModels,
         FilterPreferences filterPreferences)
     {
+        if (filterPreferences.FilterByTime)
+        {
+            listModels = ApplyTimeFilterLogic(listModels, filterPreferences.BeginTime, filterPreferences.EndTime);
+        }
+
         if (filterPreferences.SearchedTerm != string.Empty)
         {
             listModels = ApplySearchFilterLogic(listModels, filterPreferences.SearchedTerm);
@@ -22,6 +27,12 @@ where TListModel : IModel
     }
 
     protected abstract IEnumerable<TListModel> ApplySearchFilterLogic(IEnumerable<TListModel> listModels, string searchedTerm);
+
+    protected virtual IEnumerable<TListModel> ApplyTimeFilterLogic(IEnumerable<TListModel> listModels, DateTime begin,
+        DateTime end)
+    {
+        return listModels;
+    }
 
     protected virtual IEnumerable<TListModel> SortModels(IEnumerable<TListModel> models, string sortByPropertyName,
         bool descending)

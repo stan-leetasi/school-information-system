@@ -17,6 +17,8 @@ public partial class StudentEditViewModel(
     public Guid StudentId { get; init; } = new();
     public string StudentImageUrl { get; set; } = string.Empty;
     public string StudentImageUrlTemp { get; set; } = string.Empty;
+    public bool InvalidName { get; set; } = false;
+    public bool InvalidSurname { get; set; } = false;
 
     protected override async Task LoadDataAsync()
     {
@@ -49,11 +51,23 @@ public partial class StudentEditViewModel(
             ? new Uri(StudentImageUrl)
             : new Uri("about:blank");
 
-        await studentFacade.SaveAsync(Student);
+        if(Student.Name == string.Empty)
+            InvalidName = true;
 
-        MessengerService.Send(new StudentEditMessage { StudentId = Student.Id });
+        if(Student.Surname == string.Empty)
+            InvalidSurname = true;
+        
+        if(Student.Name != string.Empty && Student.Surname != string.Empty)
+        {
+            await studentFacade.SaveAsync(Student);
 
-        await navigationService.GoToAsync<StudentDetailViewModel>(
-            new Dictionary<string, object?> { { nameof(StudentDetailViewModel.StudentId), Student.Id } });
+            MessengerService.Send(new StudentEditMessage { StudentId = Student.Id });
+
+            if (Student.Id == new Guid())
+                await navigationService.GoToAsync("//students");
+            else
+                await navigationService.GoToAsync<StudentDetailViewModel>(
+                    new Dictionary<string, object?> { { nameof(StudentDetailViewModel.StudentId), Student.Id } });
+        }
     }
 }

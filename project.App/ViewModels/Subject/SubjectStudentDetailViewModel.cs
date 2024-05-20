@@ -18,13 +18,13 @@ public partial class SubjectStudentDetailViewModel(
     IActivityFacade activityFacade,
     INavigationService navigationService,
     IMessengerService messengerService)
-    : TableViewModelBase(messengerService), IRecipient<StudentEditMessage>,IRecipient<ActivityEditMessage>
+    : TableViewModelBase(messengerService), IRecipient<StudentEditMessage>, IRecipient<ActivityEditMessage>
 {
     protected override FilterPreferences DefaultFilterPreferences =>
         FilterPreferences.Default with { SortByPropertyName = nameof(ActivityListModel.BeginTime) };
 
-    public bool StudentView => navigationService.IsStudentLoggedIn;
-    public bool AdminView => !navigationService.IsStudentLoggedIn;
+    public bool StudentView { get; set; } = navigationService.IsStudentLoggedIn;
+    public bool AdminView { get; set; } = !navigationService.IsStudentLoggedIn;
     public bool AllowActivityRegistration { get; set; }
     public Guid SubjectId { get; set; }
     public string Title { get; private set; } = string.Empty;
@@ -35,6 +35,9 @@ public partial class SubjectStudentDetailViewModel(
         SubjectStudentDetailModel subject =
             await subjectFacade.GetAsyncStudentDetail(SubjectId, navigationService.LoggedInUser, FilterPreferences) ??
             SubjectStudentDetailModel.Empty;
+
+        AdminView = !navigationService.IsStudentLoggedIn;
+        StudentView = navigationService.IsStudentLoggedIn;
 
         Activities = subject.Activities.ToObservableCollection();
         Title = subject.Acronym + " - " + subject.Name;

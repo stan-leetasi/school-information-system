@@ -16,12 +16,13 @@ public partial class StudentDetailViewModel(
 {
     public StudentDetailModel? Student { get; set; } = StudentDetailModel.Empty;
     public Guid StudentId { get; set; } = new();
-    public bool StudentView => navigationService.IsStudentLoggedIn;
+    public bool StudentView { get; set; } = navigationService.IsStudentLoggedIn;
     public Uri StudentImageUrl { get; set; } = new("https://i.ibb.co/mJrKVdp/student-photo-placeholder.jpg");
 
     protected override async Task LoadDataAsync()
     {
         Student = await studentFacade.GetAsync(StudentId) ?? Student;
+        StudentView = navigationService.IsStudentLoggedIn;
 
         // Don't display empty URL
         if (Student.ImageUrl != null &&

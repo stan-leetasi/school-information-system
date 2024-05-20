@@ -41,6 +41,24 @@ public partial class ActivityAdminDetailViewModel(
         });
     }
 
+
+    [RelayCommand]
+    private async Task GoToEditAsync() =>
+        await navigationService.GoToAsync("/editActivity",
+            new Dictionary<string, object?>
+            {
+                [nameof(ActivityEditViewModel.SubjectId)] = Activity.SubjectId,
+                [nameof(ActivityEditViewModel.ActivityId)] = ActivityId
+            });
+
+    [RelayCommand]
+    private async Task Delete()
+    {
+        await activityFacade.DeleteAsync(ActivityId);
+        messengerService.Send(new ActivityEditMessage { ActivityId = ActivityId });
+        navigationService.SendBackButtonPressed();
+    }
+
     [RelayCommand]
     private async Task Refresh() => await LoadDataAsync();
 

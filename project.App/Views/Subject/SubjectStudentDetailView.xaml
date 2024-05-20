@@ -13,71 +13,74 @@
 
         <Label Text="{Binding Title}" HorizontalOptions="Center" FontSize="48" FontAttributes="Bold" Margin="0,0,0,10" />
         <Grid ColumnDefinitions="Auto,*,Auto" Style="{StaticResource GridAboveTable}">
-            <Grid BackgroundColor="{StaticResource EntryBarBackgroundColor}" Grid.Column="0" Padding="10" ColumnSpacing="10"
+            <Grid BackgroundColor="{StaticResource EntryBarBackgroundColor}" Grid.Column="0" Padding="10"
+                  ColumnSpacing="10"
                   ColumnDefinitions="Auto,Auto,Auto" RowDefinitions="*,*,*" HorizontalOptions="Center">
-                
-                <HorizontalStackLayout Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" HorizontalOptions="Center" Padding="0,0,0,10">
-                    <Label Text="Filter by time:" Style="{StaticResource DateTimeFilterText}"/>
+
+                <HorizontalStackLayout Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" HorizontalOptions="Center"
+                                       Padding="0,0,0,10">
+                    <Label Text="Filter by time:" Style="{StaticResource DateTimeFilterText}" />
                     <CheckBox IsChecked="{Binding Path=FilterPreferences.FilterByTime}"
-                              Style="{StaticResource TableCheckbox}"/>
+                              Style="{StaticResource TableCheckbox}" />
                 </HorizontalStackLayout>
-                
+
                 <Label Text="Begin time" Style="{StaticResource DateTimeFilterText}"
-                       Grid.Column="0" Grid.Row="1"/>
+                       Grid.Column="0" Grid.Row="1" />
                 <TimePicker Time="{Binding BeginTime}"
                             Format="HH:mm"
-                            Grid.Column="1" Grid.Row="1" MinimumWidthRequest="200"/>
+                            Grid.Column="1" Grid.Row="1" MinimumWidthRequest="200" />
                 <DatePicker Date="{Binding BeginDate}"
                             Format="dd/MM/yyyy"
-                            Grid.Column="2" Grid.Row="1"/>
+                            Grid.Column="2" Grid.Row="1" />
 
                 <Label Text="End time" Style="{StaticResource DateTimeFilterText}"
-                       Grid.Column="0" Grid.Row="2"/>
+                       Grid.Column="0" Grid.Row="2" />
                 <TimePicker Time="{Binding EndTime}"
-                            Format="HH:mm" 
-                            Grid.Column="1" Grid.Row="2"/>
+                            Format="HH:mm"
+                            Grid.Column="1" Grid.Row="2" />
                 <DatePicker Date="{Binding EndDate}"
                             Format="dd/MM/yyyy"
-                            Grid.Column="2" Grid.Row="2"/>
-                
+                            Grid.Column="2" Grid.Row="2" />
+
             </Grid>
-            
-            <Frame Padding="0" HasShadow="False" CornerRadius="0" MinimumWidthRequest="400" 
+
+            <Frame Padding="0" HasShadow="False" CornerRadius="0" MinimumWidthRequest="400"
                    HorizontalOptions="Fill" MaximumWidthRequest="600" Grid.Column="1"
-                   BorderColor="{StaticResource EntryBarBackgroundColor}" 
+                   BorderColor="{StaticResource EntryBarBackgroundColor}"
                    BackgroundColor="{StaticResource EntryBarBackgroundColor}"
-                    VerticalOptions="Center">
-                
+                   VerticalOptions="Center">
+
                 <SearchBar Placeholder="Filter activities by type or area"
-                       Text="{Binding FilterPreferences.SearchedTerm}"
-                      Grid.Column="1"
-                       />
+                           Text="{Binding FilterPreferences.SearchedTerm}"
+                           Grid.Column="1" />
             </Frame>
-            <Grid HorizontalOptions="Fill" ColumnDefinitions="*,Auto" Grid.Column="2" VerticalOptions="Center">
+            <Grid HorizontalOptions="Fill" ColumnDefinitions="*,Auto,Auto" Grid.Column="2" VerticalOptions="Center">
                 <Button Text="Registered Students"
                         Command="{Binding GoToAdminDetailCommand}"
                         CommandParameter="{Binding SubjectId}"
                         IsVisible="{Binding AdminView}" Grid.Column="1" />
+                <Button Text="Add" Command="{Binding GoToCreateCommand}"
+                        IsVisible="{Binding AdminView}" Grid.Column="2" />
             </Grid>
         </Grid>
 
         <Label Text="Activities" FontSize="Large" HorizontalOptions="Center" />
 
         <Grid HorizontalOptions="Fill" ColumnDefinitions="*,*,*,*,*,*,*">
-            <Button Text="Begin Time" Grid.Column="0" Command="{Binding SortByBeginTimeCommand}" 
-                    Style="{StaticResource ColumnHeader}"/>
-            <Button Text="End Time" Grid.Column="1" Command="{Binding SortByEndTimeCommand}" 
-                    Style="{StaticResource ColumnHeader}"/>
-            <Button Text="Area" Grid.Column="2" Command="{Binding SortByAreaCommand}" 
-                    Style="{StaticResource ColumnHeader}"/>
-            <Button Text="Type" Grid.Column="3" Command="{Binding SortByTypeCommand}" 
-                    Style="{StaticResource ColumnHeader}"/>
-            <Button Text="Registered Students" Grid.Column="4" Command="{Binding SortByRegisteredStudentsCommand}" 
-                    Style="{StaticResource ColumnHeader}"/>
-            <Button Text="Points" Grid.Column="5" Command="{Binding SortByPointsCommand}" 
-                    Style="{StaticResource ColumnHeader}"/>
-            <Button Text="Is Registered" Grid.Column="6" Command="{Binding SortByIsRegisteredCommand}" 
-                    Style="{StaticResource ColumnHeader}"/>
+            <Button Text="Begin Time" Grid.Column="0" Command="{Binding SortByBeginTimeCommand}"
+                    Style="{StaticResource ColumnHeader}" />
+            <Button Text="End Time" Grid.Column="1" Command="{Binding SortByEndTimeCommand}"
+                    Style="{StaticResource ColumnHeader}" />
+            <Button Text="Area" Grid.Column="2" Command="{Binding SortByAreaCommand}"
+                    Style="{StaticResource ColumnHeader}" />
+            <Button Text="Type" Grid.Column="3" Command="{Binding SortByTypeCommand}"
+                    Style="{StaticResource ColumnHeader}" />
+            <Button Text="Registered Students" Grid.Column="4" Command="{Binding SortByRegisteredStudentsCommand}"
+                    Style="{StaticResource ColumnHeader}" />
+            <Button Text="Points" Grid.Column="5" Command="{Binding SortByPointsCommand}"
+                    Style="{StaticResource ColumnHeader}" />
+            <Button Text="Is Registered" Grid.Column="6" Command="{Binding SortByIsRegisteredCommand}"
+                    Style="{StaticResource ColumnHeader}" />
         </Grid>
 
         <ScrollView>
@@ -95,23 +98,23 @@
                                                     CommandParameter="{Binding Id}" />
                                             </Grid.GestureRecognizers>
                                             <Label Text="{Binding BeginTime}" Grid.Column="0"
-                                                   Style="{StaticResource TableLabelSmall}"/>
-                                            <Label Text="{Binding EndTime}" Grid.Column="1" 
-                                                   Style="{StaticResource TableLabelSmall}"/>
-                                            <Label Text="{Binding Area}" Grid.Column="2" 
-                                                   Style="{StaticResource TableLabelSmall}"/>
-                                            <Label Text="{Binding Type}" Grid.Column="3" 
-                                                   Style="{StaticResource TableLabelSmall}"/>
-                                            <Label Text="{Binding RegisteredStudents}" Grid.Column="4" 
-                                                   Style="{StaticResource TableLabelSmall}"/>
-                                            <Label Text="{Binding Points}" Grid.Column="5" 
-                                                   Style="{StaticResource TableLabelSmall}"/>
+                                                   Style="{StaticResource TableLabelSmall}" />
+                                            <Label Text="{Binding EndTime}" Grid.Column="1"
+                                                   Style="{StaticResource TableLabelSmall}" />
+                                            <Label Text="{Binding Area}" Grid.Column="2"
+                                                   Style="{StaticResource TableLabelSmall}" />
+                                            <Label Text="{Binding Type}" Grid.Column="3"
+                                                   Style="{StaticResource TableLabelSmall}" />
+                                            <Label Text="{Binding RegisteredStudents}" Grid.Column="4"
+                                                   Style="{StaticResource TableLabelSmall}" />
+                                            <Label Text="{Binding Points}" Grid.Column="5"
+                                                   Style="{StaticResource TableLabelSmall}" />
                                             <CheckBox IsChecked="{Binding IsRegistered}"
                                                       IsEnabled="{Binding Source={ x:Reference SubjectStudentDetail }, Path=BindingContext.AllowActivityRegistration}"
                                                       Grid.Column="6" HorizontalOptions="CenterAndExpand"
-                                                      Style="{StaticResource TableCheckbox}"/>
+                                                      Style="{StaticResource TableCheckbox}" />
                                         </Grid>
-                                        <BoxView HeightRequest="1" Style="{StaticResource TableRowSeparator}"/>
+                                        <BoxView HeightRequest="1" Style="{StaticResource TableRowSeparator}" />
                                     </StackLayout>
                                 </Frame>
                             </ViewCell>

@@ -18,7 +18,8 @@ public partial class SubjectStudentDetailViewModel(
     IActivityFacade activityFacade,
     INavigationService navigationService,
     IMessengerService messengerService)
-    : TableViewModelBase(messengerService), IRecipient<StudentEditMessage>, IRecipient<ActivityEditMessage>, IRecipient<SubjectEditMessage>
+    : TableViewModelBase(messengerService), IRecipient<StudentEditMessage>, IRecipient<ActivityEditMessage>,
+        IRecipient<SubjectEditMessage>
 {
     protected override FilterPreferences DefaultFilterPreferences =>
         FilterPreferences.Default with { SortByPropertyName = nameof(ActivityListModel.BeginTime) };
@@ -28,7 +29,7 @@ public partial class SubjectStudentDetailViewModel(
     public bool AllowActivityRegistration { get; set; }
     public Guid SubjectId { get; set; }
     public string Title { get; private set; } = string.Empty;
-    
+
     public SubjectAdminDetailModel? SubjectAdminDetailModel { get; set; }
     public ObservableCollection<ActivityListModel> Activities { get; set; } = [];
 
@@ -37,16 +38,19 @@ public partial class SubjectStudentDetailViewModel(
         get { return FilterPreferences.BeginTime.Date; }
         set { FilterPreferences.BeginTime = CombineDateTime(value, BeginTime); }
     }
+
     public DateTime EndDate
     {
         get { return FilterPreferences.EndTime.Date; }
         set { FilterPreferences.EndTime = CombineDateTime(value, EndTime); }
     }
+
     public TimeSpan BeginTime
     {
         get { return FilterPreferences.BeginTime.TimeOfDay; }
         set { FilterPreferences.BeginTime = CombineDateTime(FilterPreferences.BeginTime, value); }
     }
+
     public TimeSpan EndTime
     {
         get { return FilterPreferences.EndTime.TimeOfDay; }
@@ -98,6 +102,14 @@ public partial class SubjectStudentDetailViewModel(
     // Navigation
 
     [RelayCommand]
+    private async Task GoToCreateAsync() => await navigationService.GoToAsync("/activity/createActivity",
+        new Dictionary<string, object?>
+        {
+            [nameof(ActivityEditViewModel.SubjectId)] = SubjectId,
+            [nameof(ActivityEditViewModel.ActivityId)] = Guid.Empty
+        });
+
+    [RelayCommand]
     private async Task GoToDetailAsync(Guid id)
     {
         ActivityListModel activity = Activities.First(a => a.Id == id);
@@ -122,7 +134,7 @@ public partial class SubjectStudentDetailViewModel(
             [nameof(SubjectEditViewModel.SubjectId)] = SubjectId
         });
     }
-    
+
     [RelayCommand]
     private async Task DeleteAsync()
     {
@@ -135,15 +147,21 @@ public partial class SubjectStudentDetailViewModel(
             navigationService.SendBackButtonPressed();
         }
     }
-    
+
     [RelayCommand]
     private async Task GoToCreateActivityAsync()
     {
-        await navigationService.GoToAsync("/create_activity");
+        await navigationService.GoToAsync("/createActivity",
+            new Dictionary<string, object?>
+            {
+                [nameof(ActivityEditViewModel.SubjectId)] = SubjectId,
+                [nameof(ActivityEditViewModel.ActivityId)] = Guid.Empty
+            });
     }
-    
-    // Sorting
 
+
+
+    // Sorting
     [RelayCommand]
     private async Task SortByRegisteredStudents() =>
         await ApplyNewSorting(nameof(ActivityListModel.RegisteredStudents));
@@ -169,6 +187,6 @@ public partial class SubjectStudentDetailViewModel(
     public async void Receive(ActivityEditMessage message) => await LoadDataAsync();
 
     public async void Receive(StudentEditMessage message) => await LoadDataAsync();
-    
+
     public async void Receive(SubjectEditMessage message) => await LoadDataAsync();
 }

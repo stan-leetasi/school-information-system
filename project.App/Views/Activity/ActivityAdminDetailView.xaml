@@ -16,15 +16,15 @@
                Margin="0,0,0,10" />
 
         <Label Text="{Binding Activity.SubjectName}" HorizontalOptions="Center" FontSize="24" />
-        <Frame Padding="0" HasShadow="False" CornerRadius="0" WidthRequest="600" 
-           HorizontalOptions="Center" MaximumWidthRequest="600" Grid.Column="1"
-           BorderColor="{StaticResource EntryBarBackgroundColor}" 
-           BackgroundColor="{StaticResource EntryBarBackgroundColor}">
-            
+        <Frame Padding="0" HasShadow="False" CornerRadius="0" WidthRequest="600"
+               HorizontalOptions="Center" MaximumWidthRequest="600" Grid.Column="1"
+               BorderColor="{StaticResource EntryBarBackgroundColor}"
+               BackgroundColor="{StaticResource EntryBarBackgroundColor}">
+
             <SearchBar Placeholder="Filter Activities"
                        Text="{Binding FilterPreferences.SearchedTerm}"
                        WidthRequest="600" Grid.Column="1" />
-        
+
         </Frame>
 
         <Label Text="List of Ratings" FontSize="Large" HorizontalOptions="Center" />
@@ -34,8 +34,8 @@
                     Style="{StaticResource ColumnHeader}" />
             <Button Text="Name" Command="{Binding SortByNameCommand}" Grid.Column="1"
                     Style="{StaticResource ColumnHeader}" />
-            <Button Text="Points" Command="{Binding SortByPointsCommand}" Grid.Column="2" 
-                    Style="{StaticResource ColumnHeader}"/>
+            <Button Text="Points" Command="{Binding SortByPointsCommand}" Grid.Column="2"
+                    Style="{StaticResource ColumnHeader}" />
         </Grid>
 
         <ScrollView>
@@ -56,19 +56,47 @@
                                                    Style="{StaticResource TableLabelNormal}" />
                                             <Label Text="{Binding StudentName}" Grid.Column="1"
                                                    Style="{StaticResource TableLabelNormal}" />
-                                            <Label Text="{Binding Points}" Grid.Column="2" 
-                                                   Style="{StaticResource TableLabelNormal}"/>
+                                            <Label Text="{Binding Points}" Grid.Column="2"
+                                                   Style="{StaticResource TableLabelNormal}" />
                                         </Grid>
-                                        <BoxView HeightRequest="1" Style="{StaticResource TableRowSeparator}"/>
+                                        <BoxView HeightRequest="1" Style="{StaticResource TableRowSeparator}" />
                                     </StackLayout>
                                 </Frame>
-                                
+
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
             </StackLayout>
         </ScrollView>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <HorizontalStackLayout Grid.Column="1" HorizontalOptions="End" Spacing="10" HeightRequest="55">
+
+                <Button
+                    HorizontalOptions="End" VerticalOptions="End"
+                    HeightRequest="30"
+                    Text="Edit"
+                    CornerRadius="5"
+                    Command="{Binding GoToEditCommand}"
+                    Style="{StaticResource EditButtonStyle}" />
+
+                <Button
+                    HorizontalOptions="End" VerticalOptions="End"
+                    HeightRequest="30"
+                    Text="Delete"
+                    CornerRadius="5"
+                    Command="{Binding DeleteCommand}"
+                    Style="{StaticResource DeleteButtonStyle}"
+                    Margin="0, 0, 100, 0" />
+
+            </HorizontalStackLayout>
+        </Grid>
     </VerticalStackLayout>
 
 </views:ContentPageBase>

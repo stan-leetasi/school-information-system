@@ -16,10 +16,11 @@ public partial class SubjectEditViewModel(
     public SubjectAdminDetailModel Subject { get; set; } = SubjectAdminDetailModel.Empty;
 
     public Guid SubjectId { get; init; } = new();
+
     protected override async Task LoadDataAsync()
     {
         Subject = await subjectFacade.GetAsync(SubjectId)
-                   ?? SubjectAdminDetailModel.Empty;
+                  ?? SubjectAdminDetailModel.Empty;
     }
 
     [RelayCommand]

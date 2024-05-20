@@ -6,7 +6,7 @@ using project.App.Messages;
 
 namespace project.App.ViewModels.Subject;
 
-[QueryProperty(nameof(Subject), nameof(Subject))]
+[QueryProperty(nameof(SubjectId), nameof(SubjectId))]
 public partial class SubjectEditViewModel(
     ISubjectFacade subjectFacade,
     INavigationService navigationService,

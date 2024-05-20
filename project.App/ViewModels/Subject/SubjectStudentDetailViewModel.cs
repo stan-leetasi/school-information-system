@@ -18,7 +18,7 @@ public partial class SubjectStudentDetailViewModel(
     IActivityFacade activityFacade,
     INavigationService navigationService,
     IMessengerService messengerService)
-    : TableViewModelBase(messengerService), IRecipient<StudentEditMessage>, IRecipient<ActivityEditMessage>
+    : TableViewModelBase(messengerService), IRecipient<StudentEditMessage>, IRecipient<ActivityEditMessage>, IRecipient<SubjectEditMessage>
 {
     protected override FilterPreferences DefaultFilterPreferences =>
         FilterPreferences.Default with { SortByPropertyName = nameof(ActivityListModel.BeginTime) };
@@ -28,6 +28,8 @@ public partial class SubjectStudentDetailViewModel(
     public bool AllowActivityRegistration { get; set; }
     public Guid SubjectId { get; set; }
     public string Title { get; private set; } = string.Empty;
+    
+    public SubjectAdminDetailModel? SubjectAdminDetailModel { get; set; }
     public ObservableCollection<ActivityListModel> Activities { get; set; } = [];
 
     public DateTime BeginDate
@@ -61,6 +63,9 @@ public partial class SubjectStudentDetailViewModel(
         SubjectStudentDetailModel subject =
             await subjectFacade.GetAsyncStudentDetail(SubjectId, navigationService.LoggedInUser, FilterPreferences) ??
             SubjectStudentDetailModel.Empty;
+
+        SubjectAdminDetailModel = await subjectFacade.GetAsync(SubjectId, filterPreferences: null) ??
+                                  SubjectAdminDetailModel.Empty;
 
         AdminView = !navigationService.IsStudentLoggedIn;
         StudentView = navigationService.IsStudentLoggedIn;
@@ -109,6 +114,31 @@ public partial class SubjectStudentDetailViewModel(
         await navigationService.GoToAsync<SubjectAdminDetailViewModel>(
             new Dictionary<string, object?> { [nameof(SubjectAdminDetailViewModel.SubjectId)] = id });
 
+    [RelayCommand]
+    private async Task GoToEditAsync()
+    {
+        await navigationService.GoToAsync<SubjectEditViewModel>(new Dictionary<string, object?>
+        {
+            [nameof(SubjectEditViewModel.SubjectId)] = SubjectId
+        });
+    }
+    
+    [RelayCommand]
+    private async Task DeleteAsync()
+    {
+        if (SubjectAdminDetailModel is not null)
+        {
+            await subjectFacade.DeleteAsync(SubjectAdminDetailModel.Id);
+
+            MessengerService.Send(new SubjectDeleteMessage());
+
+            navigationService.SendBackButtonPressed();
+        }
+    }
+    
+    [RelayCommand]
+    private async Task<bool> IsAdminView() => await Task.FromResult(AdminView);
+    
     // Sorting
 
     [RelayCommand]
@@ -136,4 +166,6 @@ public partial class SubjectStudentDetailViewModel(
     public async void Receive(ActivityEditMessage message) => await LoadDataAsync();
 
     public async void Receive(StudentEditMessage message) => await LoadDataAsync();
+    
+    public async void Receive(SubjectEditMessage message) => await LoadDataAsync();
 }

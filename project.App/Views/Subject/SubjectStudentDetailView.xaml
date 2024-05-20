@@ -120,6 +120,48 @@
                 </ListView>
             </StackLayout>
         </ScrollView>
+        
+        
+        <HorizontalStackLayout HorizontalOptions="End" Spacing="10" HeightRequest="55">
+
+            <Button
+                HorizontalOptions="End" VerticalOptions="End"
+                HeightRequest="30"
+                Text="Edit"
+                CornerRadius="5"
+                Command="{Binding GoToEditCommand}" 
+                Style="{StaticResource EditButtonStyle}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding StudentView}" Value="True">
+                        <Setter Property="IsVisible" Value="False" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="Button" Binding="{Binding StudentView}" Value="False">
+                        <Setter Property="IsVisible" Value="True" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+            
+            <Button
+                HorizontalOptions="End" VerticalOptions="End"
+                HeightRequest="30"
+                Text="Delete"
+                CornerRadius="5"
+                Command="{Binding DeleteCommand}" 
+                Style="{StaticResource DeleteButtonStyle}"
+                Margin="0, 0, 100, 0">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding StudentView}" Value="True">
+                        <Setter Property="IsVisible" Value="False" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="Button" Binding="{Binding StudentView}" Value="False">
+                        <Setter Property="IsVisible" Value="True" />
+                    </DataTrigger>
+                </Button.Triggers>
+                
+            </Button>
+
+        </HorizontalStackLayout>
+        
     </VerticalStackLayout>
 
 </views:ContentPageBase>

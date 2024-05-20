@@ -25,6 +25,8 @@ public partial class SubjectEditViewModel(
     [RelayCommand]
     private async Task SaveAsync()
     {
+        Subject.Students = new();
+
         await subjectFacade.SaveAsync(Subject);
 
         MessengerService.Send(new SubjectEditMessage() { SubjectId = Subject.Id });

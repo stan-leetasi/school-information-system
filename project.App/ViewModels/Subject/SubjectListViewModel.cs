@@ -51,6 +51,9 @@ public partial class SubjectListViewModel(
     private Task AddSubject() => Task.CompletedTask;
 
     [RelayCommand]
+    private async Task GoToCreateAsync() => await navigationService.GoToAsync("/edit");
+
+    [RelayCommand]
     private async Task GoToDetailAsync(Guid id)
     {
         await navigationService.GoToAsync<SubjectStudentDetailViewModel>(new Dictionary<string, object?>

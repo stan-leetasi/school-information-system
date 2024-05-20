@@ -7,42 +7,53 @@
                        xmlns:vm="clr-namespace:project.App.ViewModels.Subject"
                        x:Class="project.App.Views.Subject.SubjectStudentDetailView"
                        x:Name="SubjectStudentDetail"
-                       x:DataType="vm:SubjectStudentDetailViewModel">
+                       x:DataType="vm:SubjectStudentDetailViewModel"
+                       Title="Activities">
     <VerticalStackLayout>
 
         <Label Text="{Binding Title}" HorizontalOptions="Center" FontSize="48" FontAttributes="Bold" Margin="0,0,0,10" />
-        <Grid HorizontalOptions="Fill" ColumnDefinitions="*,*,*">
-            <VerticalStackLayout BackgroundColor="Coral" Grid.Column="0">
-                <HorizontalStackLayout>
-                    <Label Text="Filter by time:"/>
-                    <CheckBox IsChecked="{Binding Path=FilterPreferences.FilterByTime}"/>
-                </HorizontalStackLayout>
-                <HorizontalStackLayout >
-                    <Label Text="Begin time"/>
-                    <TimePicker Time="{Binding BeginTime}"
-                                Format="HH:mm"/>
-                    <DatePicker Date="{Binding BeginDate}"
-                                Format="dd/MM/yyyy"/>
-                </HorizontalStackLayout>
-                <HorizontalStackLayout >
-                    <Label Text="End time"/>
-                    <TimePicker Time="{Binding EndTime}"
-                                Format="HH:mm"/>
-                    <DatePicker Date="{Binding EndDate}"
-                                Format="dd/MM/yyyy"/>
-                </HorizontalStackLayout>
-            </VerticalStackLayout>
-            
-            <Frame Padding="0" HasShadow="False" CornerRadius="0" WidthRequest="600" 
-                   HorizontalOptions="Center" MaximumWidthRequest="600" Grid.Column="1"
-                   BorderColor="{StaticResource EntryBarBackgroundColor}" 
-                   BackgroundColor="{StaticResource EntryBarBackgroundColor}">
+        <Grid ColumnDefinitions="Auto,*,Auto" Style="{StaticResource GridAboveTable}">
+            <Grid BackgroundColor="{StaticResource EntryBarBackgroundColor}" Grid.Column="0" Padding="10" ColumnSpacing="10"
+                  ColumnDefinitions="Auto,Auto,Auto" RowDefinitions="*,*,*" HorizontalOptions="Center">
                 
-                <SearchBar Placeholder="Filter activities"
+                <HorizontalStackLayout Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" HorizontalOptions="Center" Padding="0,0,0,10">
+                    <Label Text="Filter by time:" Style="{StaticResource DateTimeFilterText}"/>
+                    <CheckBox IsChecked="{Binding Path=FilterPreferences.FilterByTime}"
+                              Style="{StaticResource TableCheckbox}"/>
+                </HorizontalStackLayout>
+                
+                <Label Text="Begin time" Style="{StaticResource DateTimeFilterText}"
+                       Grid.Column="0" Grid.Row="1"/>
+                <TimePicker Time="{Binding BeginTime}"
+                            Format="HH:mm"
+                            Grid.Column="1" Grid.Row="1" MinimumWidthRequest="200"/>
+                <DatePicker Date="{Binding BeginDate}"
+                            Format="dd/MM/yyyy"
+                            Grid.Column="2" Grid.Row="1"/>
+
+                <Label Text="End time" Style="{StaticResource DateTimeFilterText}"
+                       Grid.Column="0" Grid.Row="2"/>
+                <TimePicker Time="{Binding EndTime}"
+                            Format="HH:mm" 
+                            Grid.Column="1" Grid.Row="2"/>
+                <DatePicker Date="{Binding EndDate}"
+                            Format="dd/MM/yyyy"
+                            Grid.Column="2" Grid.Row="2"/>
+                
+            </Grid>
+            
+            <Frame Padding="0" HasShadow="False" CornerRadius="0" MinimumWidthRequest="400" 
+                   HorizontalOptions="Fill" MaximumWidthRequest="600" Grid.Column="1"
+                   BorderColor="{StaticResource EntryBarBackgroundColor}" 
+                   BackgroundColor="{StaticResource EntryBarBackgroundColor}"
+                    VerticalOptions="Center">
+                
+                <SearchBar Placeholder="Filter activities by type or area"
                        Text="{Binding FilterPreferences.SearchedTerm}"
-                       WidthRequest="600" Grid.Column="1" />
+                      Grid.Column="1"
+                       />
             </Frame>
-            <Grid HorizontalOptions="Fill" ColumnDefinitions="*,Auto" Grid.Column="2">
+            <Grid HorizontalOptions="Fill" ColumnDefinitions="*,Auto" Grid.Column="2" VerticalOptions="Center">
                 <Button Text="Registered Students"
                         Command="{Binding GoToAdminDetailCommand}"
                         CommandParameter="{Binding SubjectId}"

@@ -6,7 +6,8 @@
                        xmlns:vm="clr-namespace:project.App.ViewModels.Activity"
                        x:Class="project.App.Views.Activity.ActivityStudentDetailView"   
                        x:Name="ActivityStudentDetail"
-                       x:DataType="vm:ActivityStudentDetailViewModel">
+                       x:DataType="vm:ActivityStudentDetailViewModel"
+                       Title="Activity">
     <StackLayout Padding="20">
         <Grid>
             <Grid.RowDefinitions>

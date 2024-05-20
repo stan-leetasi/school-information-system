@@ -2,6 +2,12 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
+    <Style x:Key="GridAboveTable" TargetType="Grid">
+        <Setter Property="Padding" Value="10" />
+        <Setter Property="ColumnSpacing" Value="10"/>
+        <Setter Property="HorizontalOptions" Value="Fill"/>
+    </Style>
+
     <Style x:Key="ColumnHeader" TargetType="Button">
         <Setter Property="FontSize" Value="20" />
         <Setter Property="CornerRadius" Value="0" />

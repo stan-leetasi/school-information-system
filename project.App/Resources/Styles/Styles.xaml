@@ -54,7 +54,7 @@
 
     <Style TargetType="SearchBar">
         <Setter Property="TextColor" Value="{StaticResource EntryBarTextColor}" />
-        <Setter Property="PlaceholderColor" Value="{StaticResource EntryBarTextColor}" />
+        <Setter Property="PlaceholderColor" Value="{StaticResource PageBackgroundColor}" />
         <Setter Property="BackgroundColor" Value="{StaticResource EntryBarBackgroundColor}" />
     </Style>
 
@@ -67,6 +67,22 @@
         <Setter Property="TextColor" Value="{StaticResource EntryBarTextColor}" />
         <Setter Property="PlaceholderColor" Value="{StaticResource EntryBarTextColor}" />
         <Setter Property="BackgroundColor" Value="{StaticResource EntryBarBackgroundColor}" />
+    </Style>
+
+    <Style x:Key="DateTimeFilterText" TargetType="Label">
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="VerticalTextAlignment" Value="Center"/>
+    </Style>
+
+    <Style TargetType="TimePicker">
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="BackgroundColor" Value="{StaticResource UnselectedButtonColor}" />
+    </Style>
+
+    <Style TargetType="DatePicker">
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="BackgroundColor" Value="{StaticResource UnselectedButtonColor}" />
     </Style>
 
 </ResourceDictionary>

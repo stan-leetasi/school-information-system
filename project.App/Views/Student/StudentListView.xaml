@@ -9,7 +9,7 @@
                        x:Name="StudentList"
                        x:DataType="vm:StudentListViewModel">
     <VerticalStackLayout>
-        <Grid HorizontalOptions="Fill" ColumnDefinitions="*,*,*">
+        <Grid Style="{StaticResource GridAboveTable}" ColumnDefinitions="*,*,*">
             <Frame Padding="0" HasShadow="False" CornerRadius="0" WidthRequest="600" 
                HorizontalOptions="Center" MaximumWidthRequest="600" Grid.Column="1"
                BorderColor="{StaticResource EntryBarBackgroundColor}" 

@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace project.BL.Filters;
 
-public record FilterPreferences: INotifyPropertyChanged
+public record FilterPreferences : INotifyPropertyChanged
 {
     /// <summary>
     /// The value in the search bar.
@@ -12,15 +12,17 @@ public record FilterPreferences: INotifyPropertyChanged
     /// It can be a student's name, acronym of a subject, date of activity,...
     /// </remarks>
     public string SearchedTerm { get; set; } = "";
+
     /// <summary>
     /// Name of the property according to which the items should be sorted.
     /// </summary>
     public string SortByPropertyName = "";
+
     public bool DescendingOrder;
 
-    public bool FilterByTime;
-    public DateTime BeginTime;
-    public DateTime EndTime;
+    public bool FilterByTime { get; set; }
+    public DateTime BeginTime { get; set; }
+    public DateTime EndTime { get; set; }
 
     public static FilterPreferences Default { get; } = new()
     {

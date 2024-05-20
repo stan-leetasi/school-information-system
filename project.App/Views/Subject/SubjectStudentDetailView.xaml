@@ -12,10 +12,31 @@
 
         <Label Text="{Binding Title}" HorizontalOptions="Center" FontSize="48" FontAttributes="Bold" Margin="0,0,0,10" />
         <Grid HorizontalOptions="Fill" ColumnDefinitions="*,*,*">
+            <VerticalStackLayout BackgroundColor="Coral" Grid.Column="0">
+                <HorizontalStackLayout>
+                    <Label Text="Filter by time:"/>
+                    <CheckBox IsChecked="{Binding Path=FilterPreferences.FilterByTime}"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout >
+                    <Label Text="Begin time"/>
+                    <TimePicker Time="{Binding BeginTime}"
+                                Format="HH:mm"/>
+                    <DatePicker Date="{Binding BeginDate}"
+                                Format="dd/MM/yyyy"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout >
+                    <Label Text="End time"/>
+                    <TimePicker Time="{Binding EndTime}"
+                                Format="HH:mm"/>
+                    <DatePicker Date="{Binding EndDate}"
+                                Format="dd/MM/yyyy"/>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+            
             <Frame Padding="0" HasShadow="False" CornerRadius="0" WidthRequest="600" 
-               HorizontalOptions="Center" MaximumWidthRequest="600" Grid.Column="1"
-               BorderColor="{StaticResource EntryBarBackgroundColor}" 
-               BackgroundColor="{StaticResource EntryBarBackgroundColor}">
+                   HorizontalOptions="Center" MaximumWidthRequest="600" Grid.Column="1"
+                   BorderColor="{StaticResource EntryBarBackgroundColor}" 
+                   BackgroundColor="{StaticResource EntryBarBackgroundColor}">
                 
                 <SearchBar Placeholder="Filter activities"
                        Text="{Binding FilterPreferences.SearchedTerm}"

@@ -30,6 +30,32 @@ public partial class SubjectStudentDetailViewModel(
     public string Title { get; private set; } = string.Empty;
     public ObservableCollection<ActivityListModel> Activities { get; set; } = [];
 
+    public DateTime BeginDate
+    {
+        get { return FilterPreferences.BeginTime.Date; }
+        set { FilterPreferences.BeginTime = CombineDateTime(value, BeginTime); }
+    }
+    public DateTime EndDate
+    {
+        get { return FilterPreferences.EndTime.Date; }
+        set { FilterPreferences.EndTime = CombineDateTime(value, EndTime); }
+    }
+    public TimeSpan BeginTime
+    {
+        get { return FilterPreferences.BeginTime.TimeOfDay; }
+        set { FilterPreferences.BeginTime = CombineDateTime(FilterPreferences.BeginTime, value); }
+    }
+    public TimeSpan EndTime
+    {
+        get { return FilterPreferences.EndTime.TimeOfDay; }
+        set { FilterPreferences.EndTime = CombineDateTime(FilterPreferences.EndTime, value); }
+    }
+
+    private static DateTime CombineDateTime(DateTime date, TimeSpan time)
+    {
+        return new DateTime(date.Year, date.Month, date.Day, time.Hours, time.Minutes, time.Seconds);
+    }
+
     protected override async Task LoadDataAsync()
     {
         SubjectStudentDetailModel subject =

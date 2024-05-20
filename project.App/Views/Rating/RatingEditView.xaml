@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:ContentPageBase xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:views="clr-namespace:project.App.Views"
+                       xmlns:edit="clr-namespace:project.App.ViewModels.Rating"
+                       x:Class="project.App.Views.Rating.RatingEditView"
+                       x:DataType="edit:RatingEditViewModel">
+    <VerticalStackLayout Padding="10">
+        <Label Text="Edit Rating" FontSize="Large" HorizontalOptions="Center" />
+
+        <Label Text="Points" />
+        <Entry Text="{Binding Rating.Points}" Keyboard="Numeric" />
+
+        <Label Text="Notes" />
+        <Editor Text="{Binding Rating.Notes}" />
+
+        <Button Text="Save" Command="{Binding SaveCommand}" />
+    </VerticalStackLayout>
+</views:ContentPageBase>

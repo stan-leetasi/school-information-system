@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:ContentPageBase xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:edit="clr-namespace:project.App.ViewModels.Activity"
+                       xmlns:views="clr-namespace:project.App.Views"
+                       x:Class="project.App.Views.Activity.ActivityEditView"
+                       x:DataType="edit:ActivityEditViewModel">
+    <VerticalStackLayout Padding="10">
+        <Label Text="Edit Activity" FontSize="Large" HorizontalOptions="Center" />
+
+        <Label Text="Begin Time" />
+        <DatePicker Date="{Binding Activity.BeginTime}" />
+
+        <Label Text="End Time" />
+        <DatePicker Date="{Binding Activity.EndTime}" />
+
+        <Label Text="Area" />
+        <Picker ItemsSource="{Binding Activity.Area}" 
+                SelectedItem="{Binding Activity.Area}" 
+                ItemDisplayBinding="{Binding .}" />
+
+        <Label Text="Type" />
+        <Picker ItemsSource="{Binding Activity.Type}" 
+                SelectedItem="{Binding Activity.Type}" 
+                ItemDisplayBinding="{Binding .}" />
+
+        <Label Text="Description" />
+        <Editor Text="{Binding Activity.Description}" />
+
+        <Label Text="Subject Name" />
+        <Entry Text="{Binding Activity.SubjectName}" />
+
+
+        <Button Text="Save" Command="{Binding SaveCommand}" />
+    </VerticalStackLayout>
+</views:ContentPageBase>

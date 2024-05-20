@@ -6,6 +6,7 @@ using project.BL.Models;
 
 namespace project.App.ViewModels.Rating;
 
+[QueryProperty(nameof(RatingId), nameof(RatingId))]
 public partial class RatingEditViewModel(
     IRatingFacade ratingFacade,
     INavigationService navigationService,

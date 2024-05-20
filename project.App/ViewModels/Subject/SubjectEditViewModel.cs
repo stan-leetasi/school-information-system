@@ -29,6 +29,13 @@ public partial class SubjectEditViewModel(
 
         MessengerService.Send(new SubjectEditMessage() { SubjectId = Subject.Id });
 
-        navigationService.SendBackButtonPressed();
+        if (SubjectId == new Guid())
+        {
+            await navigationService.GoToAsync<SubjectListViewModel>();
+        }
+        else
+        {
+            navigationService.SendBackButtonPressed();
+        }
     }
 }

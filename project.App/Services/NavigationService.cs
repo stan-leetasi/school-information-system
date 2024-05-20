@@ -25,15 +25,14 @@ public class NavigationService : INavigationService
         new("//students/detail", typeof(StudentDetailView), typeof(StudentDetailViewModel)),
         new("//students/edit",typeof(StudentEditView), typeof(StudentEditViewModel)),
         new("//subjects", typeof(SubjectListView), typeof(SubjectListViewModel)),
-        new("//subjects/edit",typeof(SubjectEditView), typeof(SubjectEditViewModel)),
         new("//subjects/detail", typeof(SubjectStudentDetailView), typeof(SubjectStudentDetailViewModel)),
+        new("//subjects/detail/editSubject",typeof(SubjectEditView), typeof(SubjectEditViewModel)),
         new("//subjects/detail/admin", typeof(SubjectAdminDetailView), typeof(SubjectAdminDetailViewModel)),
         new("//subjects/detail/admin/students", typeof(StudentDetailView), typeof(StudentDetailViewModel)),
         new("//subjects/detail/activity", typeof(ActivityStudentDetailView), typeof(ActivityStudentDetailViewModel)),
-        new("//subjects/detail/activity-admin", typeof(ActivityAdminDetailView), typeof(ActivityAdminDetailViewModel)),
-        new("//subjects/detail/activity-admin/rating", typeof(RatingDetailView), typeof(RatingDetailViewModel)),
-        new("//subjects/detail/activity-admin/rating/edit",typeof(RatingEditView), typeof(RatingEditViewModel)),
-        new("//subjects/detail/admin/edit", typeof(SubjectEditView), typeof(SubjectEditViewModel)),
+        new("//subjects/detail/activity_admin", typeof(ActivityAdminDetailView), typeof(ActivityAdminDetailViewModel)),
+        new("//subjects/detail/activity_admin/rating", typeof(RatingDetailView), typeof(RatingDetailViewModel)),
+        new("//subjects/detail/activity_admin/rating/edit",typeof(RatingEditView), typeof(RatingEditViewModel)),
     };
 
     public async Task GoToAsync<TViewModel>()

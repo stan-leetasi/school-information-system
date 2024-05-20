@@ -12,7 +12,7 @@ public partial class RatingDetailViewModel(
     IRatingFacade ratingFacade,
     INavigationService navigationService,
     IMessengerService messengerService)
-    : ViewModelBase(messengerService) ,IRecipient<RatingEditMessage>
+    : ViewModelBase(messengerService), IRecipient<RatingEditMessage>
 {
     public Guid Id { get; set; }
     public RatingDetailModel? Rating { get; set; }
@@ -30,8 +30,8 @@ public partial class RatingDetailViewModel(
     {
         if (Rating is not null)
         {
-            // await navigationService.GoToAsync("/edit",
-            //     new Dictionary<string, object?> { [nameof(RatingEditViewModel.Recipe)] = Recipe with { } });
+            await navigationService.GoToAsync<RatingEditViewModel>(
+                new Dictionary<string, object?> { [nameof(RatingEditViewModel.RatingId)] = Id });
         }
     }
 

@@ -41,21 +41,26 @@
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="m:SubjectListModel">
                             <ViewCell>
-                                <Grid HorizontalOptions="Fill" ColumnSpacing="0" ColumnDefinitions="0.5*,*,0.3*">
-                                    <Grid.GestureRecognizers>
-                                        <TapGestureRecognizer
-                                                Command="{Binding Source={ x:Reference SubjectList }, Path=BindingContext.GoToDetailCommand}"
-                                                CommandParameter="{Binding Id}" />
-                                    </Grid.GestureRecognizers>
-                                    <Label Text="{Binding Acronym}" Grid.Column="0"
-                                               Style="{StaticResource SubjectAcronym}"/>
-                                    <Label Text="{Binding Name}" Grid.Column="1"
-                                           Style="{StaticResource TableLabelNormal}"/>
-                                    <CheckBox IsChecked="{Binding IsRegistered}"
-                                              IsEnabled="{Binding Source={ x:Reference SubjectList }, Path=BindingContext.StudentView}"
-                                              Grid.Column="2" HorizontalOptions="CenterAndExpand" 
-                                              Style="{StaticResource TableCheckbox}"/>
-                                </Grid>
+                                <Frame Style="{StaticResource TableRow}">
+                                    <StackLayout>
+                                        <Grid HorizontalOptions="Fill" ColumnDefinitions="0.5*,*,0.3*" Padding="0,5">
+                                            <Grid.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                    Command="{Binding Source={ x:Reference SubjectList }, Path=BindingContext.GoToDetailCommand}"
+                                                    CommandParameter="{Binding Id}" />
+                                            </Grid.GestureRecognizers>
+                                            <Label Text="{Binding Acronym}" Grid.Column="0"
+                                                   Style="{StaticResource SubjectAcronym}"/>
+                                            <Label Text="{Binding Name}" Grid.Column="1"
+                                                   Style="{StaticResource TableLabelNormal}"/>
+                                            <CheckBox IsChecked="{Binding IsRegistered}"
+                                                      IsEnabled="{Binding Source={ x:Reference SubjectList }, Path=BindingContext.StudentView}"
+                                                      Grid.Column="2" HorizontalOptions="CenterAndExpand" 
+                                                      Style="{StaticResource TableCheckbox}"/>
+                                        </Grid>
+                                        <BoxView HeightRequest="1" Style="{StaticResource TableRowSeparator}"/>
+                                    </StackLayout>
+                                </Frame>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>

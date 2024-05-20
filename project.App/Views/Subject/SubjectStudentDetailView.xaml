@@ -86,29 +86,34 @@
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="m:ActivityListModel">
                             <ViewCell>
-                                <Grid HorizontalOptions="Fill" ColumnDefinitions="*,*,*,*,*,*,*">
-                                    <Grid.GestureRecognizers>
-                                        <TapGestureRecognizer
-                                            Command="{Binding Source={ x:Reference SubjectStudentDetail }, Path=BindingContext.GoToDetailCommand}"
-                                            CommandParameter="{Binding Id}" />
-                                    </Grid.GestureRecognizers>
-                                    <Label Text="{Binding BeginTime}" Grid.Column="0"
-                                           Style="{StaticResource TableLabelSmall}"/>
-                                    <Label Text="{Binding EndTime}" Grid.Column="1" 
-                                           Style="{StaticResource TableLabelSmall}"/>
-                                    <Label Text="{Binding Area}" Grid.Column="2" 
-                                           Style="{StaticResource TableLabelSmall}"/>
-                                    <Label Text="{Binding Type}" Grid.Column="3" 
-                                           Style="{StaticResource TableLabelSmall}"/>
-                                    <Label Text="{Binding RegisteredStudents}" Grid.Column="4" 
-                                           Style="{StaticResource TableLabelSmall}"/>
-                                    <Label Text="{Binding Points}" Grid.Column="5" 
-                                           Style="{StaticResource TableLabelSmall}"/>
-                                    <CheckBox IsChecked="{Binding IsRegistered}"
-                                              IsEnabled="{Binding Source={ x:Reference SubjectStudentDetail }, Path=BindingContext.AllowActivityRegistration}"
-                                              Grid.Column="6" HorizontalOptions="CenterAndExpand"
-                                              Style="{StaticResource TableCheckbox}"/>
-                                </Grid>
+                                <Frame Style="{StaticResource TableRow}">
+                                    <StackLayout>
+                                        <Grid HorizontalOptions="Fill" ColumnDefinitions="*,*,*,*,*,*,*" Padding="0,3">
+                                            <Grid.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                    Command="{Binding Source={ x:Reference SubjectStudentDetail }, Path=BindingContext.GoToDetailCommand}"
+                                                    CommandParameter="{Binding Id}" />
+                                            </Grid.GestureRecognizers>
+                                            <Label Text="{Binding BeginTime}" Grid.Column="0"
+                                                   Style="{StaticResource TableLabelSmall}"/>
+                                            <Label Text="{Binding EndTime}" Grid.Column="1" 
+                                                   Style="{StaticResource TableLabelSmall}"/>
+                                            <Label Text="{Binding Area}" Grid.Column="2" 
+                                                   Style="{StaticResource TableLabelSmall}"/>
+                                            <Label Text="{Binding Type}" Grid.Column="3" 
+                                                   Style="{StaticResource TableLabelSmall}"/>
+                                            <Label Text="{Binding RegisteredStudents}" Grid.Column="4" 
+                                                   Style="{StaticResource TableLabelSmall}"/>
+                                            <Label Text="{Binding Points}" Grid.Column="5" 
+                                                   Style="{StaticResource TableLabelSmall}"/>
+                                            <CheckBox IsChecked="{Binding IsRegistered}"
+                                                      IsEnabled="{Binding Source={ x:Reference SubjectStudentDetail }, Path=BindingContext.AllowActivityRegistration}"
+                                                      Grid.Column="6" HorizontalOptions="CenterAndExpand"
+                                                      Style="{StaticResource TableCheckbox}"/>
+                                        </Grid>
+                                        <BoxView HeightRequest="1" Style="{StaticResource TableRowSeparator}"/>
+                                    </StackLayout>
+                                </Frame>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>

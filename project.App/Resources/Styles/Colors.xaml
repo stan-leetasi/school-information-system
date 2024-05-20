@@ -4,6 +4,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
     <Color x:Key="PageBackgroundColor">#E2F4FC</Color>
+    <Color x:Key="PageBackgroundHighlightColor">#f3fbfe</Color>
+    
     
     <Color x:Key="UnselectedButtonColor">#27476E</Color>
     <Color x:Key="SelectedButtonColor">#26A49C</Color>
@@ -21,6 +23,6 @@
     <Color x:Key="DeleteButtonColor">#DF4D48</Color>
     <Color x:Key="SaveButtonColor">#1CBA85</Color>
 
-    <Color x:Key="TableRowColor">DarkGrey</Color>
+    <Color x:Key="TableRowSeparatorColor">#cbdce3</Color>
 
 </ResourceDictionary>

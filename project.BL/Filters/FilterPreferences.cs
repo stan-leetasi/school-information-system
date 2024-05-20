@@ -16,13 +16,20 @@ public record FilterPreferences: INotifyPropertyChanged
     /// Name of the property according to which the items should be sorted.
     /// </summary>
     public string SortByPropertyName = "";
-    public bool DescendingOrder = false;
+    public bool DescendingOrder;
+
+    public bool FilterByTime;
+    public DateTime BeginTime;
+    public DateTime EndTime;
 
     public static FilterPreferences Default { get; } = new()
     {
         SearchedTerm = "",
         SortByPropertyName = "",
-        DescendingOrder = false
+        DescendingOrder = false,
+        FilterByTime = false,
+        BeginTime = DateTime.Now,
+        EndTime = DateTime.Now + TimeSpan.FromDays(7)
     };
 
     public event PropertyChangedEventHandler? PropertyChanged;

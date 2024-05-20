@@ -213,31 +213,6 @@ public sealed class SubjectFacadeTests : FacadeTestsBase
     }
 
     [Fact]
-    public async Task Get_SubjectStudentDetailModel_Of_ICS_For_Admin_Filtered_By_Date()
-    {
-        //Arrange
-        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "4.3." };
-
-        //Act
-        var detailModel = await _subjectFacadeSUT.GetAsyncStudentDetail(SubjectSeeds.ICS.Id, null, preferences);
-        var ICSCviko = detailModel!.Activities.Single(a => a.Id == ActivitiesSeeds.ICSCviko.Id);
-
-        //Assert
-        Assert.NotNull(detailModel);
-        Assert.Equal(SubjectSeeds.ICS.Id, detailModel.Id);
-        Assert.Equal(SubjectSeeds.ICS.Name, detailModel.Name);
-        Assert.Equal(SubjectSeeds.ICS.Acronym, detailModel.Acronym);
-        Assert.Single(detailModel.Activities);
-        Assert.Equal(ActivitiesSeeds.ICSCviko.Area, ICSCviko.Area);
-        Assert.Equal(ActivitiesSeeds.ICSCviko.Id, ICSCviko.Id);
-        Assert.Equal(ActivitiesSeeds.ICSCviko.BeginTime, ICSCviko.BeginTime);
-        Assert.Equal(ActivitiesSeeds.ICSCviko.EndTime, ICSCviko.EndTime);
-        Assert.False(ICSCviko.IsRegistered);
-        Assert.Equal(2, ICSCviko.RegisteredStudents);
-        Assert.Equal(ActivitiesSeeds.ICSCviko.Type, ICSCviko.Type);
-    }
-
-    [Fact]
     public async Task Filter_Subjects_By_Name()
     {
         // Arrange
@@ -316,142 +291,68 @@ public sealed class SubjectFacadeTests : FacadeTestsBase
     }
 
     [Fact]
-    public async Task Filter_Subject_Activities_SubjectStudentDetailModel_By_Date_Format_1()
+    public async Task Filter_Subject_Activities_SubjectStudentDetailModel_By_Time()
     {
         // Arrange 
-        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "22.5.2024" };
+        FilterPreferences findLabak = FilterPreferences.Default with { FilterByTime = true,
+            BeginTime = new DateTime(2025, 4, 5, 8, 0, 0),
+            EndTime = new DateTime(2025, 4, 5, 10, 0, 0)
+        };
+        FilterPreferences dontFindLabak = FilterPreferences.Default with
+        {
+            FilterByTime = true,
+            BeginTime = new DateTime(2025, 4, 5, 8, 0, 1),
+            EndTime = new DateTime(2025, 4, 5, 10, 0, 0)
+        };
         // Act
-        var detailModel = await _subjectFacadeSUT.GetAsyncStudentDetail(SubjectSeeds.ICS.Id, StudentSeeds.Terry.Id, preferences);
+        var detailModel = await _subjectFacadeSUT.GetAsyncStudentDetail(SubjectSeeds.IBS.Id, StudentSeeds.Terry.Id, findLabak);
+        var detailModelWithoutLabak = await _subjectFacadeSUT.GetAsyncStudentDetail(SubjectSeeds.IBS.Id, StudentSeeds.Terry.Id, dontFindLabak);
 
         // Assert
         Assert.NotNull(detailModel);
-        var ICSObhajoba = detailModel!.Activities.Single(a => a.Id == ActivitiesSeeds.ICSObhajoba.Id);
-        Assert.NotNull(ICSObhajoba);
-        Assert.Equal(ActivitiesSeeds.ICSObhajoba.Id, ICSObhajoba.Id);
+        var IBSLabak = detailModel!.Activities.Single(a => a.Id == ActivitiesSeeds.IBSLabak.Id);
+        Assert.NotNull(IBSLabak);
+        Assert.Equal(ActivitiesSeeds.IBSLabak.Id, IBSLabak.Id);
+
+        Assert.NotNull(detailModelWithoutLabak);
+        Assert.DoesNotContain(detailModelWithoutLabak.Activities, a => a.Id == ActivitiesSeeds.IBSLabak.Id);
     }
 
     [Fact]
-    public async Task Filter_Subject_Activities_SubjectStudentDetailModel_By_Date_Format_2()
+    public async Task Filter_Subject_Activities_SubjectStudentDetailModel_By_ActivityType()
     {
         // Arrange 
-        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "22-5-2024" };
+        FilterPreferences preferences = FilterPreferences.Default with
+        {
+            SearchedTerm   = "exer"
+        };
+
         // Act
-        var detailModel = await _subjectFacadeSUT.GetAsyncStudentDetail(SubjectSeeds.ICS.Id, StudentSeeds.Terry.Id, preferences);
+        var detailModel = await _subjectFacadeSUT.GetAsyncStudentDetail(SubjectSeeds.ICS.Id, null, preferences);
 
         // Assert
         Assert.NotNull(detailModel);
-        var ICSObhajoba = detailModel!.Activities.Single(a => a.Id == ActivitiesSeeds.ICSObhajoba.Id);
-        Assert.NotNull(ICSObhajoba);
-        Assert.Equal(ActivitiesSeeds.ICSObhajoba.Id, ICSObhajoba.Id);
+        Assert.Contains(detailModel.Activities, a => a.Id == ActivitiesSeeds.ICSCviko.Id);
+        Assert.DoesNotContain(detailModel.Activities, a => a.Id == ActivitiesSeeds.ICSObhajoba.Id);
     }
 
     [Fact]
-    public async Task Filter_Subject_Activities_SubjectStudentDetailModel_By_Date_Format_3()
+    public async Task Filter_Subject_Activities_SubjectStudentDetailModel_By_SchoolArea_1()
     {
         // Arrange 
-        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "22/5/2024" };
+        FilterPreferences preferences = FilterPreferences.Default with
+        {
+            SearchedTerm = "lab"
+        };
+
         // Act
-        var detailModel = await _subjectFacadeSUT.GetAsyncStudentDetail(SubjectSeeds.ICS.Id, StudentSeeds.Terry.Id, preferences);
+        var detailModel = await _subjectFacadeSUT.GetAsyncStudentDetail(SubjectSeeds.ICS.Id, null, preferences);
 
         // Assert
         Assert.NotNull(detailModel);
-        var ICSObhajoba = detailModel!.Activities.Single(a => a.Id == ActivitiesSeeds.ICSObhajoba.Id);
-        Assert.NotNull(ICSObhajoba);
-        Assert.Equal(ActivitiesSeeds.ICSObhajoba.Id, ICSObhajoba.Id);
+        Assert.Contains(detailModel.Activities, a => a.Id == ActivitiesSeeds.ICSCviko.Id);
+        Assert.DoesNotContain(detailModel.Activities, a => a.Id == ActivitiesSeeds.ICSObhajoba.Id);
     }
-
-    [Fact]
-    public async Task Filter_Subject_Activities_SubjectStudentDetailModel_By_Date_Format_4()
-    {
-        // Arrange 
-        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "22 5 2024" };
-        // Act
-        var detailModel = await _subjectFacadeSUT.GetAsyncStudentDetail(SubjectSeeds.ICS.Id, StudentSeeds.Terry.Id, preferences);
-
-        // Assert
-        Assert.NotNull(detailModel);
-        var ICSObhajoba = detailModel!.Activities.Single(a => a.Id == ActivitiesSeeds.ICSObhajoba.Id);
-        Assert.NotNull(ICSObhajoba);
-        Assert.Equal(ActivitiesSeeds.ICSObhajoba.Id, ICSObhajoba.Id);
-    }
-
-    [Fact]
-    public async Task Filter_Subject_Activities_SubjectStudentDetailModel_By_Date_Format_5()
-    {
-        // Arrange 
-        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "5 2024" };
-        // Act
-        var detailModel = await _subjectFacadeSUT.GetAsyncStudentDetail(SubjectSeeds.ICS.Id, StudentSeeds.Terry.Id, preferences);
-
-        // Assert
-        Assert.NotNull(detailModel);
-        var ICSObhajoba = detailModel!.Activities.Single(a => a.Id == ActivitiesSeeds.ICSObhajoba.Id);
-        Assert.NotNull(ICSObhajoba);
-        Assert.Equal(ActivitiesSeeds.ICSObhajoba.Id, ICSObhajoba.Id);
-    }
-
-
-
-    [Fact]
-    public async Task Filter_Subject_Activities_SubjectStudentDetailModel_By_DateTime_Format_1()
-    {
-        // Arrange 
-        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "22-5-2024 9:45" };
-        // Act
-        var detailModel = await _subjectFacadeSUT.GetAsyncStudentDetail(SubjectSeeds.ICS.Id, StudentSeeds.Terry.Id, preferences);
-
-        // Assert
-        Assert.NotNull(detailModel);
-        var ICSObhajoba = detailModel!.Activities.Single(a => a.Id == ActivitiesSeeds.ICSObhajoba.Id);
-        Assert.NotNull(ICSObhajoba);
-        Assert.Equal(ActivitiesSeeds.ICSObhajoba.Id, ICSObhajoba.Id);
-    }
-
-    [Fact]
-    public async Task Filter_Subject_Activities_SubjectStudentDetailModel_By_DateTime_Format_2()
-    {
-        // Arrange 
-        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "22 5 2024 9:45" };
-        // Act
-        var detailModel = await _subjectFacadeSUT.GetAsyncStudentDetail(SubjectSeeds.ICS.Id, StudentSeeds.Terry.Id, preferences);
-
-        // Assert
-        Assert.NotNull(detailModel);
-        var ICSObhajoba = detailModel!.Activities.Single(a => a.Id == ActivitiesSeeds.ICSObhajoba.Id);
-        Assert.NotNull(ICSObhajoba);
-        Assert.Equal(ActivitiesSeeds.ICSObhajoba.Id, ICSObhajoba.Id);
-    }
-
-    [Fact]
-    public async Task Filter_Subject_Activities_SubjectStudentDetailModel_By_DateTime_Format_3()
-    {
-        // Arrange 
-        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "5 2024 9:45" };
-        // Act
-        var detailModel = await _subjectFacadeSUT.GetAsyncStudentDetail(SubjectSeeds.ICS.Id, StudentSeeds.Terry.Id, preferences);
-
-        // Assert
-        Assert.NotNull(detailModel);
-        var ICSObhajoba = detailModel!.Activities.Single(a => a.Id == ActivitiesSeeds.ICSObhajoba.Id);
-        Assert.NotNull(ICSObhajoba);
-        Assert.Equal(ActivitiesSeeds.ICSObhajoba.Id, ICSObhajoba.Id);
-    }
-
-    [Fact]
-    public async Task Filter_Subject_Activities_SubjectStudentDetailModel_By_DateTime_Format_4()
-    {
-        // Arrange 
-        FilterPreferences preferences = FilterPreferences.Default with { SearchedTerm = "2024 9:45" };
-        // Act
-        var detailModel = await _subjectFacadeSUT.GetAsyncStudentDetail(SubjectSeeds.ICS.Id, StudentSeeds.Terry.Id, preferences);
-
-        // Assert
-        Assert.NotNull(detailModel);
-        var ICSObhajoba = detailModel!.Activities.Single(a => a.Id == ActivitiesSeeds.ICSObhajoba.Id);
-        Assert.NotNull(ICSObhajoba);
-        Assert.Equal(ActivitiesSeeds.ICSObhajoba.Id, ICSObhajoba.Id);
-    }
-
 
     [Fact]
     public async Task Filter_Students_Registered_For_Subject_AdminDetailModel_1()

@@ -15,10 +15,16 @@
                Margin="0,0,0,10" />
 
         <Label Text="{Binding Activity.SubjectName}" HorizontalOptions="Center" FontSize="24" />
-
-        <SearchBar Placeholder="Filter Activities"
-                   Text="{Binding FilterPreferences.SearchedTerm}"
-                   WidthRequest="600" Grid.Column="1" />
+        <Frame Padding="0" HasShadow="False" CornerRadius="0" WidthRequest="600" 
+           HorizontalOptions="Center" MaximumWidthRequest="600" Grid.Column="1"
+           BorderColor="{StaticResource EntryBarBackgroundColor}" 
+           BackgroundColor="{StaticResource EntryBarBackgroundColor}">
+            
+            <SearchBar Placeholder="Filter Activities"
+                       Text="{Binding FilterPreferences.SearchedTerm}"
+                       WidthRequest="600" Grid.Column="1" />
+        
+        </Frame>
 
         <Label Text="List of Ratings" FontSize="Large" HorizontalOptions="Center" />
 

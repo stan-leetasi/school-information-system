@@ -12,9 +12,15 @@
 
         <Label Text="{Binding Title}" HorizontalOptions="Center" FontSize="48" FontAttributes="Bold" Margin="0,0,0,10" />
         <Grid HorizontalOptions="Fill" ColumnDefinitions="*,*,*">
-            <SearchBar Placeholder="Filter activities"
+            <Frame Padding="0" HasShadow="False" CornerRadius="0" WidthRequest="600" 
+               HorizontalOptions="Center" MaximumWidthRequest="600" Grid.Column="1"
+               BorderColor="{StaticResource EntryBarBackgroundColor}" 
+               BackgroundColor="{StaticResource EntryBarBackgroundColor}">
+                
+                <SearchBar Placeholder="Filter activities"
                        Text="{Binding FilterPreferences.SearchedTerm}"
                        WidthRequest="600" Grid.Column="1" />
+            </Frame>
             <Grid HorizontalOptions="Fill" ColumnDefinitions="*,Auto" Grid.Column="2">
                 <Button Text="Registered Students"
                         Command="{Binding GoToAdminDetailCommand}"

@@ -51,7 +51,13 @@
                    FontSize="Large"
                    HorizontalOptions="CenterAndExpand" 
                    Margin="0, 0, 0, 15" />
-            <Picker Grid.Row="1"
+            
+            <Frame Padding="0" HasShadow="False" CornerRadius="0"
+               HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" MinimumWidthRequest="550" 
+               BorderColor="{StaticResource EntryBarBackgroundColor}" 
+               BackgroundColor="{StaticResource EntryBarBackgroundColor}">
+                
+                <Picker Grid.Row="1"
                     HorizontalOptions="CenterAndExpand"
                     VerticalOptions="CenterAndExpand" 
                     FontSize="Large"
@@ -59,6 +65,7 @@
                     ItemDisplayBinding="{Binding ., Converter={StaticResource StudentListModelToStringConverter}}"
                     SelectedItem="{Binding SelectedStudent}"
                     MinimumWidthRequest="550" />
+            </Frame>
         </Grid>
         
     </StackLayout>

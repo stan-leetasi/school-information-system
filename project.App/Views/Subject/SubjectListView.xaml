@@ -10,9 +10,14 @@
                        x:DataType="vm:SubjectListViewModel">
     <VerticalStackLayout>
         <Grid HorizontalOptions="Fill" ColumnDefinitions="*,*,*">
-            <SearchBar Placeholder="Filter subjects"
-                       Text="{Binding FilterPreferences.SearchedTerm}"
-                       WidthRequest="600" Grid.Column="1" />
+            <Frame Padding="0" HasShadow="False" CornerRadius="0" WidthRequest="600" 
+               HorizontalOptions="Center" MaximumWidthRequest="600" Grid.Column="1"
+               BorderColor="{StaticResource EntryBarBackgroundColor}" 
+               BackgroundColor="{StaticResource EntryBarBackgroundColor}">
+                <SearchBar Placeholder="Filter subjects"
+                           Text="{Binding FilterPreferences.SearchedTerm}"
+                           WidthRequest="600" Grid.Column="1" />
+            </Frame>
             <Grid HorizontalOptions="Fill" ColumnDefinitions="*,Auto" Grid.Column="2">
                 <Button Text="Add Subject" Command="{Binding GoToCreateCommand}"
                         IsVisible="{Binding AdminView}" Grid.Column="1" />

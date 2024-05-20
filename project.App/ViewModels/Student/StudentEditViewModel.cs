@@ -39,8 +39,10 @@ public partial class StudentEditViewModel(
     [RelayCommand]
     private void UpdateImage()
     {
-        if(Uri.TryCreate(StudentImageUrlTemp, UriKind.Absolute, out _))
+        if (Uri.TryCreate(StudentImageUrlTemp, UriKind.Absolute, out _))
             StudentImageUrl = StudentImageUrlTemp;
+        else
+            StudentImageUrl = "about:blank";
     }
 
     [RelayCommand]

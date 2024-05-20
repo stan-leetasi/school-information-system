@@ -10,11 +10,16 @@
                        x:DataType="vm:SubjectAdminDetailViewModel">
     <VerticalStackLayout>
         <Label Text="{Binding Title}" HorizontalOptions="Center" FontSize="48" FontAttributes="Bold" Margin="0,0,0,10" />
-
-        <SearchBar Placeholder="Filter students"
+        <Frame Padding="0" HasShadow="False" CornerRadius="0" WidthRequest="600" 
+           HorizontalOptions="Center" MaximumWidthRequest="600"
+           BorderColor="{StaticResource EntryBarBackgroundColor}" 
+           BackgroundColor="{StaticResource EntryBarBackgroundColor}">
+            
+            <SearchBar Placeholder="Filter students"
                    Text="{Binding FilterPreferences.SearchedTerm}"
                    WidthRequest="600" />
-
+        </Frame>
+    
         <Label Text="List of Students" FontSize="Large" HorizontalOptions="Center" />
 
         <Grid HorizontalOptions="Fill" ColumnDefinitions="*,*">

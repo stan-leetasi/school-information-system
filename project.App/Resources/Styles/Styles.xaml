@@ -6,6 +6,7 @@
     <Style TargetType="Button">
         <Setter Property="TextColor" Value="{StaticResource UnselectedTextColor}" />
         <Setter Property="BackgroundColor" Value="{StaticResource UnselectedButtonColor}" />
+        <Setter Property="CornerRadius" Value="0" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -16,7 +17,7 @@
                     </VisualState>
                     <VisualState x:Name="Pressed">
                         <VisualState.Setters>
-                            <Setter Property="Scale" Value="0.95" />
+                            <Setter Property="Scale" Value="0.98" />
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>
@@ -59,6 +60,12 @@
 
     <Style TargetType="Entry">
         <Setter Property="TextColor" Value="{StaticResource EntryBarTextColor}" />
+        <Setter Property="BackgroundColor" Value="{StaticResource EntryBarBackgroundColor}" />
+    </Style>
+
+    <Style TargetType="Editor">
+        <Setter Property="TextColor" Value="{StaticResource EntryBarTextColor}" />
+        <Setter Property="PlaceholderColor" Value="{StaticResource EntryBarTextColor}" />
         <Setter Property="BackgroundColor" Value="{StaticResource EntryBarBackgroundColor}" />
     </Style>
 

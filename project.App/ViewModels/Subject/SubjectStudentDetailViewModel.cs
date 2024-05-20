@@ -102,14 +102,6 @@ public partial class SubjectStudentDetailViewModel(
     // Navigation
 
     [RelayCommand]
-    private async Task GoToCreateAsync() => await navigationService.GoToAsync("/activity/createActivity",
-        new Dictionary<string, object?>
-        {
-            [nameof(ActivityEditViewModel.SubjectId)] = SubjectId,
-            [nameof(ActivityEditViewModel.ActivityId)] = Guid.Empty
-        });
-
-    [RelayCommand]
     private async Task GoToDetailAsync(Guid id)
     {
         ActivityListModel activity = Activities.First(a => a.Id == id);

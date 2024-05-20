@@ -51,16 +51,13 @@
                    VerticalOptions="Center">
 
                 <SearchBar Placeholder="Filter activities by type or area"
-                           Text="{Binding FilterPreferences.SearchedTerm}"
-                           Grid.Column="1" />
+                           Text="{Binding FilterPreferences.SearchedTerm}" />
             </Frame>
-            <Grid HorizontalOptions="Fill" ColumnDefinitions="*,Auto,Auto" Grid.Column="2" VerticalOptions="Center">
+            <Grid HorizontalOptions="Fill" ColumnDefinitions="*,Auto" Grid.Column="2" VerticalOptions="Center">
                 <Button Text="Registered Students"
                         Command="{Binding GoToAdminDetailCommand}"
                         CommandParameter="{Binding SubjectId}"
                         IsVisible="{Binding AdminView}" Grid.Column="1" />
-                <Button Text="Add" Command="{Binding GoToCreateCommand}"
-                        IsVisible="{Binding AdminView}" Grid.Column="2" />
             </Grid>
         </Grid>
 
@@ -123,48 +120,47 @@
                 </ListView>
             </StackLayout>
         </ScrollView>
-        
+
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            
+
             <Button Grid.Column="0"
-                HorizontalOptions="Start" VerticalOptions="End"
-                HeightRequest="30"
-                Text="Create activity"
-                CornerRadius="5"
-                Margin="50, 0, 0, 0"
-                Command="{Binding GoToCreateActivityCommand}"
-                IsVisible="{Binding AdminView}" />
-            
+                    HorizontalOptions="Start" VerticalOptions="End"
+                    HeightRequest="30"
+                    Text="Create activity"
+                    CornerRadius="5"
+                    Margin="50, 0, 0, 0"
+                    Command="{Binding GoToCreateActivityCommand}"
+                    IsVisible="{Binding AdminView}" />
+
             <HorizontalStackLayout Grid.Column="1" HorizontalOptions="End" Spacing="10" HeightRequest="55">
-            
+
                 <Button
                     HorizontalOptions="End" VerticalOptions="End"
                     HeightRequest="30"
                     Text="Edit"
                     CornerRadius="5"
-                    Command="{Binding GoToEditCommand}" 
+                    Command="{Binding GoToEditCommand}"
                     Style="{StaticResource EditButtonStyle}"
                     IsVisible="{Binding AdminView}" />
-            
+
                 <Button
                     HorizontalOptions="End" VerticalOptions="End"
                     HeightRequest="30"
                     Text="Delete"
                     CornerRadius="5"
-                    Command="{Binding DeleteCommand}" 
+                    Command="{Binding DeleteCommand}"
                     Style="{StaticResource DeleteButtonStyle}"
                     Margin="0, 0, 100, 0"
                     IsVisible="{Binding AdminView}" />
 
             </HorizontalStackLayout>
         </Grid>
-        
-        
-        
+
+
     </VerticalStackLayout>
 
 </views:ContentPageBase>

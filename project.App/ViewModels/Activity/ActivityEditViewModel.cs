@@ -14,17 +14,15 @@ public partial class ActivityEditViewModel(
     IMessengerService messengerService)
     : ViewModelBase(messengerService)
 {
-    public Guid ActivityId { get; init; } = new();
+    public Guid ActivityId { get; init; } = Guid.Empty;
 
     public ActivityAdminDetailModel Activity { get; set; } = ActivityAdminDetailModel.Empty;
 
     public List<SchoolArea> SchoolAreas { get; set; } = new((SchoolArea[])Enum.GetValues(typeof(SchoolArea)));
     protected override async Task LoadDataAsync()
     {
-        ActivityAdminDetailModel? getActivity = await activityFacade.GetAsync(ActivityId);
-
-        if (getActivity != null)
-            Activity = getActivity;
+        Activity = await activityFacade.GetAsync(ActivityId)
+                   ?? ActivityAdminDetailModel.Empty;
     }
 
     [RelayCommand]

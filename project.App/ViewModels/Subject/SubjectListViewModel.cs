@@ -48,10 +48,6 @@ public partial class SubjectListViewModel(
             subjectFacade.UnregisterStudent(subject.Id, student);
     }
 
-    // TODO: AddSubject
-    [RelayCommand]
-    private Task AddSubject() => Task.CompletedTask;
-
     [RelayCommand]
     private async Task GoToCreateAsync() => await navigationService.GoToAsync<SubjectEditViewModel>();
 

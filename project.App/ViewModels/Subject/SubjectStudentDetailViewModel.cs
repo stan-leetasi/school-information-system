@@ -137,7 +137,10 @@ public partial class SubjectStudentDetailViewModel(
     }
     
     [RelayCommand]
-    private async Task<bool> IsAdminView() => await Task.FromResult(AdminView);
+    private async Task GoToCreateActivityAsync()
+    {
+        await navigationService.GoToAsync("/create_activity");
+    }
     
     // Sorting
 

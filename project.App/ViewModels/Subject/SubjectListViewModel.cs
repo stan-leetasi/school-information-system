@@ -14,7 +14,8 @@ namespace project.App.ViewModels.Subject;
 public partial class SubjectListViewModel(
     ISubjectFacade subjectFacade,
     INavigationService navigationService,
-    IMessengerService messengerService)
+    IMessengerService messengerService,
+    IAlertService alertService)
     : TableViewModelBase(messengerService), IRecipient<SubjectEditMessage>, IRecipient<SubjectDeleteMessage>
 {
     protected override FilterPreferences DefaultFilterPreferences =>
@@ -35,17 +36,25 @@ public partial class SubjectListViewModel(
             subject.PropertyChanged += HandleSubjectPropertyChanged!;
     }
 
-    private void HandleSubjectPropertyChanged(object sender, PropertyChangedEventArgs e)
+    private async void HandleSubjectPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName != nameof(SubjectListModel.IsRegistered))
             return;
 
         SubjectListModel subject = (SubjectListModel)sender;
         Guid student = navigationService.LoggedInUser ?? throw new ArgumentNullException();
-        if (subject.IsRegistered)
-            subjectFacade.RegisterStudent(subject.Id, student);
+        if (subject.IsRegistered) 
+            await subjectFacade.RegisterStudent(subject.Id, student);
         else
-            subjectFacade.UnregisterStudent(subject.Id, student);
+        {
+            var confirm = await alertService.ConfirmAsync("Unregister subject",
+                "You will be also unregistered from all activities.");
+            if (confirm)
+                await subjectFacade.UnregisterStudent(subject.Id, student);
+            else
+                await LoadDataAsync();
+        }
+            
     }
 
     [RelayCommand]

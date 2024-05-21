@@ -13,7 +13,8 @@ namespace project.App.ViewModels.Activity;
 public partial class ActivityEditViewModel(
     IActivityFacade activityFacade,
     INavigationService navigationService,
-    IMessengerService messengerService)
+    IMessengerService messengerService,
+    IAlertService alertService)
     : ViewModelBase(messengerService)
 {
     public Guid ActivityId { get; init; }
@@ -74,18 +75,23 @@ public partial class ActivityEditViewModel(
     private async Task SaveAsync()
     {
         if (string.IsNullOrWhiteSpace(Activity.Description))
-            InvalidDescription = true;
-        else
         {
-            Activity.Ratings = [];
-            Activity.SubjectId = SubjectId;
-            await activityFacade.SaveAsync(Activity);
-            MessengerService.Send(new SubjectEditMessage { SubjectId = SubjectId });
-            if (ActivityId == new Guid())
-                await navigationService.GoToAsync<SubjectStudentDetailViewModel>(
-                    new Dictionary<string, object?> { { nameof(SubjectStudentDetailViewModel.SubjectId), SubjectId } });
-            else
-                navigationService.SendBackButtonPressed();
+            InvalidDescription = true;
+            return;
         }
+        if (Activity.BeginTime > Activity.EndTime)
+        {
+            await alertService.DisplayAsync("Change end time", "Begin time must be earlier than end time.");
+            return;
+        }
+        Activity.Ratings = [];
+        Activity.SubjectId = SubjectId;
+        await activityFacade.SaveAsync(Activity);
+        MessengerService.Send(new SubjectEditMessage { SubjectId = SubjectId });
+        if (ActivityId == new Guid())
+            await navigationService.GoToAsync<SubjectStudentDetailViewModel>(
+                new Dictionary<string, object?> { { nameof(SubjectStudentDetailViewModel.SubjectId), SubjectId } });
+        else
+            navigationService.SendBackButtonPressed();
     }
 }

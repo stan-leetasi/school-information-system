@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
+
 <views:ContentPageBase xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                        xmlns:edit="clr-namespace:project.App.ViewModels.Activity"
@@ -9,27 +10,28 @@
         <Label Text="Edit Activity" FontSize="Large" HorizontalOptions="Center" />
 
         <Label Text="Begin Time" />
-        <DatePicker Date="{Binding Activity.BeginTime}" />
-
+        <HorizontalStackLayout>
+            <DatePicker Date="{Binding BeginDate}" />
+            <TimePicker Time="{Binding BeginTime}" />
+        </HorizontalStackLayout>
         <Label Text="End Time" />
-        <DatePicker Date="{Binding Activity.EndTime}" />
-
+        <HorizontalStackLayout>
+            <DatePicker Date="{Binding EndDate}" />
+            <TimePicker Time="{Binding EndTime}" />
+        </HorizontalStackLayout>
         <Label Text="Area" />
-        <Picker ItemsSource="{Binding Activity.Area}" 
-                SelectedItem="{Binding Activity.Area}" 
-                ItemDisplayBinding="{Binding .}" />
+        <Picker ItemsSource="{Binding SchoolAreasList}"
+                SelectedItem="{Binding  Activity.Area}" />
 
         <Label Text="Type" />
-        <Picker ItemsSource="{Binding Activity.Type}" 
-                SelectedItem="{Binding Activity.Type}" 
-                ItemDisplayBinding="{Binding .}" />
+        <Picker ItemsSource="{Binding TypesList}"
+                SelectedItem="{Binding Activity.Type}" />
 
         <Label Text="Description" />
         <Editor Text="{Binding Activity.Description}" />
 
         <Label Text="Subject Name" />
         <Entry Text="{Binding Activity.SubjectName}" />
-
 
         <Button Text="Save" Command="{Binding SaveCommand}" />
     </VerticalStackLayout>

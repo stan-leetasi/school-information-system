@@ -4,10 +4,11 @@ using project.BL.Facades;
 using project.BL.Models;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace project.App.ViewModels;
 
-public partial class StudentLoginViewModel : ViewModelBase
+public partial class StudentLoginViewModel : ViewModelBase, IRecipient<StudentEditMessage>
 {
     private readonly IStudentFacade _studentFacade;
     private readonly INavigationService _navigationService;
@@ -52,4 +53,6 @@ public partial class StudentLoginViewModel : ViewModelBase
         _selectedStudent = null;
         await LoadDataAsync();
     }
+
+    public async void Receive(StudentEditMessage message) => await LoadDataAsync();
 }

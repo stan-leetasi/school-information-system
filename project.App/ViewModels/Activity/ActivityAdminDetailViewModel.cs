@@ -29,6 +29,7 @@ public partial class ActivityAdminDetailViewModel(
     {
         Activity = await activityFacade.GetAsync(ActivityId, FilterPreferences) ?? ActivityAdminDetailModel.Empty;
         Ratings = Activity.Ratings;
+
     }
 
     [RelayCommand]
@@ -38,7 +39,8 @@ public partial class ActivityAdminDetailViewModel(
                                  throw new ArgumentNullException($"Invalid ID of clicked rating");
         await navigationService.GoToAsync<RatingDetailViewModel>(new Dictionary<string, object?>
         {
-            [nameof(RatingDetailViewModel.Id)] = rating.Id
+            [nameof(RatingDetailViewModel.Id)] = rating.Id,
+            [nameof(RatingDetailViewModel.SubjectName)] = Activity.SubjectName
         });
     }
 

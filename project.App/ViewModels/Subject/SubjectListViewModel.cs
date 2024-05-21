@@ -49,7 +49,7 @@ public partial class SubjectListViewModel(
     }
 
     [RelayCommand]
-    private async Task GoToCreateAsync() => await navigationService.GoToAsync<SubjectEditViewModel>();
+    private async Task GoToCreateAsync() => await navigationService.GoToAsync("/createSubject");
 
     [RelayCommand]
     private async Task GoToDetailAsync(Guid id)

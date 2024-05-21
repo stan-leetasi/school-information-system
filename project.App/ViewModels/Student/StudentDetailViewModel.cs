@@ -40,6 +40,7 @@ public partial class StudentDetailViewModel(
     {
         await studentFacade.DeleteAsync(StudentId);
         await navigationService.GoToAsync("//students");
+        MessengerService.Send(new StudentEditMessage { StudentId = Student.Id });
     }
 
     public async void Receive(StudentEditMessage message) => await LoadDataAsync();

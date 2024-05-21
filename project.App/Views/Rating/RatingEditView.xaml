@@ -6,22 +6,28 @@
                        x:Class="project.App.Views.Rating.RatingEditView"
                        x:DataType="edit:RatingEditViewModel">
     <VerticalStackLayout Padding="10">
-        <Label Text="Edit Rating" FontSize="Large" HorizontalOptions="Center" />
+        <Label Text="Edit Rating" FontSize="Large" HorizontalOptions="StartAndExpand" />
 
-        <Label Text="Points" />
-        <Entry Text="{Binding RatingPoints}" Placeholder="Points">
-            <Entry.Triggers>
-                <DataTrigger TargetType="Entry" Binding="{Binding InvalidRating}" Value="True">
-                    <Setter Property="PlaceholderColor" Value="{StaticResource ErrorTextColor}"/>
-                    <Setter Property="Text" Value=""/>
-                    <Setter Property="Placeholder" Value="Enter a number"/>
-                </DataTrigger>
-            </Entry.Triggers>
-        </Entry>
-
-        <Label Text="Notes" />
-        <Editor Text="{Binding Rating.Notes}" Placeholder="Notes"/>
-
+        <Label Text="Points" FontSize="Small"/>
+        <Frame Padding="0" HasShadow="False" CornerRadius="0"  HorizontalOptions="FillAndExpand" 
+           BorderColor="{StaticResource EntryBarBackgroundColor}" 
+           BackgroundColor="{StaticResource EntryBarBackgroundColor}">
+            <Entry Text="{Binding RatingPoints}" Placeholder="Points">
+                <Entry.Triggers>
+                    <DataTrigger TargetType="Entry" Binding="{Binding InvalidRating}" Value="True">
+                        <Setter Property="PlaceholderColor" Value="{StaticResource ErrorTextColor}"/>
+                        <Setter Property="Text" Value=""/>
+                        <Setter Property="Placeholder" Value="Enter a number"/>
+                    </DataTrigger>
+                </Entry.Triggers>
+            </Entry>
+        </Frame>
+        <Label Text="Notes" FontSize="Small"/>
+        <Frame Padding="0" HasShadow="False" CornerRadius="0"  HorizontalOptions="FillAndExpand" 
+           BorderColor="{StaticResource EntryBarBackgroundColor}" 
+           BackgroundColor="{StaticResource EntryBarBackgroundColor}">
+            <Editor Text="{Binding Rating.Notes}" Placeholder="Notes"/>
+        </Frame>
         <Button Text="Save" Command="{Binding SaveCommand}" />
     </VerticalStackLayout>
 </views:ContentPageBase>

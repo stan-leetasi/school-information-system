@@ -6,36 +6,56 @@
                        xmlns:views="clr-namespace:project.App.Views"
                        x:Class="project.App.Views.Activity.ActivityEditView"
                        x:DataType="edit:ActivityEditViewModel">
-    <VerticalStackLayout Padding="10">
-        <Label Text="Edit Activity" FontSize="Large" HorizontalOptions="Center" />
-
-        <Label Text="Begin Time" />
-        <HorizontalStackLayout>
-            <DatePicker Date="{Binding BeginDate}"/>
-            <TimePicker Time="{Binding BeginTime}"/>
-        </HorizontalStackLayout>
-        <Label Text="End Time" />
-        <HorizontalStackLayout>
-            <DatePicker Date="{Binding EndDate}"/>
-            <TimePicker Time="{Binding EndTime}"/>
-        </HorizontalStackLayout>
+    <VerticalStackLayout Padding="10" Spacing="2">
+        <Label Text="Edit Activity" FontSize="Large" HorizontalOptions="StartAndExpand" />
+        <Grid BackgroundColor="{StaticResource EntryBarBackgroundColor}" Grid.Column="0" Padding="10"
+          ColumnSpacing="10"
+          ColumnDefinitions="Auto" RowDefinitions="Auto" HorizontalOptions="Start">
+            <VerticalStackLayout VerticalOptions="Start">
+                <Label Text="Begin Time" Grid.Column="0" />
+                <HorizontalStackLayout  Grid.Column="0">
+                    <DatePicker Date="{Binding BeginDate}" Grid.Column="0"/>
+                    <TimePicker Time="{Binding BeginTime}" Grid.Column="0"/>
+                </HorizontalStackLayout>
+                <Label Text="End Time" />
+                <HorizontalStackLayout Grid.Column="0">
+                    <DatePicker Date="{Binding EndDate}" Grid.Column="0"/>
+                    <TimePicker Time="{Binding EndTime}" Grid.Column="0"/>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </Grid>
+    
         <Label Text="Area" />
-        <Picker ItemsSource="{Binding SchoolAreasList}"
-                SelectedItem="{Binding  Activity.Area}" />
-
+        <Frame Padding="0" HasShadow="False" CornerRadius="0"  
+           HorizontalOptions="FillAndExpand" 
+           BorderColor="{StaticResource EntryBarBackgroundColor}" 
+           BackgroundColor="{StaticResource EntryBarBackgroundColor}">
+            <Picker ItemsSource="{Binding SchoolAreasList}"
+                    SelectedItem="{Binding  Activity.Area}" />
+        </Frame>
         <Label Text="Type" />
-        <Picker ItemsSource="{Binding TypesList}"
-                SelectedItem="{Binding Activity.Type}" />
-
+        <Frame Padding="0" HasShadow="False" CornerRadius="0"  
+           HorizontalOptions="FillAndExpand" 
+           BorderColor="{StaticResource EntryBarBackgroundColor}" 
+           BackgroundColor="{StaticResource EntryBarBackgroundColor}">
+            <Picker ItemsSource="{Binding TypesList}"
+                    SelectedItem="{Binding Activity.Type}" />
+        </Frame>
+    
         <Label Text="Description" />
-        <Entry Text="{Binding Activity.Description}">
-            <Entry.Triggers>
-                <DataTrigger TargetType="Entry" Binding="{Binding InvalidDescription}" Value="True">
-                    <Setter Property="PlaceholderColor" Value="{StaticResource ErrorTextColor}"/>
-                    <Setter Property="Placeholder" Value="Enter a valid description"/>
-                </DataTrigger>
-            </Entry.Triggers>
-        </Entry>
+        <Frame Padding="0" HasShadow="False" CornerRadius="0"  
+           HorizontalOptions="FillAndExpand" 
+           BorderColor="{StaticResource EntryBarBackgroundColor}" 
+           BackgroundColor="{StaticResource EntryBarBackgroundColor}">
+            <Entry Text="{Binding Activity.Description}">
+                <Entry.Triggers>
+                    <DataTrigger TargetType="Entry" Binding="{Binding InvalidDescription}" Value="True">
+                        <Setter Property="PlaceholderColor" Value="{StaticResource ErrorTextColor}"/>
+                        <Setter Property="Placeholder" Value="Enter a valid description"/>
+                    </DataTrigger>
+                </Entry.Triggers>
+            </Entry>
+        </Frame>
 
         <Button Text="Save" Command="{Binding SaveCommand}" />
     </VerticalStackLayout>

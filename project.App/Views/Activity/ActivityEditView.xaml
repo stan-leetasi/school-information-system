@@ -11,12 +11,12 @@
 
         <Label Text="Begin Time" />
         <HorizontalStackLayout>
-            <DatePicker Date="{Binding BeginDate}" />
+            <DatePicker Date="{Binding BeginDate}" Format="dd/mm/yyyy" />
             <TimePicker Time="{Binding BeginTime}" />
         </HorizontalStackLayout>
         <Label Text="End Time" />
         <HorizontalStackLayout>
-            <DatePicker Date="{Binding EndDate}" />
+            <DatePicker Date="{Binding EndDate}" Format="dd/mm/yyyy" />
             <TimePicker Time="{Binding EndTime}" />
         </HorizontalStackLayout>
         <Label Text="Area" />

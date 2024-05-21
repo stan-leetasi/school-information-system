@@ -10,7 +10,7 @@
     xmlns:student="using:project.App.Views.Student"
     Shell.FlyoutBehavior="Disabled"
     x:Name="AppShellRoot"
-    Title="project.App">
+    Title="School Information System">
 
     <Shell.MenuBarItems>
         <MenuBarItem Text="File">

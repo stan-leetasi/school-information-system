@@ -13,7 +13,7 @@ public partial class RatingDetailViewModel(
     IRatingFacade ratingFacade,
     INavigationService navigationService,
     IMessengerService messengerService)
-    : ViewModelBase(messengerService), IRecipient<RatingEditMessage>
+    : ViewModelBase(messengerService), IRecipient<RatingEditMessage>, IRecipient<RefreshManual>
 {
     public Guid Id { get; set; }
     public string SubjectName { get; set; } = string.Empty;
@@ -34,4 +34,6 @@ public partial class RatingDetailViewModel(
         new Dictionary<string, object?> { [nameof(RatingEditViewModel.RatingId)] = Id });
 
     public async void Receive(RatingEditMessage message) => await LoadDataAsync();
+    public async void Receive(RefreshManual message) => await LoadDataAsync();
+
 }

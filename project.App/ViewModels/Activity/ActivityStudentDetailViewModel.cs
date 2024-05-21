@@ -12,7 +12,7 @@ public partial class ActivityStudentDetailViewModel(
     IActivityFacade activityFacade,
     INavigationService navigationService,
     IMessengerService messengerService)
-    : ViewModelBase(messengerService), IRecipient<ActivityEditMessage>
+    : ViewModelBase(messengerService), IRecipient<ActivityEditMessage>, IRecipient<RefreshManual>
 {
     public Guid Id { get; set; }
     public ActivityStudentDetailModel? Activity { get; set; }
@@ -27,4 +27,7 @@ public partial class ActivityStudentDetailViewModel(
     private async Task Refresh() => await LoadDataAsync();
 
     public async void Receive(ActivityEditMessage message) => await LoadDataAsync();
+
+    public async void Receive(RefreshManual message) => await LoadDataAsync();
+
 }

@@ -12,7 +12,7 @@ public partial class StudentDetailViewModel(
     IStudentFacade studentFacade,
     INavigationService navigationService,
     IMessengerService messengerService)
-    : ViewModelBase(messengerService), IRecipient<StudentEditMessage>
+    : ViewModelBase(messengerService), IRecipient<StudentEditMessage>, IRecipient<RefreshManual>
 {
     public StudentDetailModel? Student { get; set; } = StudentDetailModel.Empty;
     public Guid StudentId { get; set; } = new();
@@ -44,4 +44,6 @@ public partial class StudentDetailViewModel(
     }
 
     public async void Receive(StudentEditMessage message) => await LoadDataAsync();
+    public async void Receive(RefreshManual message) => await LoadDataAsync();
+
 }

@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="project.App.Views.AboutPage"
+             Style="{StaticResource PageStyle}">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30"
+            Spacing="25">
+
+            <Label
+                Text="School Information System"
+                FontSize="50"
+                FontAttributes="Bold"
+                />
+
+            <Label
+                Text="This application was made according to 2024 ICS project assignment."
+                FontSize="22"/>
+
+            <Frame BackgroundColor="{StaticResource EntryBarBackgroundColor}" HorizontalOptions="Start"
+                    CornerRadius="20">
+                <Grid HorizontalOptions="Fill" ColumnDefinitions="300,*" RowDefinitions="*,*" ColumnSpacing="20" Padding="10,0">
+                    <Label Text="Team members:" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" FontSize="20"></Label>
+                    <StackLayout Grid.Column="0" Grid.Row="1">
+                        <Label Text="Andrii Balatsyr" Style="{StaticResource DevName}"/>
+                        <Label Text="Adam Kán" Style="{StaticResource DevName}"/>
+                        <Label Text="Michal Krulich" Style="{StaticResource DevName}"/>
+                        <Label Text="Stanislav Letaši" Style="{StaticResource DevName}"/>
+                        <Label Text="Jiří Tesař" Style="{StaticResource DevName}"/>
+                    </StackLayout>
+                    <StackLayout Grid.Column="1" Grid.Row="1">
+                        <Label Text="xbalat00" Style="{StaticResource DevName}"/>
+                        <Label Text="xkanad00" Style="{StaticResource DevName}"/>
+                        <Label Text="xkruli03" Style="{StaticResource DevName}"/>
+                        <Label Text="xletas00" Style="{StaticResource DevName}"/>
+                        <Label Text="xtesar44" Style="{StaticResource DevName}"/>
+                    </StackLayout>
+                </Grid>
+            </Frame>
+            
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

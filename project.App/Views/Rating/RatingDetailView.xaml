@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<views:ContentPageBase xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:views="using:project.App.Views"
+                       xmlns:m="clr-namespace:project.BL.Models;assembly=project.BL"
+                       xmlns:vm="clr-namespace:project.App.ViewModels.Rating"
+                       x:Class="project.App.Views.Rating.RatingDetailView"
+                       x:Name="RatingDetail"
+                       x:DataType="vm:RatingDetailViewModel">
+    <Grid Style="{StaticResource GridAboveTable}" ColumnDefinitions="*"
+          HorizontalOptions="FillAndExpand">
+        <VerticalStackLayout Grid.Column="0" Spacing="0">
+            <Label Text="{Binding SubjectName}"
+                   FontSize="42"
+                   Margin="20, 10" />
+            
+            <Label Text="{Binding Rating.ActivityName}"
+                   FontSize="30"
+                   Margin="20, 10" />
+            
+            <Label Text="{Binding StudentNameWhole}"
+                   FontSize="25"
+                   Margin="20, 10" />
+            
+            <Entry Placeholder="Points: "
+                    Text="{Binding Rating.Points, StringFormat='Points: {0}'}"
+                    Margin="20, 10"
+                    IsReadOnly="true" HorizontalOptions="FillAndExpand"/>
+
+            <Editor Placeholder="Note"
+                    Text="{Binding Rating.Notes}"
+                    Margin="20, 10"
+                    IsReadOnly="true" HorizontalOptions="FillAndExpand"/>
+        
+            <Button Text="Edit"
+                Grid.Column="2"
+                Command="{Binding GoToEditCommand}"
+                Margin="21, 0, 20, 0" HorizontalOptions="FillAndExpand"/>
+        </VerticalStackLayout>
+    </Grid>
+</views:ContentPageBase>

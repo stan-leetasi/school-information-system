@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <Color x:Key="PageBackgroundColor">#E2F4FC</Color>
+    <Color x:Key="PageBackgroundHighlightColor">#f3fbfe</Color>
+
+    <Color x:Key="UnselectedButtonColor">#27476E</Color>
+    <Color x:Key="SelectedButtonColor">#26A49C</Color>
+    <Color x:Key="PointerOverButtonTextColor">#7df6ff</Color>
+    <Color x:Key="PointerOverButtonColor">#4881c7</Color>
+    
+
+    <Color x:Key="UnselectedTextColor">#FFFFFF</Color>
+    <Color x:Key="SelectedTextColor">#000000</Color>
+    <Color x:Key="ErrorTextColor">#FC0824</Color>
+
+    <Color x:Key="EntryBarBackgroundColor">#82C2D3</Color>
+    <Color x:Key="EntryBarTextColor">#022B3A</Color>
+
+    <Color x:Key="LabelTextColor">#022B3A</Color>
+
+    <Color x:Key="EditButtonColor">#FCB365</Color>
+    <Color x:Key="PointerOverEditButtonColor">#FCCC97</Color>
+    <Color x:Key="DeleteButtonColor">#DF4D48</Color>
+    <Color x:Key="PointerOverDeleteButtonColor">#DB6D6B</Color>
+    <Color x:Key="SaveButtonColor">#1CBA85</Color>
+    <Color x:Key="PointerOverSaveButtonColor">#4ED4A7</Color>
+
+    <Color x:Key="TableRowSeparatorColor">#cbdce3</Color>
+
+</ResourceDictionary>

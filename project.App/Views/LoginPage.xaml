@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:ContentPageBase xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:views="clr-namespace:project.App.Views"
+                       xmlns:vm="clr-namespace:project.App.ViewModels"
+                       x:Class="project.App.Views.LoginPage"
+                       x:DataType="vm:StudentLoginViewModel"
+                       Shell.NavBarIsVisible="false">
+    
+    <StackLayout>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" 
+                    Text="Refresh" 
+                    Margin="20" 
+                    Command="{Binding RefreshCommand}"/>
+            <Label Grid.Row="0" 
+                   Grid.Column="1" 
+                   Text="School information system" 
+                   HorizontalOptions="CenterAndExpand" 
+                   VerticalOptions="CenterAndExpand" 
+                   FontSize="Large"
+                   TextColor="{StaticResource LabelTextColor}" />
+            <Button Grid.Row="0" 
+                    Grid.Column="2" 
+                    Text="Login as admin" 
+                    Command="{Binding SelectUserCommand}"
+                    CommandParameter="{x:Null}"
+                    Margin="20" />
+        </Grid>
+        <Grid HorizontalOptions="CenterAndExpand" 
+              VerticalOptions="CenterAndExpand"
+              Margin="0, 0, 0, 100" >
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <Label Grid.Row="0"
+                   Text="Select student:" 
+                   FontSize="Large"
+                   TextColor="{StaticResource LabelTextColor}"
+                   HorizontalOptions="CenterAndExpand" 
+                   Margin="0, 0, 0, 15" />
+            
+            <Frame Grid.Row="1" Padding="0" HasShadow="False" CornerRadius="0"
+                   HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" MinimumWidthRequest="550" 
+                   BorderColor="{StaticResource EntryBarBackgroundColor}" 
+                   BackgroundColor="{StaticResource EntryBarBackgroundColor}">
+                
+                <Picker Grid.Row="1"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="CenterAndExpand" 
+                    FontSize="Large"
+                    ItemsSource="{Binding Students}"
+                    ItemDisplayBinding="{Binding ., Converter={StaticResource StudentListModelToStringConverter}}"
+                    SelectedItem="{Binding SelectedStudent}"
+                    MinimumWidthRequest="550" />
+            </Frame>
+        </Grid>
+        
+    </StackLayout>
+</views:ContentPageBase>

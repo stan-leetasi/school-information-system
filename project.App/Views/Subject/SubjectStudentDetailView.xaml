@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<views:ContentPageBase xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:views="clr-namespace:project.App.Views"
+                       xmlns:m="clr-namespace:project.BL.Models;assembly=project.BL"
+                       xmlns:vm="clr-namespace:project.App.ViewModels.Subject"
+                       x:Class="project.App.Views.Subject.SubjectStudentDetailView"
+                       x:Name="SubjectStudentDetail"
+                       x:DataType="vm:SubjectStudentDetailViewModel"
+                       Title="{Binding Title}">
+    <VerticalStackLayout>
+
+        <!--<Label Text="{Binding Title}" HorizontalOptions="Center" FontSize="48" FontAttributes="Bold" Margin="0,0,0,10" />-->
+        <Grid ColumnDefinitions="*,*" Style="{StaticResource GridAboveTable}" HorizontalOptions="Fill" ColumnSpacing="15" Padding="0,30,0,0">
+            <Grid BackgroundColor="{StaticResource EntryBarBackgroundColor}" Grid.Column="0" Padding="10"
+                  ColumnSpacing="10"
+                  ColumnDefinitions="Auto,Auto,Auto" RowDefinitions="*,*,*" HorizontalOptions="Center">
+
+                <HorizontalStackLayout Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" HorizontalOptions="Center"
+                                       Padding="0,0,0,10">
+                    <Label Text="Filter by time:" Style="{StaticResource DateTimeFilterText}" />
+                    <CheckBox IsChecked="{Binding Path=FilterPreferences.FilterByTime}"
+                              Style="{StaticResource TableCheckbox}" />
+                </HorizontalStackLayout>
+
+                <Label Text="Begin time" Style="{StaticResource DateTimeFilterText}"
+                       Grid.Column="0" Grid.Row="1" />
+                <TimePicker Time="{Binding BeginTime}"
+                            Format="HH:mm"
+                            Grid.Column="1" Grid.Row="1" MinimumWidthRequest="200" />
+                <DatePicker Date="{Binding BeginDate}"
+                            Format="dd/MM/yyyy"
+                            Grid.Column="2" Grid.Row="1" />
+
+                <Label Text="End time" Style="{StaticResource DateTimeFilterText}"
+                       Grid.Column="0" Grid.Row="2" />
+                <TimePicker Time="{Binding EndTime}"
+                            Format="HH:mm"
+                            Grid.Column="1" Grid.Row="2" />
+                <DatePicker Date="{Binding EndDate}"
+                            Format="dd/MM/yyyy"
+                            Grid.Column="2" Grid.Row="2" />
+
+            </Grid>
+
+            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Spacing="20">
+                <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10"
+                                       IsVisible="{Binding AdminView}">
+                    <Button Text="Registered Students"
+                            Command="{Binding GoToAdminDetailCommand}"
+                            CommandParameter="{Binding SubjectId}"/>
+                    <Button
+                            HeightRequest="30"
+                            Text="Create activity"
+                            Command="{Binding GoToCreateActivityCommand}"/>
+                    <Button
+                        Text="Edit"
+                        Command="{Binding GoToEditCommand}"
+                        Style="{StaticResource EditButtonStyle}"/>
+                    <Button
+                        Text="Delete"
+                        Command="{Binding DeleteCommand}"
+                        Style="{StaticResource DeleteButtonStyle}"
+                         />
+                </HorizontalStackLayout>
+                <Frame Padding="0" HasShadow="False" CornerRadius="0" MinimumWidthRequest="400"
+                       HorizontalOptions="Fill" MaximumWidthRequest="600" Grid.Column="1"
+                       BorderColor="{StaticResource EntryBarBackgroundColor}"
+                       BackgroundColor="{StaticResource EntryBarBackgroundColor}"
+                       VerticalOptions="Center">
+
+                    <SearchBar Placeholder="Filter activities by type or area"
+                               MinimumWidthRequest="500"
+                               Text="{Binding FilterPreferences.SearchedTerm}" />
+                </Frame>
+            </VerticalStackLayout>
+        </Grid>
+
+        <Label Text="Activities" FontSize="Large" HorizontalOptions="Center" />
+
+        <Grid HorizontalOptions="Fill" ColumnDefinitions="*,*,*,*,*,*,*">
+            <Button Text="Begin Time" Grid.Column="0" Command="{Binding SortByBeginTimeCommand}"
+                    Style="{StaticResource ColumnHeader}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding Sorting}" Value="BeginTime">
+                        <Setter Property="BackgroundColor" Value="{StaticResource PointerOverButtonColor}" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+
+            <Button Text="End Time" Grid.Column="1" Command="{Binding SortByEndTimeCommand}"
+                    Style="{StaticResource ColumnHeader}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding Sorting}" Value="EndTime">
+                        <Setter Property="BackgroundColor" Value="{StaticResource PointerOverButtonColor}" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+
+            <Button Text="Area" Grid.Column="2" Command="{Binding SortByAreaCommand}"
+                    Style="{StaticResource ColumnHeader}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding Sorting}" Value="Area">
+                        <Setter Property="BackgroundColor" Value="{StaticResource PointerOverButtonColor}" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+
+            <Button Text="Type" Grid.Column="3" Command="{Binding SortByTypeCommand}"
+                    Style="{StaticResource ColumnHeader}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding Sorting}" Value="Type">
+                        <Setter Property="BackgroundColor" Value="{StaticResource PointerOverButtonColor}" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+            <Button Text="Registered Students" Grid.Column="4" Command="{Binding SortByRegisteredStudentsCommand}"
+                    Style="{StaticResource ColumnHeader}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding Sorting}" Value="RegisteredStudents">
+                        <Setter Property="BackgroundColor" Value="{StaticResource PointerOverButtonColor}" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+
+            <Button Text="Points" Grid.Column="5" Command="{Binding SortByPointsCommand}"
+                    Style="{StaticResource ColumnHeader}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding Sorting}" Value="Points">
+                        <Setter Property="BackgroundColor" Value="{StaticResource PointerOverButtonColor}" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+
+            <Button Text="Is Registered" Grid.Column="6" Command="{Binding SortByIsRegisteredCommand}"
+                    Style="{StaticResource ColumnHeader}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding Sorting}" Value="IsRegistered">
+                        <Setter Property="BackgroundColor" Value="{StaticResource PointerOverButtonColor}" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+        </Grid>
+
+        <ScrollView>
+            <StackLayout>
+                <ListView ItemsSource="{Binding Activities}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="m:ActivityListModel">
+                            <ViewCell>
+                                <Frame Style="{StaticResource TableRow}">
+                                    <StackLayout>
+                                        <Grid HorizontalOptions="Fill" ColumnDefinitions="*,*,*,*,*,*,*" Padding="0,3">
+                                            <Grid.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                    Command="{Binding Source={ x:Reference SubjectStudentDetail }, Path=BindingContext.GoToDetailCommand}"
+                                                    CommandParameter="{Binding Id}" />
+                                            </Grid.GestureRecognizers>
+                                            <Label Text="{Binding BeginTime}" Grid.Column="0"
+                                                   Style="{StaticResource TableLabelSmall}" />
+                                            <Label Text="{Binding EndTime}" Grid.Column="1"
+                                                   Style="{StaticResource TableLabelSmall}" />
+                                            <Label Text="{Binding Area}" Grid.Column="2"
+                                                   Style="{StaticResource TableLabelSmall}" />
+                                            <Label Text="{Binding Type}" Grid.Column="3"
+                                                   Style="{StaticResource TableLabelSmall}" />
+                                            <Label Text="{Binding RegisteredStudents}" Grid.Column="4"
+                                                   Style="{StaticResource TableLabelSmall}" />
+                                            <Label Text="{Binding Points}" Grid.Column="5"
+                                                   Style="{StaticResource TableLabelSmall}" />
+                                            <CheckBox IsChecked="{Binding IsRegistered}"
+                                                      IsEnabled="{Binding Source={ x:Reference SubjectStudentDetail }, Path=BindingContext.AllowActivityRegistration}"
+                                                      Grid.Column="6" HorizontalOptions="CenterAndExpand"
+                                                      Style="{StaticResource TableCheckbox}" />
+                                        </Grid>
+                                        <BoxView HeightRequest="1" Style="{StaticResource TableRowSeparator}" />
+                                    </StackLayout>
+                                </Frame>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </ScrollView>
+    </VerticalStackLayout>
+
+</views:ContentPageBase>

@@ -1,6 +1,9 @@
-﻿namespace project.BL.Filters;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
-public record FilterPreferences
+namespace project.BL.Filters;
+
+public record FilterPreferences : INotifyPropertyChanged
 {
     /// <summary>
     /// The value in the search bar.
@@ -8,16 +11,18 @@ public record FilterPreferences
     /// <remarks>
     /// It can be a student's name, acronym of a subject, date of activity,...
     /// </remarks>
-    public string SearchedTerm = "";
+    public string SearchedTerm { get; set; } = "";
+
     /// <summary>
     /// Name of the property according to which the items should be sorted.
     /// </summary>
     public string SortByPropertyName = "";
+
     public bool DescendingOrder;
 
-    public bool FilterByTime;
-    public DateTime BeginTime;
-    public DateTime EndTime;
+    public bool FilterByTime { get; set; }
+    public DateTime BeginTime { get; set; }
+    public DateTime EndTime { get; set; }
 
     public static FilterPreferences Default { get; } = new()
     {
@@ -28,4 +33,8 @@ public record FilterPreferences
         BeginTime = DateTime.Now,
         EndTime = DateTime.Now + TimeSpan.FromDays(7)
     };
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+    protected void OnPropertyChanged([CallerMemberName] string? propertyName = null) =>
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 }

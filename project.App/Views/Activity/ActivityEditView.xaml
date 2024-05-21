@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<views:ContentPageBase xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:edit="clr-namespace:project.App.ViewModels.Activity"
+                       xmlns:views="clr-namespace:project.App.Views"
+                       x:Class="project.App.Views.Activity.ActivityEditView"
+                       x:DataType="edit:ActivityEditViewModel">
+    <VerticalStackLayout Padding="10" Spacing="2">
+        <Label Text="Edit Activity" FontSize="Large" HorizontalOptions="StartAndExpand" />
+        <Grid BackgroundColor="{StaticResource EntryBarBackgroundColor}" Grid.Column="0" Padding="10"
+          ColumnSpacing="10"
+          ColumnDefinitions="Auto" RowDefinitions="Auto" HorizontalOptions="Start">
+            <VerticalStackLayout VerticalOptions="Start">
+                <Label Text="Begin Time" Grid.Column="0" />
+                <HorizontalStackLayout  Grid.Column="0">
+                    <DatePicker Date="{Binding BeginDate}" Grid.Column="0"/>
+                    <TimePicker Time="{Binding BeginTime}" Grid.Column="0"/>
+                </HorizontalStackLayout>
+                <Label Text="End Time" />
+                <HorizontalStackLayout Grid.Column="0">
+                    <DatePicker Date="{Binding EndDate}" Grid.Column="0"/>
+                    <TimePicker Time="{Binding EndTime}" Grid.Column="0"/>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </Grid>
+    
+        <Label Text="Area" />
+        <Frame Padding="0" HasShadow="False" CornerRadius="0"  
+           HorizontalOptions="FillAndExpand" 
+           BorderColor="{StaticResource EntryBarBackgroundColor}" 
+           BackgroundColor="{StaticResource EntryBarBackgroundColor}">
+            <Picker ItemsSource="{Binding SchoolAreasList}"
+                    SelectedItem="{Binding  Activity.Area}" />
+        </Frame>
+        <Label Text="Type" />
+        <Frame Padding="0" HasShadow="False" CornerRadius="0"  
+           HorizontalOptions="FillAndExpand" 
+           BorderColor="{StaticResource EntryBarBackgroundColor}" 
+           BackgroundColor="{StaticResource EntryBarBackgroundColor}">
+            <Picker ItemsSource="{Binding TypesList}"
+                    SelectedItem="{Binding Activity.Type}" />
+        </Frame>
+    
+        <Label Text="Description" />
+        <Frame Padding="0" HasShadow="False" CornerRadius="0"  
+           HorizontalOptions="FillAndExpand" 
+           BorderColor="{StaticResource EntryBarBackgroundColor}" 
+           BackgroundColor="{StaticResource EntryBarBackgroundColor}">
+            <Entry Text="{Binding Activity.Description}">
+                <Entry.Triggers>
+                    <DataTrigger TargetType="Entry" Binding="{Binding InvalidDescription}" Value="True">
+                        <Setter Property="PlaceholderColor" Value="{StaticResource ErrorTextColor}"/>
+                        <Setter Property="Placeholder" Value="Enter a valid description"/>
+                    </DataTrigger>
+                </Entry.Triggers>
+            </Entry>
+        </Frame>
+
+        <Button Text="Save" Command="{Binding SaveCommand}" />
+    </VerticalStackLayout>
+</views:ContentPageBase>

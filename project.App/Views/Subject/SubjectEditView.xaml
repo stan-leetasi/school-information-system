@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:ContentPageBase xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:views="clr-namespace:project.App.Views"
+                       xmlns:viewModels="clr-namespace:project.App.ViewModels.Subject"
+                       x:Class="project.App.Views.Subject.SubjectEditView"
+                       x:DataType="viewModels:SubjectEditViewModel">
+
+    <VerticalStackLayout Padding="10" Spacing="10">
+        <Label Text="Edit Subject" FontSize="Large" HorizontalOptions="Start" />
+
+        <Frame Padding="0" HasShadow="False" CornerRadius="0"  HorizontalOptions="FillAndExpand" 
+           BorderColor="{StaticResource EntryBarBackgroundColor}" 
+           BackgroundColor="{StaticResource EntryBarBackgroundColor}">
+            <Entry Text="{Binding Subject.Name}" Placeholder="Name"
+                   HorizontalOptions="FillAndExpand" FontSize="Medium">
+                <Entry.Triggers>
+                    <DataTrigger TargetType="Entry" Binding="{Binding InvalidName}" Value="True">
+                        <Setter Property="PlaceholderColor" Value="{StaticResource ErrorTextColor}"/>
+                        <Setter Property="Placeholder" Value="Enter a valid subject name"/>
+                    </DataTrigger>
+                </Entry.Triggers>
+            </Entry>
+        </Frame>
+    
+        <Frame Padding="0" HasShadow="False" CornerRadius="0"  
+           HorizontalOptions="FillAndExpand" BorderColor="{StaticResource EntryBarBackgroundColor}" 
+           BackgroundColor="{StaticResource EntryBarBackgroundColor}">
+            <Entry Text="{Binding Subject.Acronym}" Placeholder="Acronym" FontSize="Medium"
+                   HorizontalOptions="FillAndExpand">
+                <Entry.Triggers>
+                    <DataTrigger TargetType="Entry" Binding="{Binding InvalidAcronym}" Value="True">
+                        <Setter Property="PlaceholderColor" Value="{StaticResource ErrorTextColor}"/>
+                        <Setter Property="Placeholder" Value="Enter a valid subject acronym"/>
+                    </DataTrigger>
+                </Entry.Triggers>
+            </Entry>
+        </Frame>
+
+        <Button Text="Save" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand"/>
+    </VerticalStackLayout>
+</views:ContentPageBase>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:ContentPageBase xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:views="clr-namespace:project.App.Views"
+                       xmlns:m="clr-namespace:project.BL.Models;assembly=project.BL"
+                       xmlns:vm="clr-namespace:project.App.ViewModels.Student"
+                       x:Class="project.App.Views.Student.StudentDetailView"
+                       x:Name="StudentDetail"
+                       x:DataType="vm:StudentDetailViewModel">
+
+    <Grid HorizontalOptions="Start" VerticalOptions="Start"
+              RowDefinitions="50, Auto" ColumnDefinitions="100, Auto, Auto, *"
+              RowSpacing="0" ColumnSpacing="80">
+
+
+    <Image Aspect="AspectFill" Grid.Row="1" Grid.Column="1" 
+            HorizontalOptions="Center" VerticalOptions="Start"
+            WidthRequest="300" HeightRequest="400"
+            Source="{Binding StudentImageUrl}"
+    />
+
+    <VerticalStackLayout Grid.Row="1" Grid.RowSpan="2" 
+        Grid.Column="2" Spacing="40" VerticalOptions="Start">
+
+            <Label FontSize="40">
+                <Label.Text>
+                    <MultiBinding StringFormat="{}{0} {1}">
+                        <Binding Path="Student.Name" />
+                        <Binding Path="Student.Surname" />
+                    </MultiBinding>
+                </Label.Text>
+            </Label>
+
+            <Label FontSize="Large" 
+        Text="{Binding Student.Id, TargetNullValue='Student Id'}"/>
+
+            <HorizontalStackLayout Grid.Row="1" Grid.Column="2" 
+                HorizontalOptions="Start" Spacing="10" HeightRequest="55">
+
+                <Button Text="Delete"
+                        FontSize="Medium"
+                        Command="{Binding DeleteStudentCommand}"
+                        Style="{StaticResource DeleteButtonStyle}">
+
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button" Binding="{Binding StudentView}" Value="True">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="Button" Binding="{Binding StudentView}" Value="False">
+                            <Setter Property="IsVisible" Value="True" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+
+                <Button Text="Edit"
+                        FontSize="Medium"
+                        Command="{Binding EditStudentInfoCommand}"
+                        Style="{StaticResource EditButtonStyle}">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button" Binding="{Binding StudentView}" Value="True">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="Button" Binding="{Binding StudentView}" Value="False">
+                            <Setter Property="IsVisible" Value="True" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </Grid>
+
+</views:ContentPageBase>

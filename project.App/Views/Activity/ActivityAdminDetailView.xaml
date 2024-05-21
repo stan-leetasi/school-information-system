@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<views:ContentPageBase xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:views="clr-namespace:project.App.Views"
+                       xmlns:m="clr-namespace:project.BL.Models;assembly=project.BL"
+                       xmlns:activity="clr-namespace:project.App.ViewModels.Activity"
+                       x:Class="project.App.Views.Activity.ActivityAdminDetailView"
+                       x:Name="ActivityAdminDetail"
+                       x:DataType="activity:ActivityAdminDetailViewModel"
+                       Title="{Binding Activity.Description}">
+    <VerticalStackLayout>
+        <Grid Style="{StaticResource GridAboveTable}" ColumnDefinitions="0.5*,*,0.5*" >
+            <Frame Padding="0" HasShadow="False" CornerRadius="0" WidthRequest="600"
+                   HorizontalOptions="Center" MaximumWidthRequest="600" Grid.Column="1"
+                   BorderColor="{StaticResource EntryBarBackgroundColor}"
+                   BackgroundColor="{StaticResource EntryBarBackgroundColor}">
+
+                <SearchBar Placeholder="Filter students"
+                           Text="{Binding FilterPreferences.SearchedTerm}"
+                           WidthRequest="600" Grid.Column="1" />
+
+            </Frame>
+            <Grid HorizontalOptions="Fill" ColumnDefinitions="*,Auto,Auto" Grid.Column="2" ColumnSpacing="10">
+                <Button Grid.Column="1"
+                    Text="Edit"
+                    Command="{Binding GoToEditCommand}"
+                    Style="{StaticResource EditButtonStyle}" />
+
+                <Button Grid.Column="2"
+                    Text="Delete"
+                    Command="{Binding DeleteCommand}"
+                    Style="{StaticResource DeleteButtonStyle}"/>
+            </Grid>
+        </Grid>
+        
+
+        <Label Text="List of Ratings" FontSize="Large" HorizontalOptions="Center" />
+
+        <Grid HorizontalOptions="Fill" ColumnDefinitions="*,*,*">
+            <Button Text="Surname" Command="{Binding SortBySurnameCommand}" Grid.Column="0"
+                    Style="{StaticResource ColumnHeader}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding Sorting}" Value="StudentSurname">
+                        <Setter Property="BackgroundColor" Value="{StaticResource PointerOverButtonColor}" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+            <Button Text="Name" Command="{Binding SortByNameCommand}" Grid.Column="1"
+                    Style="{StaticResource ColumnHeader}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding Sorting}" Value="StudentName">
+                        <Setter Property="BackgroundColor" Value="{StaticResource PointerOverButtonColor}" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+            <Button Text="Points" Command="{Binding SortByPointsCommand}" Grid.Column="2"
+                    Style="{StaticResource ColumnHeader}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding Sorting}" Value="Points">
+                        <Setter Property="BackgroundColor" Value="{StaticResource PointerOverButtonColor}" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+        </Grid>
+
+        <ScrollView>
+            <StackLayout>
+                <ListView ItemsSource="{Binding Ratings}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="m:RatingListModel">
+                            <ViewCell>
+                                <Frame Style="{StaticResource TableRow}">
+                                    <StackLayout>
+                                        <Grid HorizontalOptions="Fill" ColumnDefinitions="*,*,*" Padding="0,3">
+                                            <Grid.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                    Command="{Binding Source={ x:Reference ActivityAdminDetail }, Path=BindingContext.GoToDetailCommand}"
+                                                    CommandParameter="{Binding Id}" />
+                                            </Grid.GestureRecognizers>
+                                            <Label Text="{Binding StudentSurname}" Grid.Column="0"
+                                                   Style="{StaticResource TableLabelNormal}" />
+                                            <Label Text="{Binding StudentName}" Grid.Column="1"
+                                                   Style="{StaticResource TableLabelNormal}" />
+                                            <Label Text="{Binding Points}" Grid.Column="2"
+                                                   Style="{StaticResource TableLabelNormal}" />
+                                        </Grid>
+                                        <BoxView HeightRequest="1" Style="{StaticResource TableRowSeparator}" />
+                                    </StackLayout>
+                                </Frame>
+
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </ScrollView>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <HorizontalStackLayout Grid.Column="1" HorizontalOptions="End" Spacing="10" HeightRequest="55">
+
+                
+
+            </HorizontalStackLayout>
+        </Grid>
+    </VerticalStackLayout>
+
+</views:ContentPageBase>

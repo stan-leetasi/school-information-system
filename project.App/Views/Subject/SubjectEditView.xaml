@@ -6,29 +6,37 @@
                        x:Class="project.App.Views.Subject.SubjectEditView"
                        x:DataType="viewModels:SubjectEditViewModel">
 
-    <VerticalStackLayout Padding="10">
-        <Label Text="Edit Subject" FontSize="Large" HorizontalOptions="Center" />
+    <VerticalStackLayout Padding="10" Spacing="10">
+        <Label Text="Edit Subject" FontSize="Large" HorizontalOptions="Start" />
 
-        <Label Text="Name" />
-        <Entry Text="{Binding Subject.Name}">
-            <Entry.Triggers>
-                <DataTrigger TargetType="Entry" Binding="{Binding InvalidName}" Value="True">
-                    <Setter Property="PlaceholderColor" Value="{StaticResource ErrorTextColor}"/>
-                    <Setter Property="Placeholder" Value="Enter a valid subject name"/>
-                </DataTrigger>
-            </Entry.Triggers>
-        </Entry>
+        <Frame Padding="0" HasShadow="False" CornerRadius="0"  HorizontalOptions="FillAndExpand" 
+           BorderColor="{StaticResource EntryBarBackgroundColor}" 
+           BackgroundColor="{StaticResource EntryBarBackgroundColor}">
+            <Entry Text="{Binding Subject.Name}" Placeholder="Name"
+                   HorizontalOptions="FillAndExpand" FontSize="Medium">
+                <Entry.Triggers>
+                    <DataTrigger TargetType="Entry" Binding="{Binding InvalidName}" Value="True">
+                        <Setter Property="PlaceholderColor" Value="{StaticResource ErrorTextColor}"/>
+                        <Setter Property="Placeholder" Value="Enter a valid subject name"/>
+                    </DataTrigger>
+                </Entry.Triggers>
+            </Entry>
+        </Frame>
+    
+        <Frame Padding="0" HasShadow="False" CornerRadius="0"  
+           HorizontalOptions="FillAndExpand" BorderColor="{StaticResource EntryBarBackgroundColor}" 
+           BackgroundColor="{StaticResource EntryBarBackgroundColor}">
+            <Entry Text="{Binding Subject.Acronym}" Placeholder="Acronym" FontSize="Medium"
+                   HorizontalOptions="FillAndExpand">
+                <Entry.Triggers>
+                    <DataTrigger TargetType="Entry" Binding="{Binding InvalidAcronym}" Value="True">
+                        <Setter Property="PlaceholderColor" Value="{StaticResource ErrorTextColor}"/>
+                        <Setter Property="Placeholder" Value="Enter a valid subject acronym"/>
+                    </DataTrigger>
+                </Entry.Triggers>
+            </Entry>
+        </Frame>
 
-        <Label Text="Acronym" />
-        <Entry Text="{Binding Subject.Acronym}">
-            <Entry.Triggers>
-                <DataTrigger TargetType="Entry" Binding="{Binding InvalidAcronym}" Value="True">
-                    <Setter Property="PlaceholderColor" Value="{StaticResource ErrorTextColor}"/>
-                    <Setter Property="Placeholder" Value="Enter a valid subject acronym"/>
-                </DataTrigger>
-            </Entry.Triggers>
-        </Entry>
-
-        <Button Text="Save" Command="{Binding SaveCommand}" />
+        <Button Text="Save" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand"/>
     </VerticalStackLayout>
 </views:ContentPageBase>

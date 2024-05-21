@@ -8,37 +8,35 @@
                        x:Class="project.App.Views.Rating.RatingDetailView"
                        x:Name="RatingDetail"
                        x:DataType="vm:RatingDetailViewModel">
-    <Grid Style="{StaticResource GridAboveTable}" ColumnDefinitions="Auto,*,Auto"
-          HorizontalOptions="Center">
-        <Button Text="Edit"
-                VerticalOptions="Start"
-                Grid.Column="2"
-                Command="{Binding GoToEditCommand}"
-                Margin="0, 0, 50, 0" />
-        <VerticalStackLayout Grid.Column="0">
+    <Grid Style="{StaticResource GridAboveTable}" ColumnDefinitions="*"
+          HorizontalOptions="FillAndExpand">
+        <VerticalStackLayout Grid.Column="0" Spacing="0">
             <Label Text="{Binding SubjectName}"
                    FontSize="42"
                    Margin="20, 10" />
-
+            
             <Label Text="{Binding Rating.ActivityName}"
                    FontSize="30"
                    Margin="20, 10" />
+            
             <Label Text="{Binding StudentNameWhole}"
                    FontSize="25"
                    Margin="20, 10" />
-
+            
             <Entry Placeholder="Points: "
-                   Text="{Binding Rating.Points, StringFormat='Points: {0}'}"
-                   Margin="20, 10"
-                   IsReadOnly="true" />
+                    Text="{Binding Rating.Points, StringFormat='Points: {0}'}"
+                    Margin="20, 10"
+                    IsReadOnly="true" HorizontalOptions="FillAndExpand"/>
 
             <Editor Placeholder="Note"
                     Text="{Binding Rating.Notes}"
                     Margin="20, 10"
-                    MinimumHeightRequest="100"
-                    MinimumWidthRequest="250"
-                    MaximumWidthRequest="500"
-                    IsReadOnly="true" />
+                    IsReadOnly="true" HorizontalOptions="FillAndExpand"/>
+        
+            <Button Text="Edit"
+                Grid.Column="2"
+                Command="{Binding GoToEditCommand}"
+                Margin="21, 0, 20, 0" HorizontalOptions="FillAndExpand"/>
         </VerticalStackLayout>
     </Grid>
 </views:ContentPageBase>

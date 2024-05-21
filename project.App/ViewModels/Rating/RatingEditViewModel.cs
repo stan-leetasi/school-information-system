@@ -3,6 +3,7 @@ using project.App.Messages;
 using project.App.Services;
 using project.BL.Facades;
 using project.BL.Models;
+using System.Numerics;
 
 namespace project.App.ViewModels.Rating;
 
@@ -14,24 +15,40 @@ public partial class RatingEditViewModel(
     : ViewModelBase(messengerService)
 {
     public Guid RatingId { get; init; } = new();
-
     public RatingDetailModel Rating { get; set; } = RatingDetailModel.Empty;
+    public string RatingPoints { get; set; } = "0";
+    public bool InvalidRating { get; set; } = false;
 
     protected override async Task LoadDataAsync()
     {
         RatingDetailModel? getRating = await ratingFacade.GetAsync(RatingId);
 
         if (getRating != null)
+        {
             Rating = getRating;
+            RatingPoints = Rating.Points.ToString();
+        }
     }
 
     [RelayCommand]
     private async Task SaveAsync()
     {
-        await ratingFacade.SaveAsync(Rating);
+        InvalidRating= false;
 
-        MessengerService.Send(new RatingEditMessage() { RatingId = Rating.Id });
+        if (int.TryParse(RatingPoints, out _))
+        {
+            Rating.Points = int.Parse(RatingPoints);
 
-        navigationService.SendBackButtonPressed();
+            await ratingFacade.SaveAsync(Rating);
+
+            MessengerService.Send(new RatingEditMessage() { RatingId = Rating.Id });
+
+            navigationService.SendBackButtonPressed();
+        }
+        else
+        {
+            InvalidRating = true;
+        }
+        
     }
 }

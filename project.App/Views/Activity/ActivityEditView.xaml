@@ -28,7 +28,14 @@
                 SelectedItem="{Binding Activity.Type}" />
 
         <Label Text="Description" />
-        <Editor Text="{Binding Activity.Description}" />
+        <Entry Text="{Binding Activity.Description}">
+            <Entry.Triggers>
+                <DataTrigger TargetType="Entry" Binding="{Binding InvalidDescription}" Value="True">
+                    <Setter Property="PlaceholderColor" Value="{StaticResource ErrorTextColor}"/>
+                    <Setter Property="Placeholder" Value="Enter a valid description"/>
+                </DataTrigger>
+            </Entry.Triggers>
+        </Entry>
 
         <Button Text="Save" Command="{Binding SaveCommand}" />
     </VerticalStackLayout>

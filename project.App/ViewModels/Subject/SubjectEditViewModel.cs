@@ -16,6 +16,8 @@ public partial class SubjectEditViewModel(
     public SubjectAdminDetailModel Subject { get; set; } = SubjectAdminDetailModel.Empty;
 
     public Guid SubjectId { get; init; } = new();
+    public bool InvalidName { get; set; } = false;
+    public bool InvalidAcronym { get; set; } = false;
 
     protected override async Task LoadDataAsync()
     {
@@ -26,19 +28,27 @@ public partial class SubjectEditViewModel(
     [RelayCommand]
     private async Task SaveAsync()
     {
-        Subject.Students = new();
-
-        await subjectFacade.SaveAsync(Subject);
-
-        MessengerService.Send(new SubjectEditMessage() { SubjectId = Subject.Id });
-
-        if (SubjectId == new Guid())
+        if(string.IsNullOrWhiteSpace(Subject.Name) || string.IsNullOrWhiteSpace(Subject.Acronym))
         {
-            await navigationService.GoToAsync<SubjectListViewModel>();
+            InvalidName = string.IsNullOrWhiteSpace(Subject.Name);
+            InvalidAcronym = string.IsNullOrWhiteSpace(Subject.Acronym);
         }
         else
         {
-            navigationService.SendBackButtonPressed();
+            Subject.Students = new();
+
+            await subjectFacade.SaveAsync(Subject);
+
+            MessengerService.Send(new SubjectEditMessage() { SubjectId = Subject.Id });
+
+            if (SubjectId == new Guid())
+            {
+                await navigationService.GoToAsync<SubjectListViewModel>();
+            }
+            else
+            {
+                navigationService.SendBackButtonPressed();
+            }
         }
     }
 }

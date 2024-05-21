@@ -14,7 +14,7 @@
 
     <Color x:Key="UnselectedTextColor">#FFFFFF</Color>
     <Color x:Key="SelectedTextColor">#000000</Color>
-    <Color x:Key="ErrorTextColor">#CF1900</Color>
+    <Color x:Key="ErrorTextColor">#FC0824</Color>
 
     <Color x:Key="EntryBarBackgroundColor">#82C2D3</Color>
     <Color x:Key="EntryBarTextColor">#022B3A</Color>
@@ -22,8 +22,11 @@
     <Color x:Key="LabelTextColor">#022B3A</Color>
 
     <Color x:Key="EditButtonColor">#FCB365</Color>
+    <Color x:Key="PointerOverEditButtonColor">#FCCC97</Color>
     <Color x:Key="DeleteButtonColor">#DF4D48</Color>
+    <Color x:Key="PointerOverDeleteButtonColor">#DB6D6B</Color>
     <Color x:Key="SaveButtonColor">#1CBA85</Color>
+    <Color x:Key="PointerOverSaveButtonColor">#4ED4A7</Color>
 
     <Color x:Key="TableRowSeparatorColor">#cbdce3</Color>
 

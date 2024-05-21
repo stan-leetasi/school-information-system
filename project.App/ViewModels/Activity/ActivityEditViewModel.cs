@@ -18,7 +18,7 @@ public partial class ActivityEditViewModel(
 {
     public Guid ActivityId { get; init; }
     public Guid SubjectId { get; init; }
-
+    public bool InvalidDescription { get; set; } = false;
 
     public ActivityAdminDetailModel Activity { get; private set; } = new()
     {
@@ -73,14 +73,19 @@ public partial class ActivityEditViewModel(
     [RelayCommand]
     private async Task SaveAsync()
     {
-        Activity.Ratings = [];
-        Activity.SubjectId = SubjectId;
-        await activityFacade.SaveAsync(Activity);
-        MessengerService.Send(new SubjectEditMessage { SubjectId = SubjectId });
-        if (ActivityId == new Guid())
-            await navigationService.GoToAsync<SubjectStudentDetailViewModel>(
-                new Dictionary<string, object?> { { nameof(SubjectStudentDetailViewModel.SubjectId), SubjectId } });
+        if (string.IsNullOrWhiteSpace(Activity.Description))
+            InvalidDescription = true;
         else
-            navigationService.SendBackButtonPressed();
+        {
+            Activity.Ratings = [];
+            Activity.SubjectId = SubjectId;
+            await activityFacade.SaveAsync(Activity);
+            MessengerService.Send(new SubjectEditMessage { SubjectId = SubjectId });
+            if (ActivityId == new Guid())
+                await navigationService.GoToAsync<SubjectStudentDetailViewModel>(
+                    new Dictionary<string, object?> { { nameof(SubjectStudentDetailViewModel.SubjectId), SubjectId } });
+            else
+                navigationService.SendBackButtonPressed();
+        }
     }
 }

@@ -36,10 +36,14 @@
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal">
+                        <VisualState.Setters>
+                            <Setter Property="Scale" Value="1" />
+                        </VisualState.Setters>
+                    </VisualState>
                     <VisualState x:Name="PointerOver">
                         <VisualState.Setters>
-
-                            <Setter Property="BackgroundColor" Value="{StaticResource DeleteButtonColor}" />
+                            <Setter Property="BackgroundColor" Value="{StaticResource PointerOverDeleteButtonColor}" />
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>
@@ -53,9 +57,14 @@
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal">
+                        <VisualState.Setters>
+                            <Setter Property="Scale" Value="1" />
+                        </VisualState.Setters>
+                    </VisualState>
                     <VisualState x:Name="PointerOver">
                         <VisualState.Setters>
-                            <Setter Property="BackgroundColor" Value="{StaticResource EditButtonColor}" />
+                            <Setter Property="BackgroundColor" Value="{StaticResource PointerOverEditButtonColor}" />
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>
@@ -69,9 +78,14 @@
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal">
+                        <VisualState.Setters>
+                            <Setter Property="Scale" Value="1" />
+                        </VisualState.Setters>
+                    </VisualState>
                     <VisualState x:Name="PointerOver">
                         <VisualState.Setters>
-                            <Setter Property="BackgroundColor" Value="{StaticResource SaveButtonColor}" />
+                            <Setter Property="BackgroundColor" Value="{StaticResource PointerOverSaveButtonColor}" />
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>

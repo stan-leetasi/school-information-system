@@ -9,10 +9,18 @@
         <Label Text="Edit Rating" FontSize="Large" HorizontalOptions="Center" />
 
         <Label Text="Points" />
-        <Entry Text="{Binding Rating.Points}" Keyboard="Numeric" />
+        <Entry Text="{Binding RatingPoints}" Placeholder="Points">
+            <Entry.Triggers>
+                <DataTrigger TargetType="Entry" Binding="{Binding InvalidRating}" Value="True">
+                    <Setter Property="PlaceholderColor" Value="{StaticResource ErrorTextColor}"/>
+                    <Setter Property="Text" Value=""/>
+                    <Setter Property="Placeholder" Value="Enter a number"/>
+                </DataTrigger>
+            </Entry.Triggers>
+        </Entry>
 
         <Label Text="Notes" />
-        <Editor Text="{Binding Rating.Notes}" />
+        <Editor Text="{Binding Rating.Notes}" Placeholder="Notes"/>
 
         <Button Text="Save" Command="{Binding SaveCommand}" />
     </VerticalStackLayout>

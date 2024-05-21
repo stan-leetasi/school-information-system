@@ -53,13 +53,13 @@ public partial class StudentEditViewModel(
             ? new Uri(StudentImageUrl)
             : new Uri("about:blank");
 
-        if(Student.Name == string.Empty)
+        if(string.IsNullOrWhiteSpace(Student.Name))
             InvalidName = true;
 
-        if(Student.Surname == string.Empty)
+        if(string.IsNullOrWhiteSpace(Student.Surname))
             InvalidSurname = true;
         
-        if(Student.Name != string.Empty && Student.Surname != string.Empty)
+        if(!string.IsNullOrWhiteSpace(Student.Name) && !string.IsNullOrWhiteSpace(Student.Surname))
         {
             await studentFacade.SaveAsync(Student);
 

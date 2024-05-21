@@ -10,10 +10,24 @@
         <Label Text="Edit Subject" FontSize="Large" HorizontalOptions="Center" />
 
         <Label Text="Name" />
-        <Entry Text="{Binding Subject.Name}" />
+        <Entry Text="{Binding Subject.Name}">
+            <Entry.Triggers>
+                <DataTrigger TargetType="Entry" Binding="{Binding InvalidName}" Value="True">
+                    <Setter Property="PlaceholderColor" Value="{StaticResource ErrorTextColor}"/>
+                    <Setter Property="Placeholder" Value="Enter a valid subject name"/>
+                </DataTrigger>
+            </Entry.Triggers>
+        </Entry>
 
         <Label Text="Acronym" />
-        <Entry Text="{Binding Subject.Acronym}" />
+        <Entry Text="{Binding Subject.Acronym}">
+            <Entry.Triggers>
+                <DataTrigger TargetType="Entry" Binding="{Binding InvalidAcronym}" Value="True">
+                    <Setter Property="PlaceholderColor" Value="{StaticResource ErrorTextColor}"/>
+                    <Setter Property="Placeholder" Value="Enter a valid subject acronym"/>
+                </DataTrigger>
+            </Entry.Triggers>
+        </Entry>
 
         <Button Text="Save" Command="{Binding SaveCommand}" />
     </VerticalStackLayout>

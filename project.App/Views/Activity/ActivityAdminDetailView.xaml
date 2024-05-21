@@ -39,11 +39,29 @@
 
         <Grid HorizontalOptions="Fill" ColumnDefinitions="*,*,*">
             <Button Text="Surname" Command="{Binding SortBySurnameCommand}" Grid.Column="0"
-                    Style="{StaticResource ColumnHeader}" />
+                    Style="{StaticResource ColumnHeader}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding Sorting}" Value="StudentSurname">
+                        <Setter Property="BackgroundColor" Value="{StaticResource PointerOverButtonColor}" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
             <Button Text="Name" Command="{Binding SortByNameCommand}" Grid.Column="1"
-                    Style="{StaticResource ColumnHeader}" />
+                    Style="{StaticResource ColumnHeader}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding Sorting}" Value="StudentName">
+                        <Setter Property="BackgroundColor" Value="{StaticResource PointerOverButtonColor}" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
             <Button Text="Points" Command="{Binding SortByPointsCommand}" Grid.Column="2"
-                    Style="{StaticResource ColumnHeader}" />
+                    Style="{StaticResource ColumnHeader}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding Sorting}" Value="Points">
+                        <Setter Property="BackgroundColor" Value="{StaticResource PointerOverButtonColor}" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
         </Grid>
 
         <ScrollView>

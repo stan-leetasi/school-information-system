@@ -23,7 +23,7 @@ public partial class SubjectListViewModel(
     public ObservableCollection<SubjectListModel> Subjects { get; set; } = [];
     public bool StudentView { get; set; } = navigationService.IsStudentLoggedIn;
     public bool AdminView { get; set; } = !navigationService.IsStudentLoggedIn;
-
+    public string Sorting { get; set; } = string.Empty;
     protected override async Task LoadDataAsync()
     {
         AdminView = !navigationService.IsStudentLoggedIn;
@@ -61,13 +61,25 @@ public partial class SubjectListViewModel(
     }
 
     [RelayCommand]
-    private async Task SortByAcronym() => await ApplyNewSorting(nameof(SubjectListModel.Acronym));
+    private async Task SortByAcronym()
+    {
+        await ApplyNewSorting(nameof(SubjectListModel.Acronym));
+        Sorting = FilterPreferences.SortByPropertyName;
+    }
 
     [RelayCommand]
-    private async Task SortByName() => await ApplyNewSorting(nameof(SubjectListModel.Name));
+    private async Task SortByName()
+    {
+        await ApplyNewSorting(nameof(SubjectListModel.Name));
+        Sorting = FilterPreferences.SortByPropertyName;
+    }
 
     [RelayCommand]
-    private async Task SortByRegistered() => await ApplyNewSorting(nameof(SubjectListModel.IsRegistered));
+    private async Task SortByRegistered()
+    {
+        await ApplyNewSorting(nameof(SubjectListModel.IsRegistered));
+        Sorting = FilterPreferences.SortByPropertyName;
+    }
 
     public async void Receive(SubjectEditMessage message) => await LoadDataAsync();
     

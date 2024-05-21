@@ -28,9 +28,21 @@
 
         <Grid HorizontalOptions="Fill" ColumnDefinitions="*,*">
             <Button Text="Surname" Grid.Column="0" Command="{Binding SortBySurnameCommand}" 
-                    Style="{StaticResource ColumnHeader}"/>
+                    Style="{StaticResource ColumnHeader}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding Sorting}" Value="Surname">
+                        <Setter Property="BackgroundColor" Value="{StaticResource PointerOverButtonColor}" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
             <Button Text="Name" Grid.Column="1" Command="{Binding SortByNameCommand}" 
-                    Style="{StaticResource ColumnHeader}"/>
+                    Style="{StaticResource ColumnHeader}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding Sorting}" Value="Name">
+                        <Setter Property="BackgroundColor" Value="{StaticResource PointerOverButtonColor}" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
         </Grid>
 
         <ScrollView>

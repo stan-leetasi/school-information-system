@@ -21,6 +21,7 @@ public partial class StudentListViewModel(
 
     public ObservableCollection<StudentListModel> Students { get; set; } = [];
     public bool AdminView { get; set; } = !navigationService.IsStudentLoggedIn;
+    public string Sorting { get; set; } = string.Empty;
 
     protected override async Task LoadDataAsync()
     {
@@ -47,8 +48,16 @@ public partial class StudentListViewModel(
     // Sorting
 
     [RelayCommand]
-    private async Task SortBySurname() => await ApplyNewSorting(nameof(StudentListModel.Surname));
+    private async Task SortBySurname()
+    {
+        await ApplyNewSorting(nameof(StudentListModel.Surname));
+        Sorting = FilterPreferences.SortByPropertyName;
+    }
 
     [RelayCommand]
-    private async Task SortByName() => await ApplyNewSorting(nameof(StudentListModel.Name));
+    private async Task SortByName()
+    {
+        await ApplyNewSorting(nameof(StudentListModel.Name));
+        Sorting = FilterPreferences.SortByPropertyName;
+    }
 }

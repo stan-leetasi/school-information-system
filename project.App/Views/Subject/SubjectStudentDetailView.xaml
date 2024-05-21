@@ -81,19 +81,66 @@
 
         <Grid HorizontalOptions="Fill" ColumnDefinitions="*,*,*,*,*,*,*">
             <Button Text="Begin Time" Grid.Column="0" Command="{Binding SortByBeginTimeCommand}"
-                    Style="{StaticResource ColumnHeader}" />
+                    Style="{StaticResource ColumnHeader}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding Sorting}" Value="BeginTime">
+                        <Setter Property="BackgroundColor" Value="{StaticResource PointerOverButtonColor}" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+
             <Button Text="End Time" Grid.Column="1" Command="{Binding SortByEndTimeCommand}"
-                    Style="{StaticResource ColumnHeader}" />
+                    Style="{StaticResource ColumnHeader}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding Sorting}" Value="EndTime">
+                        <Setter Property="BackgroundColor" Value="{StaticResource PointerOverButtonColor}" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+
             <Button Text="Area" Grid.Column="2" Command="{Binding SortByAreaCommand}"
-                    Style="{StaticResource ColumnHeader}" />
+                    Style="{StaticResource ColumnHeader}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding Sorting}" Value="Area">
+                        <Setter Property="BackgroundColor" Value="{StaticResource PointerOverButtonColor}" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+
             <Button Text="Type" Grid.Column="3" Command="{Binding SortByTypeCommand}"
-                    Style="{StaticResource ColumnHeader}" />
+                    Style="{StaticResource ColumnHeader}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding Sorting}" Value="Type">
+                        <Setter Property="BackgroundColor" Value="{StaticResource PointerOverButtonColor}" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
             <Button Text="Registered Students" Grid.Column="4" Command="{Binding SortByRegisteredStudentsCommand}"
-                    Style="{StaticResource ColumnHeader}" />
+                    Style="{StaticResource ColumnHeader}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding Sorting}" Value="RegisteredStudents">
+                        <Setter Property="BackgroundColor" Value="{StaticResource PointerOverButtonColor}" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+
             <Button Text="Points" Grid.Column="5" Command="{Binding SortByPointsCommand}"
-                    Style="{StaticResource ColumnHeader}" />
+                    Style="{StaticResource ColumnHeader}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding Sorting}" Value="Points">
+                        <Setter Property="BackgroundColor" Value="{StaticResource PointerOverButtonColor}" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+
             <Button Text="Is Registered" Grid.Column="6" Command="{Binding SortByIsRegisteredCommand}"
-                    Style="{StaticResource ColumnHeader}" />
+                    Style="{StaticResource ColumnHeader}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding Sorting}" Value="IsRegistered">
+                        <Setter Property="BackgroundColor" Value="{StaticResource PointerOverButtonColor}" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
         </Grid>
 
         <ScrollView>

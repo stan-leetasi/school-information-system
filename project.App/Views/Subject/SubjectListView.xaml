@@ -28,11 +28,31 @@
 
         <Grid HorizontalOptions="Fill" ColumnSpacing="0" ColumnDefinitions="0.5*,*,0.3*">
             <Button Text="Acronym" Grid.Column="0" Command="{Binding SortByAcronymCommand}"
-                    Style="{StaticResource ColumnHeader}"/>
+                    Style="{StaticResource ColumnHeader}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding Sorting}" Value="Acronym">
+                        <Setter Property="BackgroundColor" Value="{StaticResource PointerOverButtonColor}" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+
             <Button Text="Name" Grid.Column="1" Command="{Binding SortByNameCommand}" 
-                    Style="{StaticResource ColumnHeader}"/>
+                    Style="{StaticResource ColumnHeader}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding Sorting}" Value="Name">
+                        <Setter Property="BackgroundColor" Value="{StaticResource PointerOverButtonColor}" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+            
             <Button Text="Is Registered" Grid.Column="2" Command="{Binding SortByRegisteredCommand}"
-                    Style="{StaticResource ColumnHeader}"/>
+                    Style="{StaticResource ColumnHeader}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding Sorting}" Value="IsRegistered">
+                        <Setter Property="BackgroundColor" Value="{StaticResource PointerOverButtonColor}" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
         </Grid>
 
         <ScrollView>

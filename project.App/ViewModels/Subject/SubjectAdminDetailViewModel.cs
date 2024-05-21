@@ -23,7 +23,7 @@ public partial class SubjectAdminDetailViewModel(
     public Guid SubjectId { get; set; }
     public ObservableCollection<StudentListModel>? Students { get; set; } = [];
     public string Title { get; set; } = string.Empty;
-
+    public string Sorting { get; set; } = string.Empty;
     protected override async Task LoadDataAsync()
     {
         SubjectAdminDetailModel subject = await subjectFacade.GetAsync(SubjectId, FilterPreferences) ??
@@ -45,10 +45,18 @@ public partial class SubjectAdminDetailViewModel(
     // Sorting
 
     [RelayCommand]
-    private async Task SortBySurname() => await ApplyNewSorting(nameof(StudentListModel.Surname));
+    private async Task SortBySurname()
+    {
+        await ApplyNewSorting(nameof(StudentListModel.Surname));
+        Sorting = FilterPreferences.SortByPropertyName;
+    }
 
     [RelayCommand]
-    private async Task SortByName() => await ApplyNewSorting(nameof(StudentListModel.Name));
+    private async Task SortByName() 
+    {
+        await ApplyNewSorting(nameof(StudentListModel.Name));
+        Sorting = FilterPreferences.SortByPropertyName;
+    }
 
     public async void Receive(RatingEditMessage message) => await LoadDataAsync();
 

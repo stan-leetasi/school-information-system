@@ -23,6 +23,7 @@ public partial class ActivityAdminDetailViewModel(
     public ActivityAdminDetailModel Activity { get; private set; } = ActivityAdminDetailModel.Empty;
     public ObservableCollection<RatingListModel> Ratings { get; set; } = [];
     public Guid ActivityId { get; set; }
+    public string Sorting { get; set; } = string.Empty;
 
     protected override async Task LoadDataAsync()
     {
@@ -65,13 +66,25 @@ public partial class ActivityAdminDetailViewModel(
     // Sorting
 
     [RelayCommand]
-    private async Task SortBySurname() => await ApplyNewSorting(nameof(RatingListModel.StudentSurname));
+    private async Task SortBySurname()
+    {
+        await ApplyNewSorting(nameof(RatingListModel.StudentSurname));
+        Sorting = FilterPreferences.SortByPropertyName;
+    }
 
     [RelayCommand]
-    private async Task SortByName() => await ApplyNewSorting(nameof(RatingListModel.StudentName));
+    private async Task SortByName()
+    {
+        await ApplyNewSorting(nameof(RatingListModel.StudentName));
+        Sorting = FilterPreferences.SortByPropertyName;
+    }
 
     [RelayCommand]
-    private async Task SortByPoints() => await ApplyNewSorting(nameof(RatingListModel.Points));
+    private async Task SortByPoints()
+    {
+        await ApplyNewSorting(nameof(RatingListModel.Points));
+        Sorting = FilterPreferences.SortByPropertyName;
+    }
 
     public async void Receive(RatingEditMessage message) => await LoadDataAsync();
 

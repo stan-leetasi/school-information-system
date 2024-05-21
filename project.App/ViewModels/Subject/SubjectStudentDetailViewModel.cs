@@ -29,6 +29,7 @@ public partial class SubjectStudentDetailViewModel(
     public bool AllowActivityRegistration { get; set; }
     public Guid SubjectId { get; set; }
     public string Title { get; private set; } = string.Empty;
+    public string Sorting { get;set; } = string.Empty;
 
     public SubjectAdminDetailModel? SubjectAdminDetailModel { get; set; }
     public ObservableCollection<ActivityListModel> Activities { get; set; } = [];
@@ -155,26 +156,54 @@ public partial class SubjectStudentDetailViewModel(
 
     // Sorting
     [RelayCommand]
-    private async Task SortByRegisteredStudents() =>
+    private async Task SortByRegisteredStudents()
+    {
         await ApplyNewSorting(nameof(ActivityListModel.RegisteredStudents));
+        Sorting = FilterPreferences.SortByPropertyName;
+    }
+        
 
     [RelayCommand]
-    private async Task SortByType() => await ApplyNewSorting(nameof(ActivityListModel.Type));
+    private async Task SortByType()
+    {
+        await ApplyNewSorting(nameof(ActivityListModel.Type));
+        Sorting = FilterPreferences.SortByPropertyName;
+    }
 
     [RelayCommand]
-    private async Task SortByArea() => await ApplyNewSorting(nameof(ActivityListModel.Area));
+    private async Task SortByArea()
+    {
+        await ApplyNewSorting(nameof(ActivityListModel.Area));
+        Sorting = FilterPreferences.SortByPropertyName;
+    }
 
     [RelayCommand]
-    private async Task SortByPoints() => await ApplyNewSorting(nameof(ActivityListModel.Points));
+    private async Task SortByPoints()
+    {
+        await ApplyNewSorting(nameof(ActivityListModel.Points));
+        Sorting = FilterPreferences.SortByPropertyName;
+    }
 
     [RelayCommand]
-    private async Task SortByEndTime() => await ApplyNewSorting(nameof(ActivityListModel.EndTime));
+    private async Task SortByEndTime()
+    {
+        await ApplyNewSorting(nameof(ActivityListModel.EndTime));
+        Sorting = FilterPreferences.SortByPropertyName;
+    }
 
     [RelayCommand]
-    private async Task SortByBeginTime() => await ApplyNewSorting(nameof(ActivityListModel.BeginTime));
+    private async Task SortByBeginTime()
+    {
+        await ApplyNewSorting(nameof(ActivityListModel.BeginTime));
+        Sorting = FilterPreferences.SortByPropertyName;
+    }
 
     [RelayCommand]
-    private async Task SortByIsRegistered() => await ApplyNewSorting(nameof(ActivityListModel.IsRegistered));
+    private async Task SortByIsRegistered()
+    {
+        await ApplyNewSorting(nameof(ActivityListModel.IsRegistered));
+        Sorting = FilterPreferences.SortByPropertyName;
+    }
 
     public async void Receive(ActivityEditMessage message) => await LoadDataAsync();
 

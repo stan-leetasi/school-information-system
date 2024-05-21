@@ -21,7 +21,7 @@
             </Grid.ColumnDefinitions>
 
             <Button Grid.Column="0" 
-                    Text="[REFRESH BUTTON]" 
+                    Text="Refresh" 
                     Margin="20" 
                     Command="{Binding RefreshCommand}"/>
             <Label Grid.Row="0" 

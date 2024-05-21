@@ -8,11 +8,11 @@
                        x:Class="project.App.Views.Subject.SubjectStudentDetailView"
                        x:Name="SubjectStudentDetail"
                        x:DataType="vm:SubjectStudentDetailViewModel"
-                       Title="Activities">
+                       Title="{Binding Title}">
     <VerticalStackLayout>
 
-        <Label Text="{Binding Title}" HorizontalOptions="Center" FontSize="48" FontAttributes="Bold" Margin="0,0,0,10" />
-        <Grid ColumnDefinitions="Auto,*,Auto" Style="{StaticResource GridAboveTable}">
+        <!--<Label Text="{Binding Title}" HorizontalOptions="Center" FontSize="48" FontAttributes="Bold" Margin="0,0,0,10" />-->
+        <Grid ColumnDefinitions="*,*" Style="{StaticResource GridAboveTable}" HorizontalOptions="Fill" ColumnSpacing="15" Padding="0,30,0,0">
             <Grid BackgroundColor="{StaticResource EntryBarBackgroundColor}" Grid.Column="0" Padding="10"
                   ColumnSpacing="10"
                   ColumnDefinitions="Auto,Auto,Auto" RowDefinitions="*,*,*" HorizontalOptions="Center">
@@ -44,21 +44,37 @@
 
             </Grid>
 
-            <Frame Padding="0" HasShadow="False" CornerRadius="0" MinimumWidthRequest="400"
-                   HorizontalOptions="Fill" MaximumWidthRequest="600" Grid.Column="1"
-                   BorderColor="{StaticResource EntryBarBackgroundColor}"
-                   BackgroundColor="{StaticResource EntryBarBackgroundColor}"
-                   VerticalOptions="Center">
+            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Spacing="20">
+                <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10"
+                                       IsVisible="{Binding AdminView}">
+                    <Button Text="Registered Students"
+                            Command="{Binding GoToAdminDetailCommand}"
+                            CommandParameter="{Binding SubjectId}"/>
+                    <Button
+                            HeightRequest="30"
+                            Text="Create activity"
+                            Command="{Binding GoToCreateActivityCommand}"/>
+                    <Button
+                        Text="Edit"
+                        Command="{Binding GoToEditCommand}"
+                        Style="{StaticResource EditButtonStyle}"/>
+                    <Button
+                        Text="Delete"
+                        Command="{Binding DeleteCommand}"
+                        Style="{StaticResource DeleteButtonStyle}"
+                         />
+                </HorizontalStackLayout>
+                <Frame Padding="0" HasShadow="False" CornerRadius="0" MinimumWidthRequest="400"
+                       HorizontalOptions="Fill" MaximumWidthRequest="600" Grid.Column="1"
+                       BorderColor="{StaticResource EntryBarBackgroundColor}"
+                       BackgroundColor="{StaticResource EntryBarBackgroundColor}"
+                       VerticalOptions="Center">
 
-                <SearchBar Placeholder="Filter activities by type or area"
-                           Text="{Binding FilterPreferences.SearchedTerm}" />
-            </Frame>
-            <Grid HorizontalOptions="Fill" ColumnDefinitions="*,Auto" Grid.Column="2" VerticalOptions="Center">
-                <Button Text="Registered Students"
-                        Command="{Binding GoToAdminDetailCommand}"
-                        CommandParameter="{Binding SubjectId}"
-                        IsVisible="{Binding AdminView}" Grid.Column="1" />
-            </Grid>
+                    <SearchBar Placeholder="Filter activities by type or area"
+                               MinimumWidthRequest="500"
+                               Text="{Binding FilterPreferences.SearchedTerm}" />
+                </Frame>
+            </VerticalStackLayout>
         </Grid>
 
         <Label Text="Activities" FontSize="Large" HorizontalOptions="Center" />
@@ -120,47 +136,6 @@
                 </ListView>
             </StackLayout>
         </ScrollView>
-
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-
-            <Button Grid.Column="0"
-                    HorizontalOptions="Start" VerticalOptions="End"
-                    HeightRequest="30"
-                    Text="Create activity"
-                    CornerRadius="5"
-                    Margin="50, 0, 0, 0"
-                    Command="{Binding GoToCreateActivityCommand}"
-                    IsVisible="{Binding AdminView}" />
-
-            <HorizontalStackLayout Grid.Column="1" HorizontalOptions="End" Spacing="10" HeightRequest="55">
-
-                <Button
-                    HorizontalOptions="End" VerticalOptions="End"
-                    HeightRequest="30"
-                    Text="Edit"
-                    CornerRadius="5"
-                    Command="{Binding GoToEditCommand}"
-                    Style="{StaticResource EditButtonStyle}"
-                    IsVisible="{Binding AdminView}" />
-
-                <Button
-                    HorizontalOptions="End" VerticalOptions="End"
-                    HeightRequest="30"
-                    Text="Delete"
-                    CornerRadius="5"
-                    Command="{Binding DeleteCommand}"
-                    Style="{StaticResource DeleteButtonStyle}"
-                    Margin="0, 0, 100, 0"
-                    IsVisible="{Binding AdminView}" />
-
-            </HorizontalStackLayout>
-        </Grid>
-
-
     </VerticalStackLayout>
 
 </views:ContentPageBase>

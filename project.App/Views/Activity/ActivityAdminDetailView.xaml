@@ -8,24 +8,32 @@
                        x:Class="project.App.Views.Activity.ActivityAdminDetailView"
                        x:Name="ActivityAdminDetail"
                        x:DataType="activity:ActivityAdminDetailViewModel"
-                       Title="Activity">
+                       Title="{Binding Activity.Description}">
     <VerticalStackLayout>
-        <Label Text="{Binding Activity.Description}"
-               HorizontalOptions="Center" FontSize="48"
-               FontAttributes="Bold"
-               Margin="0,0,0,10" />
+        <Grid Style="{StaticResource GridAboveTable}" ColumnDefinitions="0.5*,*,0.5*" >
+            <Frame Padding="0" HasShadow="False" CornerRadius="0" WidthRequest="600"
+                   HorizontalOptions="Center" MaximumWidthRequest="600" Grid.Column="1"
+                   BorderColor="{StaticResource EntryBarBackgroundColor}"
+                   BackgroundColor="{StaticResource EntryBarBackgroundColor}">
 
-        <Label Text="{Binding Activity.SubjectName}" HorizontalOptions="Center" FontSize="24" />
-        <Frame Padding="0" HasShadow="False" CornerRadius="0" WidthRequest="600"
-               HorizontalOptions="Center" MaximumWidthRequest="600" Grid.Column="1"
-               BorderColor="{StaticResource EntryBarBackgroundColor}"
-               BackgroundColor="{StaticResource EntryBarBackgroundColor}">
+                <SearchBar Placeholder="Filter students"
+                           Text="{Binding FilterPreferences.SearchedTerm}"
+                           WidthRequest="600" Grid.Column="1" />
 
-            <SearchBar Placeholder="Filter Activities"
-                       Text="{Binding FilterPreferences.SearchedTerm}"
-                       WidthRequest="600" Grid.Column="1" />
+            </Frame>
+            <Grid HorizontalOptions="Fill" ColumnDefinitions="*,Auto,Auto" Grid.Column="2" ColumnSpacing="10">
+                <Button Grid.Column="1"
+                    Text="Edit"
+                    Command="{Binding GoToEditCommand}"
+                    Style="{StaticResource EditButtonStyle}" />
 
-        </Frame>
+                <Button Grid.Column="2"
+                    Text="Delete"
+                    Command="{Binding DeleteCommand}"
+                    Style="{StaticResource DeleteButtonStyle}"/>
+            </Grid>
+        </Grid>
+        
 
         <Label Text="List of Ratings" FontSize="Large" HorizontalOptions="Center" />
 
@@ -78,22 +86,7 @@
 
             <HorizontalStackLayout Grid.Column="1" HorizontalOptions="End" Spacing="10" HeightRequest="55">
 
-                <Button
-                    HorizontalOptions="End" VerticalOptions="End"
-                    HeightRequest="30"
-                    Text="Edit"
-                    CornerRadius="5"
-                    Command="{Binding GoToEditCommand}"
-                    Style="{StaticResource EditButtonStyle}" />
-
-                <Button
-                    HorizontalOptions="End" VerticalOptions="End"
-                    HeightRequest="30"
-                    Text="Delete"
-                    CornerRadius="5"
-                    Command="{Binding DeleteCommand}"
-                    Style="{StaticResource DeleteButtonStyle}"
-                    Margin="0, 0, 100, 0" />
+                
 
             </HorizontalStackLayout>
         </Grid>

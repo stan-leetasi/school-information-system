@@ -5,10 +5,12 @@
 
     <Color x:Key="PageBackgroundColor">#E2F4FC</Color>
     <Color x:Key="PageBackgroundHighlightColor">#f3fbfe</Color>
-    
-    
+
     <Color x:Key="UnselectedButtonColor">#27476E</Color>
     <Color x:Key="SelectedButtonColor">#26A49C</Color>
+    <Color x:Key="PointerOverButtonTextColor">#7df6ff</Color>
+    <Color x:Key="PointerOverButtonColor">#4881c7</Color>
+    
 
     <Color x:Key="UnselectedTextColor">#FFFFFF</Color>
     <Color x:Key="SelectedTextColor">#000000</Color>

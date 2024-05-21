@@ -20,6 +20,11 @@
                             <Setter Property="Scale" Value="0.98" />
                         </VisualState.Setters>
                     </VisualState>
+                    <VisualState x:Name="PointerOver">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="{StaticResource PointerOverButtonColor}" />
+                        </VisualState.Setters>
+                    </VisualState>
                 </VisualStateGroup>
             </VisualStateGroupList>
         </Setter>
@@ -28,16 +33,50 @@
     <Style x:Key="DeleteButtonStyle" TargetType="Button">
         <Setter Property="TextColor" Value="{StaticResource SelectedTextColor}" />
         <Setter Property="BackgroundColor" Value="{StaticResource DeleteButtonColor}" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="PointerOver">
+                        <VisualState.Setters>
+
+                            <Setter Property="BackgroundColor" Value="{StaticResource DeleteButtonColor}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
     </Style>
 
     <Style x:Key="EditButtonStyle" TargetType="Button">
         <Setter Property="TextColor" Value="{StaticResource SelectedTextColor}" />
         <Setter Property="BackgroundColor" Value="{StaticResource EditButtonColor}" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="PointerOver">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="{StaticResource EditButtonColor}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
     </Style>
 
     <Style x:Key="SaveButtonStyle" TargetType="Button">
         <Setter Property="TextColor" Value="{StaticResource SelectedTextColor}" />
         <Setter Property="BackgroundColor" Value="{StaticResource SaveButtonColor}" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="PointerOver">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="{StaticResource SaveButtonColor}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
     </Style>
 
     <Style TargetType="Label">
@@ -76,13 +115,47 @@
     </Style>
 
     <Style TargetType="TimePicker">
+        <Setter Property="Format" Value="HH:mm" />
         <Setter Property="TextColor" Value="White" />
         <Setter Property="BackgroundColor" Value="{StaticResource UnselectedButtonColor}" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="{StaticResource UnselectedButtonColor}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="PointerOver">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="{StaticResource PointerOverButtonColor}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
     </Style>
 
     <Style TargetType="DatePicker">
+        <Setter Property="Format" Value="dd/MM/yyyy" />
         <Setter Property="TextColor" Value="White" />
         <Setter Property="BackgroundColor" Value="{StaticResource UnselectedButtonColor}" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="{StaticResource UnselectedButtonColor}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="PointerOver">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="{StaticResource PointerOverButtonColor}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
     </Style>
 
 </ResourceDictionary>

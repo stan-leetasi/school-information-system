@@ -20,6 +20,7 @@ public partial class ActivityStudentDetailViewModel(
 
     protected override async Task LoadDataAsync()
     {
+        if (navigationService.LoggedInUser == null) return; // To prevent loading when logged in admin edits an activity.
         Activity = await activityFacade.GetAsyncStudentDetail(Id, navigationService.LoggedInUser);
     }
 

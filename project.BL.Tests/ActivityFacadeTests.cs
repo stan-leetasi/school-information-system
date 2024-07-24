@@ -60,6 +60,7 @@ public sealed class ActivityFacadeTests : FacadeTestsBase
 
         //Assert
         ActivityAdminDetailModel? detailModel = await _activityFacadeSUT.GetAsync(activity.Id);
+        Assert.NotNull(detailModel);
         Assert.Equal("Final Exam", detailModel.Description);
     }
 

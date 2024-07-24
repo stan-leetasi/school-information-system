@@ -114,7 +114,9 @@ namespace project.Common.Tests.Seeds
         {
             Id = default,
             Points = default,
+            #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
             Notes = default,
+            #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
             ActivityId = default,
             StudentId = default,
             Activity = default,

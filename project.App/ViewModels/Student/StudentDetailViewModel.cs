@@ -25,7 +25,7 @@ public partial class StudentDetailViewModel(
         StudentView = navigationService.IsStudentLoggedIn;
 
         // Don't display empty URL
-        if (Student.ImageUrl != null &&
+        if (Student != null && Student.ImageUrl != null &&
             !Student.ImageUrl.AbsoluteUri.Equals("about:blank", StringComparison.OrdinalIgnoreCase))
             StudentImageUrl = Student.ImageUrl;
     }
@@ -40,7 +40,8 @@ public partial class StudentDetailViewModel(
     {
         await studentFacade.DeleteAsync(StudentId);
         await navigationService.GoToAsync("//students");
-        MessengerService.Send(new StudentEditMessage { StudentId = Student.Id });
+        if(Student != null)
+            MessengerService.Send(new StudentEditMessage { StudentId = Student.Id });
     }
 
     public async void Receive(StudentEditMessage message) => await LoadDataAsync();

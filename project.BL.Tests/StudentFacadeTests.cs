@@ -51,6 +51,7 @@ public sealed class StudentFacadeTests : FacadeTestsBase
         // Arrange
         var Student = await _studentFacadeSUT.GetAsync(StudentSeeds.Terry.Id);
 
+        Assert.NotNull(Student);
         Student.Name = "Maurice";
         Student.Surname = "Moss";
         Student.ImageUrl = new Uri ("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6X-H8hmtdTRXhVZCMLWI6JS6H4uuaRvLfLMUFoEl9LA&s");

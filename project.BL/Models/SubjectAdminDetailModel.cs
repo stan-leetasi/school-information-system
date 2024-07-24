@@ -6,7 +6,7 @@ public record SubjectAdminDetailModel : ModelBase
 {
     public required string Name { get; set; }
     public required string Acronym { get; set; }
-    public ObservableCollection<StudentListModel> Students { get; set; } = new();
+    public ObservableCollection<StudentListModel> Students { get; set; } = [];
 
     public static SubjectAdminDetailModel Empty => new() { Name = string.Empty, Acronym = string.Empty, };
 }

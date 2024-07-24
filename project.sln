@@ -20,11 +20,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{6B9906BE
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "project.Common.Tests", "project.Common.Tests\project.Common.Tests.csproj", "{857D9EF3-74E7-462D-91A4-3AFAE243242D}"
 	ProjectSection(ProjectDependencies) = postProject
+		{14479940-D183-44C0-8066-A0D3D9F9DFF0} = {14479940-D183-44C0-8066-A0D3D9F9DFF0}
 		{35A60C0B-B168-44F2-9B09-A1FBB40A1DA5} = {35A60C0B-B168-44F2-9B09-A1FBB40A1DA5}
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "project.DAL.Tests", "project.DAL.Tests\project.DAL.Tests.csproj", "{26DF1FA9-B96C-4A5F-A783-9A6067EE7F3A}"
 	ProjectSection(ProjectDependencies) = postProject
+		{35A60C0B-B168-44F2-9B09-A1FBB40A1DA5} = {35A60C0B-B168-44F2-9B09-A1FBB40A1DA5}
 		{857D9EF3-74E7-462D-91A4-3AFAE243242D} = {857D9EF3-74E7-462D-91A4-3AFAE243242D}
 	EndProjectSection
 EndProject
@@ -32,7 +34,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "project.BL", "project.BL\pr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "project.BL.Tests", "project.BL.Tests\project.BL.Tests.csproj", "{4CACF0D8-27E1-4005-9CC3-B62465D446BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "project.App", "project.App\project.App.csproj", "{9645655A-3A03-4D43-8536-A59BC5DDE71A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "project.App", "project.App\project.App.csproj", "{9645655A-3A03-4D43-8536-A59BC5DDE71A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{14479940-D183-44C0-8066-A0D3D9F9DFF0} = {14479940-D183-44C0-8066-A0D3D9F9DFF0}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

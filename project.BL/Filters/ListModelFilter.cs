@@ -37,9 +37,7 @@ where TListModel : IModel
     protected virtual IEnumerable<TListModel> SortModels(IEnumerable<TListModel> models, string sortByPropertyName,
         bool descending)
     {
-        PropertyInfo? property = typeof(TListModel).GetProperty(sortByPropertyName);
-        if (property == null) throw new ArgumentException($"{typeof(TListModel).Name} does not have property {sortByPropertyName}.");
-
+        PropertyInfo? property = typeof(TListModel).GetProperty(sortByPropertyName) ?? throw new ArgumentException($"{typeof(TListModel).Name} does not have property {sortByPropertyName}.");
         if (descending) return models.OrderByDescending(item => property.GetValue(item));
         else return models.OrderBy(item => property.GetValue(item));
     }
